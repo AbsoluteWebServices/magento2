@@ -62,12 +62,14 @@ const factoryParams: UseBillingParams<any, any> = {
      */
     const shippingMethod = context.useShippingProvider.state.value;
 
-    await context.useShippingProvider.save({
-      shippingMethod: {
-        carrier_code: shippingMethod.carrier_code,
-        method_code: shippingMethod.method_code,
-      },
-    });
+    if (shippingMethod) {
+      await context.useShippingProvider.save({
+        shippingMethod: {
+          carrier_code: shippingMethod.carrier_code,
+          method_code: shippingMethod.method_code,
+        },
+      });
+    }
     /**
      * End of GraphQL Workaround
      */
