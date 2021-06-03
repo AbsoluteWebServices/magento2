@@ -176,6 +176,10 @@ export default gql`mutation addConfigurableProductsToCart($input: AddConfigurabl
           label
         }
       }
+      selected_payment_method {
+        code
+        title
+      }
     }
   }
 }`;

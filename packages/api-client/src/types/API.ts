@@ -66,9 +66,9 @@ import {
   SetGuestEmailOnCartMutation,
   SetPaymentMethodOnCartMutation,
   SetShippingAddressesOnCartInput,
-  SetShippingAddressesOnCartMutation,
+  SetShippingAddressesOnCartMutationFocus,
   SetShippingMethodsOnCartInput,
-  SetShippingMethodsOnCartMutation,
+  SetShippingMethodsOnCartMutationFocus,
   ShippingCartAddress,
   StoreConfigQueryFocus,
   UpdateCartItemsInput,
@@ -263,9 +263,9 @@ export interface MagentoApiMethods {
 
   setPaymentMethodOnCart(input: SetPaymentMethodOnCartInputs): Promise<FetchResult<SetPaymentMethodOnCartMutation>>;
 
-  setShippingAddressesOnCart(input: SetShippingAddressesOnCartInput): Promise<FetchResult<SetShippingAddressesOnCartMutation>>;
+  setShippingAddressesOnCart(input: SetShippingAddressesOnCartInput): Promise<FetchResult<SetShippingAddressesOnCartMutationFocus>>;
 
-  setShippingMethodsOnCart(input: SetShippingMethodsOnCartInput): Promise<FetchResult<SetShippingMethodsOnCartMutation>>;
+  setShippingMethodsOnCart(input: SetShippingMethodsOnCartInput): Promise<FetchResult<SetShippingMethodsOnCartMutationFocus>>;
 
   storeConfig(): Promise<ApolloQueryResult<StoreConfigQueryFocus>>;
 

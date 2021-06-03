@@ -177,6 +177,10 @@ export default gql`
             label
           }
         }
+        selected_payment_method {
+          code
+          title
+        }
       }
     }
   }`;

@@ -2,7 +2,7 @@ import { FetchResult } from '@apollo/client';
 import setShippingAddressesOnCart from './setShippingAddressesOnCart';
 import {
   SetShippingAddressesOnCartInput,
-  SetShippingAddressesOnCartMutation,
+  SetShippingAddressesOnCartMutationFocus,
   SetShippingAddressesOnCartMutationVariables,
 } from '../../types/GraphQL';
 import { Context } from '../../types/context';
@@ -10,9 +10,9 @@ import { Context } from '../../types/context';
 export default async (
   { client }: Context,
   input: SetShippingAddressesOnCartInput,
-): Promise<FetchResult<SetShippingAddressesOnCartMutation>> => client
+): Promise<FetchResult<SetShippingAddressesOnCartMutationFocus>> => client
   .mutate<
-SetShippingAddressesOnCartMutation,
+SetShippingAddressesOnCartMutationFocus,
 SetShippingAddressesOnCartMutationVariables>({
   mutation: setShippingAddressesOnCart,
   variables: { input },
