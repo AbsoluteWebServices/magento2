@@ -15,6 +15,34 @@ query categoryList {
         children {
           ...CategoryData
           ...CategoryUrlData
+          children {
+            ...CategoryData
+            ...CategoryUrlData
+            children {
+              ...CategoryData
+              ...CategoryUrlData
+              children {
+                ...CategoryData
+                ...CategoryUrlData
+                children {
+                  ...CategoryData
+                  ...CategoryUrlData
+                  children {
+                    ...CategoryData
+                    ...CategoryUrlData
+                    children {
+                      ...CategoryData
+                      ...CategoryUrlData
+                      children {
+                        ...CategoryData
+                        ...CategoryUrlData
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
       product_count
