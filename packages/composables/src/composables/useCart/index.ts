@@ -158,15 +158,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
           // eslint-disable-next-line no-underscore-dangle
           throw new Error(`Product Type ${product.__typename} not supported in add to cart yet`);
       }
-    } catch {
-      await factoryParams.clear(context, null);
-
-      await factoryParams.addItem(context, {
-        product,
-        quantity,
-        currentCart,
-        customQuery,
-      });
+    } catch (err) {
+      throw err;
     }
   },
   removeItem: async (context: Context, {
