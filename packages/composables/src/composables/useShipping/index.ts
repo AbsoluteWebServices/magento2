@@ -62,6 +62,13 @@ const factoryParams: UseShippingParams<any, any> = {
       .shipping_addresses[0]
       .available_shipping_methods);
 
+    // workaround to save shipping address to the cart,
+    // so in case load() will be called shipping address will be populated correctly
+    context.cart.setCart({
+      ...context.cart.cart.value,
+      shipping_addresses: data.setShippingAddressesOnCart.cart.shipping_addresses
+    });
+
     return data
       .setShippingAddressesOnCart
       .cart

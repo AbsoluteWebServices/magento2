@@ -71,6 +71,13 @@ const factoryParams: UseBillingParams<any, any> = {
      * End of GraphQL Workaround
      */
 
+    // workaround to save billing address to the cart,
+    // so in case load() will be called billing address will be populated correctly
+    context.cart.setCart({
+      ...context.cart.cart.value,
+      billing_address: data.setBillingAddressOnCart.cart.billing_address
+    });
+
     return data.setBillingAddressOnCart.cart.billing_address;
   },
 };

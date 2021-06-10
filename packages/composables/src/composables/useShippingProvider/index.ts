@@ -40,6 +40,20 @@ const factoryParams: UseShippingProviderParams<any, any> = {
 
     const { data } = await context.$magento.api.setShippingMethodsOnCart(shippingMethodParams);
 
+    // workaround to save shipping method to the cart,
+    // so in case load() will be called shipping method will be populated correctly
+    const shippingAddresses = context.cart.cart?.value?.shipping_addresses;
+
+    if (shippingAddresses && shippingAddresses[0]) {
+      shippingAddresses[0].selected_shipping_method = data.setShippingMethodsOnCart.cart.shipping_addresses[0].selected_shipping_method
+    }
+
+    context.cart.setCart({
+      ...context.cart.cart.value,
+      shipping_addresses: shippingAddresses
+    });
+    // end workaround
+
     return data
       .setShippingMethodsOnCart
       .cart
