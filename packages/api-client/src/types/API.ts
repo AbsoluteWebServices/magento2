@@ -67,9 +67,9 @@ import {
   SetGuestEmailOnCartMutation,
   SetPaymentMethodOnCartMutation,
   SetShippingAddressesOnCartInput,
-  SetShippingAddressesOnCartMutation,
+  SetShippingAddressesOnCartMutationFocus,
   SetShippingMethodsOnCartInput,
-  SetShippingMethodsOnCartMutation,
+  SetShippingMethodsOnCartMutationFocus,
   ShippingCartAddress,
   StoreConfigQuery,
   UpdateCartItemsInput,
@@ -203,8 +203,8 @@ export interface MagentoApiMethods {
   setBillingAddressOnCart(input: SetBillingAddressOnCartInput): Promise<FetchResult<SetBillingAddressOnCartMutation>>;
   setGuestEmailOnCart(input: SetGuestEmailOnCartInput): Promise<FetchResult<SetGuestEmailOnCartMutation>>;
   setPaymentMethodOnCart(input: SetPaymentMethodOnCartInputs): Promise<FetchResult<SetPaymentMethodOnCartMutation>>;
-  setShippingAddressesOnCart(input: SetShippingAddressesOnCartInput):Promise<FetchResult<SetShippingAddressesOnCartMutation>>;
-  setShippingMethodsOnCart(input: SetShippingMethodsOnCartInput):Promise<FetchResult<SetShippingMethodsOnCartMutation>>;
+  setShippingAddressesOnCart(input: SetShippingAddressesOnCartInput):Promise<FetchResult<SetShippingAddressesOnCartMutationFocus>>;
+  setShippingMethodsOnCart(input: SetShippingMethodsOnCartInput):Promise<FetchResult<SetShippingMethodsOnCartMutationFocus>>;
   storeConfig(): Promise<ApolloQueryResult<StoreConfigQuery>>;
   subscribeEmailToNewsletter(input: SubscribeEmailToNewsletterMutationVariables): Promise<FetchResult<SubscribeEmailToNewsletterMutation>>;
   updateCartItems(input: UpdateCartItemsInput): Promise<FetchResult<UpdateCartItemsMutation>>;

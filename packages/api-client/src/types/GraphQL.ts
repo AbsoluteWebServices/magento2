@@ -6954,8 +6954,10 @@ export type SetShippingAddressesOnCartMutationVariables = Exact<{
   input?: Maybe<SetShippingAddressesOnCartInput>;
 }>;
 
-
 export type SetShippingAddressesOnCartMutation = { setShippingAddressesOnCart?: Maybe<{ cart: { shipping_addresses: Array<Maybe<{ city: string, company?: Maybe<string>, firstname: string, lastname: string, postcode?: Maybe<string>, street: Array<Maybe<string>>, telephone: string, region?: Maybe<{ code?: Maybe<string>, label?: Maybe<string>, region_id?: Maybe<number> }>, country: { code: string, label: string }, available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> } }>>> }>> } }> };
+
+export type SetShippingAddressesOnCartMutationFocus = SetShippingAddressesOnCartMutation & { setShippingAddressesOnCart?: Maybe<{ cart: { prices?: Maybe<CartPrices> } }> };
+
 
 export type SetShippingMethodsOnCartMutationVariables = Exact<{
   input?: Maybe<SetShippingMethodsOnCartInput>;
@@ -6963,6 +6965,9 @@ export type SetShippingMethodsOnCartMutationVariables = Exact<{
 
 
 export type SetShippingMethodsOnCartMutation = { setShippingMethodsOnCart?: Maybe<{ cart: { shipping_addresses: Array<Maybe<{ selected_shipping_method?: Maybe<{ carrier_code: string, carrier_title: string, method_code: string, method_title: string, amount: { value?: Maybe<number>, currency?: Maybe<CurrencyEnum> } }> }>> } }> };
+
+export type SetShippingMethodsOnCartMutationFocus = SetShippingMethodsOnCartMutation & { setShippingMethodsOnCart?: Maybe<{ cart: { prices?: Maybe<CartPrices> } }> };
+
 
 export type StoreConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
