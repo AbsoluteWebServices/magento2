@@ -1,39 +1,21 @@
 import gql from 'graphql-tag';
+import CartPricesData from './cartPricesFragment';
 import CartProductData from './cartProductFragment';
 
 export default gql`
-    ${CartProductData}
+${CartPricesData}
+${CartProductData}
 
-    fragment CartData on Cart {
-        id
-        applied_coupons {
-            code
-        }
-        prices {
-            subtotal_excluding_tax {
-                value
-            },
-            subtotal_including_tax {
-                value
-            },
-            applied_taxes {
-                amount {
-                    value
-                },
-                label
-            }
-            discounts {
-                amount {
-                    value
-                },
-                label
-            }
-            grand_total {
-                value
-            }
-        }
-        items {
-            ...CartProductData
-        }
-        total_quantity
-    }`;
+fragment CartData on Cart {
+    id
+    applied_coupons {
+        code
+    }
+    prices {
+      ...CartPricesData
+    }
+    items {
+        ...CartProductData
+    }
+    total_quantity
+}`;
