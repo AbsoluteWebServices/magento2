@@ -215,8 +215,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
       product,
     },
   ) => !!currentCart
-    .items
-    .find((cartItem) => cartItem.product?.uid === product.uid),
+    ?.items
+    ?.find((cartItem) => cartItem.product.uid === product.uid),
 };
 
 export default useCartFactory<Cart, CartItem, Product, Coupon>(factoryParams);
