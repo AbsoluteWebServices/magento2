@@ -1,3 +1,4 @@
+#import "./cartPricesFragment.graphql"
 #import "./cartProductFragment.graphql"
 
 fragment CartData on Cart {
@@ -6,27 +7,7 @@ fragment CartData on Cart {
     code
   }
   prices {
-    subtotal_excluding_tax {
-      value
-    },
-    subtotal_including_tax {
-      value
-    },
-    applied_taxes {
-      amount {
-        value
-      },
-      label
-    }
-    discounts {
-      amount {
-        value
-      },
-      label
-    }
-    grand_total {
-      value
-    }
+    ...CartPricesData
   }
   items {
     ...CartProductData

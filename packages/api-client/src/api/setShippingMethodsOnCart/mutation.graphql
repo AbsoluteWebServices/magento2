@@ -1,3 +1,5 @@
+#import "../../fragments/cartPricesFragment.graphql"
+
 mutation setShippingMethodsOnCart($input: SetShippingMethodsOnCartInput) {
   setShippingMethodsOnCart(input: $input) {
     cart {
@@ -12,6 +14,9 @@ mutation setShippingMethodsOnCart($input: SetShippingMethodsOnCartInput) {
             currency
           }
         }
+      }
+      prices {
+        ...CartPricesData
       }
     }
   }
