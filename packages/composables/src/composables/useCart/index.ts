@@ -22,41 +22,46 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
     const apiState = context.$magento.config.state;
     Logger.debug('[Magento Storefront]: Loading Cart');
     const customerToken = apiState.getCustomerToken();
+    const cartId = apiState.getCartId();
 
-    if (customerToken) { // is user authenticated.
-      try { // get cart ID
-        const result = await context.$magento.api.customerCart();
+    const loadCart = async (customerToken?: string, cartId?: string) => {
+      try {
+        if (customerToken) { // is user authenticated.
+          try { // get cart ID
+            const result = await context.$magento.api.customerCart();
 
-        return result.data.customerCart as unknown as Cart;
-      } catch { // Signed up user don't have a cart.
+            return result.data.customerCart;
+          } catch { // Signed up user don't have a cart.
+            apiState.setCartId(null);
+            apiState.setCustomerToken(null);
+
+            return await loadCart(null, null);
+          }
+        }
+
+        let _cartId = cartId;
+
+        if (!_cartId) {
+          const { data } = await context.$magento.api.createEmptyCart();
+
+          _cartId = data.createEmptyCart;
+
+          apiState.setCartId(_cartId);
+        }
+
+        const cartResponse = await context.$magento.api.cart(_cartId);
+
+        Logger.debug(cartResponse);
+
+        return cartResponse.data.cart;
+      } catch {
         apiState.setCartId(null);
-        apiState.setCustomerToken(null);
 
-        return await factoryParams.load(context, {}) as unknown as Cart;
+        return await loadCart(customerToken, null);
       }
     }
 
-    let cartId = apiState.getCartId(); // if guest user have a cart ID
-
-    if (!cartId) {
-      const { data } = await context.$magento.api.createEmptyCart();
-
-      cartId = data.createEmptyCart;
-
-      apiState.setCartId(cartId);
-    }
-
-    try {
-      const cartResponse = await context.$magento.api.cart(cartId);
-
-      Logger.debug(cartResponse);
-
-      return cartResponse.data.cart as unknown as Cart;
-    } catch {
-      apiState.setCartId(null);
-
-      return await factoryParams.load(context, {}) as unknown as Cart;
-    }
+    return await loadCart(customerToken, cartId) as unknown as Cart;
   },
   addItem: async (context: Context, {
     product,
