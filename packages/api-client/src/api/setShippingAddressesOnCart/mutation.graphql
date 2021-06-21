@@ -1,3 +1,5 @@
+#import "../../fragments/cartPricesFragment.graphql"
+
 mutation setShippingAddressesOnCart($input: SetShippingAddressesOnCartInput) {
   setShippingAddressesOnCart(input: $input) {
     cart {
@@ -38,6 +40,9 @@ mutation setShippingAddressesOnCart($input: SetShippingAddressesOnCartInput) {
             value
           }
         }
+      }
+      prices {
+        ...CartPricesData
       }
     }
   }
