@@ -2,6 +2,7 @@ export { default as addConfigurableProductsToCart } from './addConfigurableProdu
 export { default as addSimpleProductsToCart } from './addSimpleProductsToCart';
 export { default as applyCouponToCart } from './applyCouponToCart';
 export { default as cart } from './cart';
+export { default as category } from './category';
 export { default as categoryList } from './categoryList';
 export { default as categorySearch } from './categorySearch';
 export { default as changeCustomerPassword } from './changeCustomerPassword';
@@ -27,6 +28,7 @@ export { default as getMenuCategory } from './getMenuCategory';
 export { default as mergeCarts } from './mergeCarts';
 export { default as placeOrder } from './placeOrder';
 export { default as productDetail } from './productDetail';
+export { default as productsFilters } from './productsFilters';
 export { default as productReview } from './productReview';
 export { default as productReviewRatingsMetadata } from './productReviewRatingsMetadata';
 export { default as products } from './products';

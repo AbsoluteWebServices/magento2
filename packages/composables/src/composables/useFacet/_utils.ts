@@ -35,13 +35,14 @@ const createFacetsFromOptions = (facets, filters, filterKey) => {
     .map(({
       label,
       value,
+      count,
     }) => ({
       type: getFacetTypeByCode(facets[filterKey]?.attribute_code),
       id: value,
       attrName: label,
       value,
       selected: selectedList.includes(value),
-      count: null,
+      count,
     }));
 };
 
@@ -54,9 +55,9 @@ export const reduceForGroupedFacets = (facets, filters) => (prev, curr) => ([
   ...prev,
   {
     id: facets[curr].attribute_code,
-    label: facets[curr].default_frontend_label,
+    label: facets[curr].label,
     options: createFacetsFromOptions(facets, filters, curr),
-    count: null,
+    count: facets[curr].count,
   },
 ]);
 

@@ -1,7 +1,7 @@
 import {
   ComposableFunctionArgs, ComputedProperty, CustomQuery,
 } from '@vue-storefront/core';
-import { ComputedRef } from '@vue/composition-api';
+import { ComputedRef } from 'vue-demi';
 
 export interface UseUrlResolver<ROUTE> {
   search: (url: string) => Promise<void>;

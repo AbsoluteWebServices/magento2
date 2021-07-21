@@ -1,0 +1,46 @@
+#import "../../fragments/categoryDataFragment.graphql"
+#import "../../fragments/categoryUrlData.graphql"
+#import "../../fragments/categoryChildDataFragment.graphql"
+
+query category($id: Int) {
+  category(id: $id) {
+    ...CategoryData
+    ...CategoryUrlData
+    children {
+      ...CategoryChildData
+      ...CategoryUrlData
+      children {
+        ...CategoryChildData
+        ...CategoryUrlData
+        children {
+          ...CategoryChildData
+          ...CategoryUrlData
+          children {
+            ...CategoryChildData
+            ...CategoryUrlData
+            children {
+              ...CategoryChildData
+              ...CategoryUrlData
+              children {
+                ...CategoryChildData
+                ...CategoryUrlData
+                children {
+                  ...CategoryChildData
+                  ...CategoryUrlData
+                  children {
+                    ...CategoryChildData
+                    ...CategoryUrlData
+                    children {
+                      ...CategoryChildData
+                      ...CategoryUrlData
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
