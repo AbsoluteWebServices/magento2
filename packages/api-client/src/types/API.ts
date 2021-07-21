@@ -15,6 +15,8 @@ import {
   Cart as CartInterface,
   CartItemInterface,
   CartQuery,
+  CategoryQuery,
+  CategoryQueryVariables,
   CategoryFilterInput,
   CategoryListQuery,
   CategoryListQueryVariables,
@@ -51,6 +53,7 @@ import {
   ProductAttributeFilterInput,
   ProductAttributeSortInput,
   ProductDetailsQuery,
+  ProductsFiltersQuery,
   ProductInterface,
   ProductReviewQuery,
   ProductReviewRatingsMetadataQuery,
@@ -131,6 +134,7 @@ export type WishlistProduct = WishlistItemInterface;
 export const enum ProductsQueryType {
   List = 'LIST',
   Detail = 'DETAIL',
+  Filters = 'FILTERS',
 }
 
 export type GetProductSearchParams = {
@@ -158,6 +162,8 @@ export interface MagentoApiMethods {
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
 
   cart(cartId: string): Promise<ApolloQueryResult<CartQuery>>;
+
+  category(categoryInput?: CategoryQueryVariables): Promise<ApolloQueryResult<CategoryQuery>>;
 
   categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CategoryListQuery>>;
 
@@ -210,6 +216,8 @@ export interface MagentoApiMethods {
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
 
   productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductDetailsQuery>>;
+
+  productsFilters(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductsFiltersQuery>>;
 
   productReview(searchParams: GetProductSearchParams, customQuery?: CustomQuery):
   Promise<ApolloQueryResult<ProductReviewQuery>>;

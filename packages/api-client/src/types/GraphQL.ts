@@ -6647,6 +6647,49 @@ export type CartQueryVariables = Exact<{
 
 export type CartQuery = { cart?: Maybe<CompleteCartDataFragment> };
 
+export type CategoryQueryVariables = Exact<{ id: Scalars['Int'] }>;
+
+export type CategoryQuery = { category?: Maybe<(
+  CategoryDataFragment
+  & CategoryUrlDataFragment
+  & { children?: Maybe<Array<Maybe<(
+    { children?: Maybe<Array<Maybe<(
+      { children?: Maybe<Array<Maybe<(
+        { children?: Maybe<Array<Maybe<(
+          { children?: Maybe<Array<Maybe<(
+            { children?: Maybe<Array<Maybe<(
+              { children?: Maybe<Array<Maybe<(
+                { children?: Maybe<Array<Maybe<(
+                  { children?: Maybe<Array<Maybe<(
+                    CategoryChildDataFragment
+                    & CategoryUrlDataFragment
+                  )>>> }
+                  & CategoryChildDataFragment
+                  & CategoryUrlDataFragment
+                )>>> }
+                & CategoryChildDataFragment
+                & CategoryUrlDataFragment
+              )>>> }
+              & CategoryChildDataFragment
+              & CategoryUrlDataFragment
+            )>>> }
+            & CategoryChildDataFragment
+            & CategoryUrlDataFragment
+          )>>> }
+          & CategoryChildDataFragment
+          & CategoryUrlDataFragment
+        )>>> }
+        & CategoryChildDataFragment
+        & CategoryUrlDataFragment
+      )>>> }
+      & CategoryChildDataFragment
+      & CategoryUrlDataFragment
+    )>>> }
+    & CategoryChildDataFragment
+    & CategoryUrlDataFragment
+  )>>> }
+)> };
+
 export type CategoryListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -6997,6 +7040,15 @@ export type ProductsListQuery = { products?: Maybe<(
     )>>>, items?: Maybe<Array<Maybe<ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment>>>, page_info?: Maybe<Pick<SearchResultPageInfo, 'current_page' | 'page_size' | 'total_pages'>> }
   )> };
 
+export type ProductsFiltersQuery = { products?: Maybe<(
+  {
+    aggregations?: Maybe<Array<Maybe<(
+      Pick<Aggregation, 'attribute_code' | 'label' | 'count'>
+      & { options?: Maybe<Array<Maybe<Pick<AggregationOption, 'label' | 'value' | 'count'>>>> }
+    )>>>
+  }
+)> };
+
 export type RelatedProductQueryVariables = Exact<{
   search?: Maybe<Scalars['String']>;
   filter?: Maybe<ProductAttributeFilterInput>;
@@ -7258,7 +7310,11 @@ type CartProductData_VirtualCartItem_Fragment = (
 
 export type CartProductDataFragment = CartProductData_BundleCartItem_Fragment | CartProductData_ConfigurableCartItem_Fragment | CartProductData_DownloadableCartItem_Fragment | CartProductData_SimpleCartItem_Fragment | CartProductData_VirtualCartItem_Fragment;
 
-export type CategoryDataFragment = Pick<CategoryTree, 'image' | 'include_in_menu' | 'is_anchor' | 'level' | 'name' | 'position' | 'product_count' | 'uid'>;
+export type CategoryDataFragment = (
+  Pick<CategoryTree, 'image' | 'include_in_menu' | 'is_anchor' | 'level' | 'name' | 'position' | 'product_count' | 'uid' | 'display_mode' | 'meta_title' | 'meta_description' | 'meta_keywords'>
+  & { breadcrumbs?: Maybe<Array<Maybe<Pick<Breadcrumb, 'category_uid' | 'category_name' | 'category_level' | 'category_url_path'>>>> });
+
+export type CategoryChildDataFragment = Pick<CategoryTree, 'level' | 'name' | 'position' | 'product_count' | 'uid'>;
 
 export type CategoryUrlDataFragment = Pick<CategoryTree, 'url_path' | 'url_suffix'>;
 

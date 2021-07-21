@@ -9,4 +9,15 @@ export default gql`fragment CategoryData on CategoryTree {
   position
   product_count
   uid
+  display_mode
+  meta_title
+  meta_description
+  meta_keywords
+  breadcrumbs {
+    category_id
+    category_name
+    category_level
+    category_url_key
+    category_url_path
+  }
 }`;

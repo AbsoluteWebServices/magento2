@@ -2,9 +2,9 @@ import {
   Context,
   FacetSearchResult,
   ProductsSearchParams,
-  useFacetFactory,
 } from '@vue-storefront/core';
-import { GetProductSearchParams } from '@vue-storefront/magento-api/src/types/API';
+import { GetProductSearchParams, ProductsQueryType } from '@vue-storefront/magento-api/src/types/API';
+import { useFacetFactory } from '../../factories/useFacetFactory';
 
 const availableSortingOptions = [
   {
@@ -58,7 +58,7 @@ const constructSortObject = (sortData: string) => {
 
 const factoryParams = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  search: async (context: Context, params: FacetSearchResult<any>) => {
+  search: async (context: Context, params: FacetSearchResult<any> & { input: { queryType: ProductsQueryType } }) => {
     const itemsPerPage = (params.input.itemsPerPage) ? params.input.itemsPerPage : 20;
     const inputFilters = (params.input.filters) ? params.input.filters : {};
     const categoryId = (params.input.categoryId) ? {
@@ -90,7 +90,16 @@ const factoryParams = {
       currentPage: productParams.page,
     };
 
-    const productResponse = await context.$magento.api.products(productSearchParams);
+    let productResponse;
+    switch(params.input.queryType || ProductsQueryType.List) {
+      case ProductsQueryType.Filters:
+        productResponse = await context.$magento.api.productsFilters(productSearchParams);
+        break;
+      default:
+        productResponse = await context.$magento.api.products(productSearchParams);
+        break;
+    }
+
 
     const data = {
       items: productResponse?.data?.products?.items || [],
