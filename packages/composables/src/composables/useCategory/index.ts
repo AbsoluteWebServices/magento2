@@ -9,9 +9,9 @@ import {
 
 const factoryParams: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (context: Context, params) => {
-    const { data } = await context.$magento.api.categoryList(params);
+    const { data } = await context.$magento.api.category(params);
 
-    return data.categories.items;
+    return [data.category];
   },
 };
 

@@ -1,8 +1,7 @@
 import {
   ComposableFunctionArgs, ComputedProperty, CustomQuery,
 } from '@vue-storefront/core';
-import { ComputedRef } from '@vue/composition-api';
-import { computed } from 'vue-demi';
+import { ComputedRef } from 'vue-demi';
 
 export type CustomQueryParams = { customQuery?: CustomQuery; [ k: string]: any };
 

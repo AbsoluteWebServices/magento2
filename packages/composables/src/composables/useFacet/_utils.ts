@@ -56,7 +56,7 @@ export const reduceForGroupedFacets = (facets, filters) => (prev, curr) => ([
     id: curr.attribute_code,
     label: curr.label,
     options: createFacetsFromOptions(facets, filters, curr),
-    count: null,
+    count: curr.count,
   },
 ]);
 
