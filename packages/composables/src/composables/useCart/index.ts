@@ -51,16 +51,21 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
         return cartResponse.data.cart as unknown as Cart;
       };
 
+      let retries = 1;
       try {
         Logger.debug('[Magento Storefront]: useCart.load.getCartData ID->', id);
 
         return await fetchData();
-      } catch {
-        apiState.setCartId();
+      } catch (err) {
+        if (retries-- > 0) {
+          apiState.setCartId();
 
-        const cartId = await createNewCart();
+          const cartId = await createNewCart();
 
-        return await fetchData(cartId);
+          return await fetchData(cartId);
+        } else {
+          throw err;
+        }
       }
     };
 
@@ -78,14 +83,19 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
 
     const cartId = apiState.getCartId();
 
+    let retries = 1;
     try {
       if (!cartId) {
         return await generateCart();
       }
 
       return await getCartData(cartId);
-    } catch {
-      return generateCart();
+    } catch (err) {
+      if (retries-- > 0) {
+        return generateCart();
+      } else {
+        throw err;
+      }
     }
   },
   addItem: async (context: Context, {
