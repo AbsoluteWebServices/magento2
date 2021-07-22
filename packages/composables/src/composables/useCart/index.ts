@@ -23,6 +23,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
     Logger.debug('[Magento Storefront]: Loading Cart');
     const customerToken = apiState.getCustomerToken();
     const cartId = apiState.getCartId();
+    let retries = 1;
 
     const loadCart = async (customerToken?: string, cartId?: string) => {
       try {
@@ -54,10 +55,14 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
         Logger.debug(cartResponse);
 
         return cartResponse.data.cart;
-      } catch {
-        apiState.setCartId(null);
+      } catch (err) {
+        if (retries-- > 0) {
+          apiState.setCartId(null);
 
-        return await loadCart(customerToken, null);
+          return await loadCart(customerToken, null);
+        } else {
+          throw err;
+        }
       }
     }
 
