@@ -14,8 +14,21 @@ query productsList(
     currentPage: $currentPage
     sort: $sort
   ) {
+    aggregations {
+      attribute_code
+      label
+      count
+      options {
+        label
+        value
+        count
+      }
+    }
     items {
       ...ProductData
+      short_description {
+        html
+      }
     }
     page_info {
       current_page
