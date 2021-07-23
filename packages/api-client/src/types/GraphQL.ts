@@ -855,6 +855,7 @@ export interface CategoryInterface {
   product_count?: Maybe<Scalars['Int']>;
   /** The list of products assigned to the category. */
   products?: Maybe<CategoryProducts>;
+  siblings?: Maybe<Array<Maybe<Breadcrumb>>>;
   /** The unique ID for a `CategoryInterface` object. */
   uid: Scalars['ID'];
   /**
@@ -947,6 +948,7 @@ export interface CategoryTree extends CategoryInterface {
   product_count?: Maybe<Scalars['Int']>;
   /** The list of products assigned to the category. */
   products?: Maybe<CategoryProducts>;
+  siblings?: Maybe<Array<Maybe<Breadcrumb>>>;
   /** The unique ID for a `CategoryInterface` object. */
   uid: Scalars['ID'];
   /**
@@ -4777,6 +4779,8 @@ export interface ProductAttributeFilterInput {
   style_bottom?: Maybe<FilterEqualTypeInput>;
   /** Attribute label: Style General */
   style_general?: Maybe<FilterEqualTypeInput>;
+  /** The unique ID that identifies the product */
+  uid?: Maybe<FilterEqualTypeInput>;
   /** The part of the URL that identifies the product */
   url_key?: Maybe<FilterEqualTypeInput>;
 }
@@ -6729,11 +6733,10 @@ export type CartQueryVariables = Exact<{
 
 export type CartQuery = { cart?: Maybe<CompleteCartDataFragment> };
 
-export type CategoryQueryVariables = Exact<{ id: Scalars['Int'] }>;
-
-export type CategoryQuery = { category?: Maybe<(
+export type CategoryQuery = { categoryList?: Maybe<Array<Maybe<(
   CategoryDataFragment
   & CategoryUrlDataFragment
+  & { siblings?: Maybe<Array<Maybe<Pick<Breadcrumb, 'category_uid' | 'category_name' | 'category_level' | 'category_url_path'>>>> }
   & { children?: Maybe<Array<Maybe<(
     { children?: Maybe<Array<Maybe<(
       { children?: Maybe<Array<Maybe<(
@@ -6770,7 +6773,7 @@ export type CategoryQuery = { category?: Maybe<(
     & CategoryChildDataFragment
     & CategoryUrlDataFragment
   )>>> }
-)> };
+)>>> };
 
 export type CategoryListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7105,7 +7108,10 @@ export type ProductsListQueryVariables = Exact<{
 
 export type ProductsListQuery = { products?: Maybe<(
   Pick<Products, 'total_count'>
-  & { items?: Maybe<Array<Maybe<ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment>>>, page_info?: Maybe<Pick<SearchResultPageInfo, 'current_page' | 'page_size' | 'total_pages'>> }
+  & { aggregations?: Maybe<Array<Maybe<(
+    Pick<Aggregation, 'attribute_code' | 'label'>
+    & { options?: Maybe<Array<Maybe<Pick<AggregationOption, 'label' | 'value' | 'count'>>>> }
+  )>>>, items?: Maybe<Array<Maybe<ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment>>>, page_info?: Maybe<Pick<SearchResultPageInfo, 'current_page' | 'page_size' | 'total_pages'>> }
 )> };
 
 export type ProductsFiltersQuery = { products?: Maybe<(

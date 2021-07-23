@@ -11,7 +11,7 @@ query upsellProducts(
     sort: $sort
     pageSize: $pageSize
     currentPage: $currentPage
-  ){
+  ) {
     items {
       upsell_products {
         uid
@@ -42,6 +42,10 @@ query upsellProducts(
         url_key
         url_rewrites {
           url
+          parameters {
+            name
+            value
+          }
         }
         categories {
           uid
