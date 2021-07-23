@@ -5,5 +5,9 @@ fragment ProductUrlFragmentData on ProductInterface {
   url_key
   url_rewrites {
     url
+    parameters {
+      name
+      value
+    }
   }
 }`;

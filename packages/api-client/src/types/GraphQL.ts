@@ -836,6 +836,7 @@ export interface CategoryInterface {
   product_count?: Maybe<Scalars['Int']>;
   /** The list of products assigned to the category. */
   products?: Maybe<CategoryProducts>;
+  siblings?: Maybe<Array<Maybe<Breadcrumb>>>;
   /** The unique ID for a `CategoryInterface` object. */
   uid: Scalars['ID'];
   /**
@@ -929,6 +930,7 @@ export interface CategoryTree extends CategoryInterface {
   product_count?: Maybe<Scalars['Int']>;
   /** The list of products assigned to the category. */
   products?: Maybe<CategoryProducts>;
+  siblings?: Maybe<Array<Maybe<Breadcrumb>>>;
   /** The unique ID for a `CategoryInterface` object. */
   uid: Scalars['ID'];
   /**
@@ -4715,6 +4717,8 @@ export interface ProductAttributeFilterInput {
   short_description?: Maybe<FilterMatchTypeInput>;
   /** Attribute label: SKU */
   sku?: Maybe<FilterEqualTypeInput>;
+  /** The unique ID that identifies the product */
+  uid?: Maybe<FilterEqualTypeInput>;
   /** The part of the URL that identifies the product */
   url_key?: Maybe<FilterEqualTypeInput>;
 }
@@ -6647,11 +6651,10 @@ export type CartQueryVariables = Exact<{
 
 export type CartQuery = { cart?: Maybe<CompleteCartDataFragment> };
 
-export type CategoryQueryVariables = Exact<{ id: Scalars['Int'] }>;
-
-export type CategoryQuery = { category?: Maybe<(
+export type CategoryQuery = { categoryList?: Maybe<Array<Maybe<(
   CategoryDataFragment
   & CategoryUrlDataFragment
+  & { siblings?: Maybe<Array<Maybe<Pick<Breadcrumb, 'category_uid' | 'category_name' | 'category_level' | 'category_url_path'>>>> }
   & { children?: Maybe<Array<Maybe<(
     { children?: Maybe<Array<Maybe<(
       { children?: Maybe<Array<Maybe<(
@@ -6688,7 +6691,7 @@ export type CategoryQuery = { category?: Maybe<(
     & CategoryChildDataFragment
     & CategoryUrlDataFragment
   )>>> }
-)> };
+)>>> };
 
 export type CategoryListQueryVariables = Exact<{ [key: string]: never; }>;
 

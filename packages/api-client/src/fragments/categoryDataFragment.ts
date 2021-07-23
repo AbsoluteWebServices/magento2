@@ -9,12 +9,13 @@ export default gql`fragment CategoryData on CategoryTree {
   position
   product_count
   uid
+  id
   display_mode
   meta_title
   meta_description
   meta_keywords
   breadcrumbs {
-    category_id
+    category_uid
     category_name
     category_level
     category_url_key
