@@ -16,7 +16,6 @@ import {
   CartItemInterface,
   CartQuery,
   CategoryQuery,
-  CategoryQueryVariables,
   CategoryFilterInput,
   CategoryListQueryFocus,
   CategoryListQueryVariables,
@@ -167,7 +166,7 @@ export interface MagentoApiMethods {
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
   bundleProductDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<BundleProductDetailQuery>>;
   cart(cartId: string): Promise<ApolloQueryResult<CartQuery>>;
-  category(categoryInput?: CategoryQueryVariables): Promise<ApolloQueryResult<CategoryQuery>>;
+  category(categoryInput?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CategoryQuery>>;
   categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CategoryListQueryFocus>>;
   categorySearch(categoryFilter?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CategorySearchQueryFocus>>;
   changeCustomerPassword(currentPassword: string, newPassword: string): Promise<CustomerFragment>;

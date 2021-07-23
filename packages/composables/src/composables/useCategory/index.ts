@@ -9,9 +9,28 @@ import {
 
 const factoryParams: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (context: Context, params) => {
-    const { data } = await context.$magento.api.category(params);
 
-    return [data.category];
+    const filters = {};
+
+    for (const key in params) {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        const value = params[key];
+
+        if (key === 'name') {
+          filters[key] = { match: value }
+        }
+        else if(Array.isArray(value)) {
+          filters[key] = { in: value }
+        }
+        else {
+          filters[key] = { eq: value }
+        }
+      }
+    }
+
+    const { data } = await context.$magento.api.category({ filters });
+
+    return data.categoryList;
   },
 };
 

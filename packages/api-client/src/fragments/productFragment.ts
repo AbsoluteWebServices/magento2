@@ -20,6 +20,9 @@ fragment ProductData on ProductInterface {
   stock_status
   only_x_left_in_stock
   rating_summary
+  short_description {
+    html
+  }
   ...ProductThumbnailData
   ...ProductPriceRangeData
   ...ProductUrlFragmentData

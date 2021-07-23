@@ -23,9 +23,6 @@ query productDetails($search: String = "", $filter: ProductAttributeFilterInput,
       description {
         html
       }
-      short_description {
-        html
-      }
       ...ProductData
       ...ProductPriceRangeData
       ...ProductImagesData
