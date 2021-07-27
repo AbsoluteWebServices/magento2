@@ -94,6 +94,14 @@ export const getCoverImage = (product: Product): string => {
   return product.image.url;
 };
 
+export const getProductSmallImage = (product: Product): string => {
+  if (!product || !product.small_image) {
+    return null;
+  }
+
+  return product.small_image.url;
+};
+
 export const getProductThumbnailImage = (product: Product): string => {
   if (!product || !product.thumbnail) {
     return null;
@@ -239,6 +247,7 @@ export interface ProductGetters extends ProductGettersBase<Product, ProductVaria
   getCategory(product: Product, currentUrlPath: string): Category | null;
   getProductRelatedProduct(product: Product): Product[];
   getProductSku(product: Product): string;
+  getProductSmallImage(product: Product): string;
   getProductThumbnailImage(product: Product): string;
   getProductUpsellProduct(product: Product): Product[];
   getShortDescription(product: Product): string;
@@ -263,6 +272,7 @@ const productGetters: ProductGetters = {
   getPrice,
   getProductRelatedProduct,
   getProductSku,
+  getProductSmallImage,
   getProductThumbnailImage,
   getProductUpsellProduct,
   getShortDescription,
