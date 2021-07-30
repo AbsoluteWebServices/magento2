@@ -86,7 +86,10 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
     } = params;
     switch (queryType) {
       case ProductsQueryType.Detail:
-        const productDetailsResults = await context.$magento.api.productDetail(searchParams as GetProductSearchParams);
+        const productDetailsResults = await context
+          .$magento
+          .api
+          .productDetail(searchParams as GetProductSearchParams, (customQuery || null));
 
         if (!productDetailsResults.data.products.items.length) {
           return productDetailsResults.data.products;
@@ -97,7 +100,7 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
           const configurableProduct = await context
             .$magento
             .api
-            .configurableProductDetail(searchParams as GetProductSearchParams, (customQuery || {}));
+            .configurableProductDetail(searchParams as GetProductSearchParams, (customQuery || null));
 
           productDetailsResults.data.products.items[0] = {
             ...productDetailsResults.data.products.items[0],
@@ -121,15 +124,17 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
         return { items: [productDetails] };
 
       case ProductsQueryType.Upsell:
-        const upsellProduct = await context.$magento.api.upsellProduct(
-          searchParams as GetProductSearchParams
-        );
+        const upsellProduct = await context
+          .$magento
+          .api
+          .upsellProduct(searchParams as GetProductSearchParams, (customQuery || null));
         return upsellProduct.data.products;
 
       case ProductsQueryType.Related:
-        const relatedProduct = await context.$magento.api.relatedProduct(
-          searchParams as GetProductSearchParams
-        );
+        const relatedProduct = await context
+          .$magento
+          .api
+          .relatedProduct(searchParams as GetProductSearchParams, (customQuery || null));
         return relatedProduct.data.products;
 
       case ProductsQueryType.List:
@@ -137,7 +142,7 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
         const productListResults = await context
           .$magento
           .api
-          .products(searchParams as GetProductSearchParams, (customQuery || {}));
+          .products(searchParams as GetProductSearchParams, (customQuery || null));
         return productListResults.data.products;
     }
   },
