@@ -5,6 +5,7 @@
 #import "./configurableProductOptionsFragment.graphql"
 
 fragment ProductData on ProductInterface {
+  id
   uid
   __typename
   sku

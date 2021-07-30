@@ -58,6 +58,7 @@ query relatedProduct(
           }
         }
       }
+      id
       uid
     }
   }

@@ -69,6 +69,8 @@ export const getGallery = (product: Product): AgnosticMediaGalleryItem[] => {
     return images;
   }
 
+  product.media_gallery.sort((a, b) => a.position - b.position);
+
   for (let i = 0; i < product.media_gallery.length; i += 1) {
     const galleryItem = product.media_gallery[i];
     images.push({
@@ -219,7 +221,7 @@ export const getBreadcrumbs = (product: Product, category?: Category): AgnosticB
   breadcrumbs.push({
     text: getName(product),
     route: {
-      path: getSlug(product),
+      path: getSlug(product, category),
     },
   });
 
@@ -235,6 +237,7 @@ export const getProductRelatedProduct = (product: Product): Product[] => product
 export const getProductUpsellProduct = (product: Product): Product[] => product?.upsell_products?.filter((p) => p.name && p.uid) || [];
 
 export interface ProductGetters extends ProductGettersBase<Product, ProductVariantFilters>{
+  getBreadcrumbs(product: Product, category?: Category): AgnosticBreadcrumb[];
   getCategory(product: Product, currentUrlPath: string): Category | null;
   getProductRelatedProduct(product: Product): Product[];
   getProductSku(product: Product): string;
