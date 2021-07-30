@@ -5,8 +5,20 @@
 #import "../../fragments/productPriceRangeFragment.graphql"
 #import "../../fragments/productUrlFragment.graphql"
 
-query productDetails($search: String = "", $filter: ProductAttributeFilterInput, $pageSize: Int = 20, $currentPage: Int = 1, $sort: ProductAttributeSortInput) {
-  products(search: $search, filter: $filter, sort: $sort, pageSize: $pageSize, currentPage: $currentPage) {
+query productDetails(
+  $search: String = ""
+  $filter: ProductAttributeFilterInput
+  $pageSize: Int = 20
+  $currentPage: Int = 1
+  $sort: ProductAttributeSortInput
+) {
+  products(
+    search: $search
+    filter: $filter
+    sort: $sort
+    pageSize: $pageSize
+    currentPage: $currentPage
+  ) {
     items {
       options_container
       meta_description
@@ -18,12 +30,21 @@ query productDetails($search: String = "", $filter: ProductAttributeFilterInput,
       short_description {
         html
       }
+      pdp_data
       ...ProductData
       ...ProductPriceRangeData
       ...ProductImagesData
       ...ProductGalleryData
       ...ProductThumbnailData
       ...ProductUrlFragmentData
+    }
+    aggregations {
+      attribute_code
+      label
+      options {
+        label
+        value
+      }
     }
   }
 }

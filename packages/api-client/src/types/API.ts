@@ -134,6 +134,8 @@ export const enum ProductsQueryType {
   List = 'LIST',
   Detail = 'DETAIL',
   Filters = 'FILTERS',
+  Upsell = 'UPSELL',
+  Related = 'RELATED',
 }
 
 export type GetProductSearchParams = {
