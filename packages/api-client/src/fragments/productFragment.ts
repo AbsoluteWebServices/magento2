@@ -13,6 +13,7 @@ export default gql`
   ${ConfigurableProductOptionsData}
 
 fragment ProductData on ProductInterface {
+  id
   uid
   __typename
   sku
