@@ -97,7 +97,9 @@ export const getTotals = (cart: Cart): AgnosticTotals => {
 
   return {
     total: cart.prices.grand_total.value,
-    subtotal: cart.prices.subtotal_including_tax.value,
+    subtotal: cart.prices.subtotal_excluding_tax.value,
+    subtotal_including_tax: cart.prices.subtotal_including_tax.value,
+    tax: (cart.prices.applied_taxes) ? calculateDiscounts(cart.prices.applied_taxes) : 0,
     special: (cart.prices.discounts) ? calculateDiscounts(cart.prices.discounts) : 0,
   } as AgnosticTotals;
 };
