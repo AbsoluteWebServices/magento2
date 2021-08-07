@@ -50,7 +50,7 @@ export const apolloLinkFactory = (settings: Config, handlers?: {
       ...headers,
     },
   }));
-  const httpLink = createHttpLink({ uri: settings.api, fetch });
+  const httpLink = createHttpLink({ useGETForQueries: true, uri: settings.api, fetch });
 
   const onErrorLink = createErrorHandler();
 
