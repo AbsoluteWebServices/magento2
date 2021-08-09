@@ -550,6 +550,7 @@ export interface CartItemInterface {
   quantity: Scalars['Float'];
   /** The unique ID for a `CartItemInterface` object */
   uid: Scalars['ID'];
+  mp_free_gifts?: Maybe<FreeGiftItem>;
 }
 
 export interface CartItemPrices {
@@ -6459,26 +6460,31 @@ export type CartDataFragment = (
 type CartProductData_BundleCartItem_Fragment = (
   Pick<BundleCartItem, 'uid' | 'quantity'>
   & { product: ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment, prices?: Maybe<{ row_total: Pick<Money, 'value'>, row_total_including_tax: Pick<Money, 'value'>, total_item_discount?: Maybe<Pick<Money, 'value'>> }> }
+  & { mp_free_gifts: FreeGiftItem }
 );
 
 type CartProductData_ConfigurableCartItem_Fragment = (
   Pick<ConfigurableCartItem, 'uid' | 'quantity'>
   & { product: ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment, prices?: Maybe<{ row_total: Pick<Money, 'value'>, row_total_including_tax: Pick<Money, 'value'>, total_item_discount?: Maybe<Pick<Money, 'value'>> }> }
+  & { mp_free_gifts: FreeGiftItem }
 );
 
 type CartProductData_DownloadableCartItem_Fragment = (
   Pick<DownloadableCartItem, 'uid' | 'quantity'>
   & { product: ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment, prices?: Maybe<{ row_total: Pick<Money, 'value'>, row_total_including_tax: Pick<Money, 'value'>, total_item_discount?: Maybe<Pick<Money, 'value'>> }> }
+  & { mp_free_gifts: FreeGiftItem }
 );
 
 type CartProductData_SimpleCartItem_Fragment = (
   Pick<SimpleCartItem, 'uid' | 'quantity'>
   & { product: ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment, prices?: Maybe<{ row_total: Pick<Money, 'value'>, row_total_including_tax: Pick<Money, 'value'>, total_item_discount?: Maybe<Pick<Money, 'value'>> }> }
+  & { mp_free_gifts: FreeGiftItem }
 );
 
 type CartProductData_VirtualCartItem_Fragment = (
   Pick<VirtualCartItem, 'uid' | 'quantity'>
   & { product: ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment, prices?: Maybe<{ row_total: Pick<Money, 'value'>, row_total_including_tax: Pick<Money, 'value'>, total_item_discount?: Maybe<Pick<Money, 'value'>> }> }
+  & { mp_free_gifts: FreeGiftItem }
 );
 
 export type CartProductDataFragment = CartProductData_BundleCartItem_Fragment | CartProductData_ConfigurableCartItem_Fragment | CartProductData_DownloadableCartItem_Fragment | CartProductData_SimpleCartItem_Fragment | CartProductData_VirtualCartItem_Fragment;
@@ -7156,3 +7162,10 @@ export type WishlistDataFragment = (
       )> }
     )>>, page_info?: Maybe<Pick<SearchResultPageInfo, 'current_page' | 'page_size' | 'total_pages'>> }> }
 );
+
+export interface FreeGiftItem {
+  is_free_gift: Maybe<Scalars['Boolean']>;
+  rule_id: Maybe<Scalars['Int']>;
+  free_gift_message: Maybe<Scalars['String']>;
+  allow_notice: Maybe<Scalars['Boolean']>;
+}
