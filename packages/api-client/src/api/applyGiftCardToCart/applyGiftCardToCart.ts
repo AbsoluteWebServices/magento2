@@ -2,8 +2,9 @@ import gql from 'graphql-tag';
 import productFragment from '../../fragments/productFragment';
 
 export default gql`
-  query cart($cartId: String!) {
-    cart(cart_id:$cartId) {
+mutation applyGiftCardToCart($input: ApplyGiftCardToCartInput) {
+  applyGiftCardToCart(input: $input) {
+    cart {
       id
       email
       is_virtual
@@ -137,9 +138,6 @@ export default gql`
           label
         }
       }
-      selected_payment_method {
-        code
-        title
-      }
     }
-  }`;
+  }
+}`;

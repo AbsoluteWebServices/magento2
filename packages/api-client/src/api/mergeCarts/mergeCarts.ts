@@ -10,6 +10,18 @@ export default gql`
       applied_coupons {
         code
       }
+      applied_gift_cards {
+        applied_balance {
+          value
+          currency
+        }
+        code
+        current_balance {
+          value
+          currency
+        }
+        expiration_date
+      }
       prices {
         subtotal_excluding_tax {
           value

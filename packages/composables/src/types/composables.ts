@@ -1,6 +1,11 @@
 import {
   Composable,
-  ComposableFunctionArgs, ComputedProperty, Context, CustomQuery,
+  ComposableFunctionArgs,
+  ComputedProperty,
+  Context,
+  CustomQuery,
+  UseCart as UseCartBase,
+  UseCartErrors as UseCartErrorsBase,
 } from '@vue-storefront/core';
 import { ComputedRef } from '@vue/composition-api';
 import { computed } from 'vue-demi';
@@ -269,4 +274,25 @@ export interface UseCustomMutation<MUTATION, MUTATION_VARIABLES, MUTATION_RETURN
 
 export interface UseUpsellProductsErrors {
   query: Error;
+}
+
+export interface UseCartErrors extends UseCartErrorsBase {
+  checkGiftCard: Error;
+  applyGiftCard: Error;
+  removeGiftCard: Error;
+}
+
+export interface UseCart<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extends PlatformApi = any> extends UseCartBase<CART, CART_ITEM, PRODUCT, API> {
+  checkGiftCard(params: {
+    giftCardCode: string;
+  }): Promise<GIFT_CARD_ACCOUNT>;
+  applyGiftCard(params: {
+    giftCardCode: string;
+    customQuery?: CustomQuery;
+  }): Promise<void>;
+  removeGiftCard(params: {
+    giftCardCode: string;
+    customQuery?: CustomQuery;
+  }): Promise<void>;
+  error: ComputedProperty<UseCartErrors>;
 }

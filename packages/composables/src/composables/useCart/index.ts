@@ -9,6 +9,7 @@ import {
   AddProductsToCartInput,
   Cart,
   CartItem,
+  GiftCardAccount,
   Product,
   RemoveItemFromCartInput,
   UpdateCartItemsInput,
@@ -18,7 +19,7 @@ import {
   useCartFactory,
 } from '../../factories/useCartFactory';
 
-const factoryParams: UseCartFactoryParams<Cart, CartItem, Product> = {
+const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccount> = {
   load: async (context: Context, params: {
     customQuery?: any;
     realCart?: boolean;
@@ -290,6 +291,48 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product> = {
       updatedCoupon: { code: '' },
     };
   },
+  checkGiftCard: async (context: Context, {
+    giftCardCode,
+  }) => {
+    Logger.debug('[Magento]: Check gift cart account', { giftCardCode });
+
+    const { data } = await context.$magento.api.giftCardAccount(giftCardCode);
+
+    Logger.debug('[Result]:', { data });
+
+    return data.giftCardAccount;
+  },
+  applyGiftCard: async (context: Context, {
+    currentCart,
+    giftCardCode,
+  }) => {
+    Logger.debug('[Magento]: Apply gift card on cart', { giftCardCode });
+
+    const { data } = await context.$magento.api.applyGiftCardToCart({
+      cart_id: currentCart.id,
+      gift_card_code: giftCardCode,
+    });
+
+    Logger.debug('[Result]:', { data });
+
+    return {
+      updatedCart: data.applyGiftCardToCart.cart as unknown as Cart
+    };
+  },
+  removeGiftCard: async (context: Context, { currentCart, giftCardCode }) => {
+    Logger.debug('[Magento]: Remove gift card from cart', { giftCardCode });
+
+    const { data } = await context.$magento.api.removeGiftCardFromCart({
+      cart_id: currentCart.id,
+      gift_card_code: giftCardCode,
+    });
+
+    Logger.debug('[Result]:', { data });
+
+    return {
+      updatedCart: data.removeGiftCardFromCart.cart as unknown as Cart,
+    };
+  },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isInCart: (
     context: Context,
@@ -300,4 +343,4 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product> = {
   ) => !!currentCart?.items.find((cartItem) => cartItem.product.uid === product.uid),
 };
 
-export default useCartFactory<Cart, CartItem, Product>(factoryParams);
+export default useCartFactory<Cart, CartItem, Product, GiftCardAccount>(factoryParams);
