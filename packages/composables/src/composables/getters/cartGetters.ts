@@ -12,6 +12,7 @@ import {
   CartItem,
   Product,
   SelectedShippingMethod,
+  AppliedGiftCard,
 } from '@vue-storefront/magento-api';
 import productGetters from './productGetters';
 import { AgnosticPaymentMethod } from '../../types';
@@ -151,6 +152,8 @@ export const getDiscounts = (cart: Cart): AgnosticDiscount[] => (Array.isArray(c
   code: c.code,
 } as AgnosticDiscount)) : []);
 
+export const getGiftCards = (cart: Cart): AppliedGiftCard[] => (Array.isArray(cart?.applied_gift_cards) ? cart.applied_gift_cards : []);
+
 export const getAppliedCoupon = (cart: Cart): AgnosticCoupon | null => (Array.isArray(cart?.applied_coupons) && cart?.applied_coupons.length > 0 ? {
   id: cart.applied_coupons[0].code,
   name: cart.applied_coupons[0].code,
@@ -172,6 +175,8 @@ export interface CartGetters extends CartGettersBase<Cart, CartItem> {
 
   getAvailablePaymentMethods(cart: Cart): AgnosticPaymentMethod[];
 
+  getGiftCards(cart: Cart): AppliedGiftCard[];
+
   getSelectedShippingMethod(cart: Cart): SelectedShippingMethod | null;
 
   productHasSpecialPrice(product: CartItem): boolean;
@@ -182,6 +187,7 @@ const cartGetters: CartGetters = {
   getAvailablePaymentMethods,
   getCoupons,
   getDiscounts,
+  getGiftCards,
   getFormattedPrice,
   getItemAttributes,
   getItemImage,

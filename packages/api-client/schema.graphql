@@ -437,7 +437,18 @@ type AppliedCoupon {
     code: String!
 }
 
+type AppliedGiftCard {
+    code: String!
+    applied_balance: Money!
+    current_balance: Money!
+    expiration_date: String
+}
+
 type ApplyCouponToCartOutput {
+    cart: Cart!
+}
+
+type ApplyGiftCardToCartOutput {
     cart: Cart!
 }
 
@@ -823,6 +834,8 @@ type Cart {
     applied_coupon: AppliedCoupon @deprecated(reason : "Use applied_coupons instead")
     "An array of `AppliedCoupon` objects. Each object contains the `code` text attribute, which specifies the coupon code"
     applied_coupons: [AppliedCoupon]
+    "An array of `AppliedGiftCard` objects. Each object contains the `code` text attribute, which specifies the gift card code"
+    applied_gift_cards: [AppliedGiftCard]
     "Available payment methods"
     available_payment_methods: [AvailablePaymentMethod]
     billing_address: BillingCartAddress
@@ -2539,6 +2552,7 @@ type Mutation {
     addSimpleProductsToCart(input: AddSimpleProductsToCartInput): AddSimpleProductsToCartOutput
     addVirtualProductsToCart(input: AddVirtualProductsToCartInput): AddVirtualProductsToCartOutput
     applyCouponToCart(input: ApplyCouponToCartInput): ApplyCouponToCartOutput
+    applyGiftCardToCart(input: ApplyGiftCardToCartInput): ApplyGiftCardToCartOutput
     "Assign the specified compare list to the logged in customer"
     assignCompareListToCustomer(uid: ID!): AssignCompareListToCustomerOutput
     "Changes the password for the logged-in customer"
@@ -2579,6 +2593,7 @@ type Mutation {
     mergeCarts(destination_cart_id: String, source_cart_id: String!): Cart!
     placeOrder(input: PlaceOrderInput): PlaceOrderOutput
     removeCouponFromCart(input: RemoveCouponFromCartInput): RemoveCouponFromCartOutput
+    removeGiftCardFromCart(input: RemoveGiftCardFromCartInput): RemoveGiftCardFromCartOutput
     removeItemFromCart(input: RemoveItemFromCartInput): RemoveItemFromCartOutput
     "Remove products from the specified compare list"
     removeProductsFromCompareList(input: RemoveProductsFromCompareListInput): CompareList
@@ -3159,6 +3174,10 @@ type Region {
 }
 
 type RemoveCouponFromCartOutput {
+    cart: Cart
+}
+
+type RemoveGiftCardFromCartOutput {
     cart: Cart
 }
 
@@ -4788,6 +4807,11 @@ input ApplyCouponToCartInput {
     coupon_code: String!
 }
 
+input ApplyGiftCardToCartInput {
+    cart_id: String!
+    gift_card_code: String!
+}
+
 "AreaInput defines the parameters which will be used for filter by specified location."
 input AreaInput {
     "The radius for the search in KM."
@@ -5569,6 +5593,11 @@ input ProductSortInput {
 
 input RemoveCouponFromCartInput {
     cart_id: String!
+}
+
+input RemoveGiftCardFromCartInput {
+    cart_id: String!
+    gift_card_code: String!
 }
 
 input RemoveItemFromCartInput {
