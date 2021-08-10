@@ -4,6 +4,7 @@ export { default as addProductsToCart } from './addProductsToCart';
 export { default as addProductToWishList } from './addProductToWishList';
 export { default as addSimpleProductsToCart } from './addSimpleProductsToCart';
 export { default as applyCouponToCart } from './applyCouponToCart';
+export { default as applyGiftCardToCart } from './applyGiftCardToCart';
 export { default as cart } from './cart';
 export { default as category } from './category';
 export { default as categoryList } from './categoryList';
@@ -30,6 +31,7 @@ export { default as getAvailableCustomerShippingMethods } from './getAvailableCu
 export { default as getAvailablePaymentMethods } from './getAvailablePaymentMethods';
 export { default as getAvailableShippingMethods } from './getAvailableShippingMethods';
 export { default as getCustomerAddresses } from './getCustomerAddresses';
+export { default as giftCardAccount } from './giftCardAccount';
 export { default as mergeCarts } from './mergeCarts';
 export { default as placeOrder } from './placeOrder';
 export { default as productDetail } from './productDetail';
@@ -39,6 +41,7 @@ export { default as productReviewRatingsMetadata } from './productReviewRatingsM
 export { default as products } from './products';
 export { default as relatedProduct } from './relatedProduct';
 export { default as removeCouponFromCart } from './removeCouponFromCart';
+export { default as removeGiftCardFromCart } from './removeGiftCardFromCart';
 export { default as removeItemFromCart } from './removeItemFromCart';
 export { default as removeProductsFromWishlist } from './removeProductsFromWishlist';
 export { default as requestPasswordResetEmail } from './requestPasswordResetEmail';

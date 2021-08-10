@@ -9,8 +9,11 @@ import {
   AddSimpleProductsToCartInput,
   AddSimpleProductsToCartMutation,
   AppliedCoupon,
+  AppliedGiftCard,
   ApplyCouponToCartInput,
   ApplyCouponToCartMutation,
+  ApplyGiftCardToCartInput,
+  ApplyGiftCardToCartMutation,
   AvailableShippingMethod,
   BaseQuery,
   BundleProduct,
@@ -42,6 +45,8 @@ import {
   CustomerUpdateInput,
   DeleteCustomerAddressMutation,
   GenerateCustomerTokenMutation,
+  GiftCardAccount as GiftCardAccountInterface,
+  GiftCardAccountQueryFocus,
   GuestAvailablePaymentMethodsQueryFocus,
   GuestAvailableShippingMethodsQueryFocus,
   MergeCartsMutation,
@@ -59,6 +64,8 @@ import {
   RelatedProductQueryFocus,
   RemoveCouponFromCartInput,
   RemoveCouponFromCartMutation,
+  RemoveGiftCardFromCartInput,
+  RemoveGiftCardFromCartMutation,
   RemoveItemFromCartInput,
   RemoveItemFromCartMutation,
   RevokeCustomerTokenMutation,
@@ -123,6 +130,8 @@ export type Coupon = AppliedCoupon;
 export type CustomerAddress = CustomerAddressInterface;
 export type CustomerOrder = CustomerOrderInterface;
 export type CustomerUpdateParameters = CustomerCreateInput;
+export type GiftCard = AppliedGiftCard;
+export type GiftCardAccount = GiftCardAccountInterface;
 export type Order = OrderInterface;
 export type Page = CmsPage | CmsPageQueryFocus['cmsPage'];
 export type ProductAttributeFilter = ProductAttributeFilterInput;
@@ -167,6 +176,8 @@ export interface MagentoApiMethods {
   addSimpleProductsToCart(input: AddSimpleProductsToCartInput): Promise<FetchResult<AddSimpleProductsToCartMutation>>;
 
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
+
+  applyGiftCardToCart(input: ApplyGiftCardToCartInput): Promise<FetchResult<ApplyGiftCardToCartMutation>>;
 
   cart(cartId: string): Promise<ApolloQueryResult<CartQueryFocus>>;
 
@@ -236,6 +247,8 @@ export interface MagentoApiMethods {
 
   getCustomerAddresses(customQuery?: CustomQuery): Promise<ApolloQueryResult<GetCustomerAddressesQueryFocus>>;
 
+  giftCardAccount(code: string): Promise<ApolloQueryResult<GiftCardAccountQueryFocus>>;
+
   mergeCarts(sourceCartId: string, destinationCartId: string): Promise<FetchResult<MergeCartsMutation>>;
 
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
@@ -253,6 +266,8 @@ export interface MagentoApiMethods {
   relatedProduct(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<RelatedProductQueryFocus>>;
 
   removeCouponFromCart(input: RemoveCouponFromCartInput): Promise<FetchResult<RemoveCouponFromCartMutation>>;
+
+  removeGiftCardFromCart(input: RemoveGiftCardFromCartInput): Promise<FetchResult<RemoveGiftCardFromCartMutation>>;
 
   removeItemFromCart(input: RemoveItemFromCartInput): Promise<FetchResult<RemoveItemFromCartMutation>>;
 

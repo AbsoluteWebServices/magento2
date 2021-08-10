@@ -1,7 +1,8 @@
 import gql from 'graphql-tag';
 
-export default gql`mutation addConfigurableProductsToCart($input: AddConfigurableProductsToCartInput) {
-  addConfigurableProductsToCart(input: $input) {
+export default gql`
+mutation applyGiftCardToCart($input: ApplyGiftCardToCartInput) {
+  applyGiftCardToCart(input: $input) {
     cart {
       id
       email
@@ -193,10 +194,6 @@ export default gql`mutation addConfigurableProductsToCart($input: AddConfigurabl
           code
           label
         }
-      }
-      selected_payment_method {
-        code
-        title
       }
     }
   }
