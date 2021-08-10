@@ -1,6 +1,11 @@
 import {
   Composable,
-  ComposableFunctionArgs, ComputedProperty, Context, CustomQuery,
+  ComposableFunctionArgs, 
+  ComputedProperty, 
+  Context, 
+  CustomQuery,
+  UseCart as UseCartBase,
+  UseCartErrors as UseCartErrorsBase,
 } from '@vue-storefront/core';
 import { ComputedRef } from '@vue/composition-api';
 import { computed } from 'vue-demi';
@@ -189,4 +194,21 @@ export interface UseAddresses<ADDRESS,
   save: (saveParams: SAVE_ADDRESS_PARAMS) => Promise<void>,
   remove: (removeParams: REMOVE_ADDRESS_PARAMS) => Promise<void>,
   update: (updateParams: UPDATE_ADDRESS_PARAMS) => Promise<void>,
+}
+
+export interface UseCartErrors extends UseCartErrorsBase {
+  applyGiftCard: Error;
+  removeGiftCard: Error;
+}
+
+export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends UseCartBase<CART, CART_ITEM, PRODUCT, COUPON> {
+  applyGiftCard(params: {
+      giftCardCode: string;
+      customQuery?: CustomQuery;
+  }): Promise<void>;
+  removeGiftCard(params: {
+      giftCard: GIFT_CARD;
+      customQuery?: CustomQuery;
+  }): Promise<void>;
+  error: ComputedProperty<UseCartErrors>;
 }
