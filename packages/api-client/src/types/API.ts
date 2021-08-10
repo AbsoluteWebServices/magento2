@@ -8,8 +8,11 @@ import {
   AddSimpleProductsToCartInput,
   AddSimpleProductsToCartMutation,
   AppliedCoupon,
+  AppliedGiftCard,
   ApplyCouponToCartInput,
   ApplyCouponToCartMutation,
+  ApplyGiftCardToCartInput,
+  ApplyGiftCardToCartMutation,
   AvailableShippingMethod,
   BundleProduct,
   Cart as CartInterface,
@@ -60,6 +63,8 @@ import {
   RelatedProductQuery,
   RemoveCouponFromCartInput,
   RemoveCouponFromCartMutation,
+  RemoveGiftCardFromCartInput,
+  RemoveGiftCardFromCartMutation,
   RemoveItemFromCartInput,
   RemoveItemFromCartMutation,
   RevokeCustomerTokenMutation,
@@ -118,6 +123,7 @@ export type Customer = CustomerFragment;
 export type CustomerAddress = CustomerAddressInterface;
 export type CustomerOrder = CustomerOrderInterface;
 export type CustomerUpdateParameters = CustomerCreateInput;
+export type GiftCard = AppliedGiftCard;
 export type Order = OrderInterface;
 export type Page = CmsPage;
 export type ProductAttributeFilter = ProductAttributeFilterInput;
@@ -161,6 +167,8 @@ export interface MagentoApiMethods {
   addProductsToCart(input: AddProductsToCartInput): Promise<FetchResult<AddProductsToCartMutation>>;
 
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
+
+  applyGiftCardToCart(input: ApplyGiftCardToCartInput): Promise<FetchResult<ApplyGiftCardToCartMutation>>;
 
   cart(cartId: string): Promise<ApolloQueryResult<CartQuery>>;
 
@@ -231,6 +239,8 @@ export interface MagentoApiMethods {
   Promise<ApolloQueryResult<RelatedProductQuery>>;
 
   removeCouponFromCart(input: RemoveCouponFromCartInput): Promise<FetchResult<RemoveCouponFromCartMutation>>;
+
+  removeGiftCardFromCart(input: RemoveGiftCardFromCartInput): Promise<FetchResult<RemoveGiftCardFromCartMutation>>;
 
   removeItemFromCart(input: RemoveItemFromCartInput): Promise<FetchResult<RemoveItemFromCartMutation>>;
 

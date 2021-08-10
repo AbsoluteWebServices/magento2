@@ -112,12 +112,28 @@ export interface AppliedCoupon {
   code: Scalars['String'];
 }
 
+export interface AppliedGiftCard {
+  applied_balance: Money;
+  code: Scalars['String'];
+  current_balance: Money;
+  expiration_date: Scalars['String'];
+}
+
 export interface ApplyCouponToCartInput {
   cart_id: Scalars['String'];
   coupon_code: Scalars['String'];
 }
 
 export interface ApplyCouponToCartOutput {
+  cart: Cart;
+}
+
+export interface ApplyGiftCardToCartInput {
+  cart_id: Scalars['String'];
+  gift_card_code: Scalars['String'];
+}
+
+export interface ApplyGiftCardToCartOutput {
   cart: Cart;
 }
 
@@ -472,6 +488,8 @@ export interface Cart {
   applied_coupon?: Maybe<AppliedCoupon>;
   /** An array of `AppliedCoupon` objects. Each object contains the `code` text attribute, which specifies the coupon code */
   applied_coupons?: Maybe<Array<Maybe<AppliedCoupon>>>;
+  /** An array of `AppliedGiftCard` objects. Each object contains the `code` text attribute, which specifies the gift card code */
+  applied_gift_cards?: Maybe<Array<Maybe<AppliedGiftCard>>>;
   /** Available payment methods */
   available_payment_methods?: Maybe<Array<Maybe<AvailablePaymentMethod>>>;
   billing_address?: Maybe<BillingCartAddress>;
@@ -3278,6 +3296,7 @@ export interface Mutation {
   addSimpleProductsToCart?: Maybe<AddSimpleProductsToCartOutput>;
   addVirtualProductsToCart?: Maybe<AddVirtualProductsToCartOutput>;
   applyCouponToCart?: Maybe<ApplyCouponToCartOutput>;
+  applyGiftCardToCart?: Maybe<ApplyGiftCardToCartOutput>;
   /** Assign the specified compare list to the logged in customer */
   assignCompareListToCustomer?: Maybe<AssignCompareListToCustomerOutput>;
   /** Changes the password for the logged-in customer */
@@ -3318,6 +3337,7 @@ export interface Mutation {
   mergeCarts: Cart;
   placeOrder?: Maybe<PlaceOrderOutput>;
   removeCouponFromCart?: Maybe<RemoveCouponFromCartOutput>;
+  removeGiftCardFromCart?: Maybe<RemoveGiftCardFromCartOutput>;
   removeItemFromCart?: Maybe<RemoveItemFromCartOutput>;
   /** Remove products from the specified compare list */
   removeProductsFromCompareList?: Maybe<CompareList>;
@@ -3399,6 +3419,10 @@ export interface MutationAddVirtualProductsToCartArgs {
 
 export interface MutationApplyCouponToCartArgs {
   input?: Maybe<ApplyCouponToCartInput>;
+}
+
+export interface MutationApplyGiftCardToCartArgs {
+  input?: Maybe<ApplyGiftCardToCartInput>;
 }
 
 
@@ -3502,6 +3526,10 @@ export interface MutationPlaceOrderArgs {
 
 export interface MutationRemoveCouponFromCartArgs {
   input?: Maybe<RemoveCouponFromCartInput>;
+}
+
+export interface MutationRemoveGiftCardFromCartArgs {
+  input?: Maybe<RemoveGiftCardFromCartInput>;
 }
 
 
@@ -4875,6 +4903,15 @@ export interface RemoveCouponFromCartOutput {
   cart?: Maybe<Cart>;
 }
 
+export interface RemoveGiftCardFromCartInput {
+  cart_id: Scalars['String'];
+  gift_card_code: Scalars['String'];
+}
+
+export interface RemoveGiftCardFromCartOutput {
+  cart?: Maybe<Cart>;
+}
+
 export interface RemoveItemFromCartInput {
   cart_id: Scalars['String'];
   /** Deprecated. Use `cart_item_uid` instead. */
@@ -5796,6 +5833,13 @@ export type ApplyCouponToCartMutationVariables = Exact<{
 
 export type ApplyCouponToCartMutation = { applyCouponToCart?: Maybe<{ cart: CompleteCartDataFragment }> };
 
+export type ApplyGiftCardToCartMutationVariables = Exact<{
+  input?: Maybe<ApplyGiftCardToCartInput>;
+}>;
+
+
+export type ApplyGiftCardToCartMutation = { applyGiftCardToCart?: Maybe<{ cart: CompleteCartDataFragment }> };
+
 export type CartQueryVariables = Exact<{
   cartId: Scalars['String'];
 }>;
@@ -6252,6 +6296,13 @@ export type RemoveCouponFromCartMutationVariables = Exact<{
 
 
 export type RemoveCouponFromCartMutation = { removeCouponFromCart?: Maybe<{ cart?: Maybe<CompleteCartDataFragment> }> };
+
+export type RemoveGiftCardFromCartMutationVariables = Exact<{
+  input?: Maybe<RemoveGiftCardFromCartInput>;
+}>;
+
+
+export type RemoveGiftCardFromCartMutation = { removeGiftCardFromCart?: Maybe<{ cart?: Maybe<CompleteCartDataFragment> }> };
 
 export type RemoveItemFromCartMutationVariables = Exact<{
   input?: Maybe<RemoveItemFromCartInput>;

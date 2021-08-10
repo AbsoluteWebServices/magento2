@@ -3,8 +3,6 @@
 import {
   Context,
   Logger,
-  useCartFactory,
-  UseCartFactoryParams,
 } from '@vue-storefront/core';
 import {
   AddConfigurableProductsToCartInput,
@@ -12,12 +10,14 @@ import {
   Cart,
   CartItem,
   Coupon,
+  GiftCard,
   Product,
   RemoveItemFromCartInput,
   UpdateCartItemsInput,
 } from '@vue-storefront/magento-api';
+import { UseCartFactoryParams, useCartFactory } from '../../factories/useCartFactory';
 
-const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
+const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftCard> = {
   load: async (context: Context) => {
     const apiState = context.$magento.config.state;
     Logger.debug('[Magento Storefront]: Loading Cart');
@@ -236,7 +236,6 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
       updatedCoupon: { code: couponCode },
     };
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeCoupon: async (context: Context, { currentCart }) => {
     const response = await context.$magento.api.removeCouponFromCart({
       cart_id: currentCart.id,
@@ -245,6 +244,33 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
     return {
       updatedCart: response.data.removeCouponFromCart.cart as unknown as Cart,
       updatedCoupon: { code: '' },
+    };
+  },
+  applyGiftCard: async (context: Context, {
+    currentCart,
+    giftCardCode,
+  }) => {
+    const response = await context.$magento.api.applyGiftCardToCart({
+      cart_id: currentCart.id,
+      gift_card_code: giftCardCode,
+    });
+
+    console.log(response.data);
+
+    return {
+      updatedCart: response.data.applyGiftCardToCart.cart as unknown as Cart
+    };
+  },
+  removeGiftCard: async (context: Context, { currentCart, giftCard }) => {
+    const response = await context.$magento.api.removeGiftCardFromCart({
+      cart_id: currentCart.id,
+      gift_card_code: giftCard.code,
+    });
+
+    console.log(response.data);
+
+    return {
+      updatedCart: response.data.removeGiftCardFromCart.cart as unknown as Cart,
     };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -259,4 +285,4 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon> = {
     ?.find((cartItem) => cartItem.product.uid === product.uid),
 };
 
-export default useCartFactory<Cart, CartItem, Product, Coupon>(factoryParams);
+export default useCartFactory<Cart, CartItem, Product, Coupon, GiftCard>(factoryParams);
