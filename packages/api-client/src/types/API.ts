@@ -50,6 +50,7 @@ import {
   GuestAvailableShippingMethodsQuery,
   MergeCartsMutation,
   Order as OrderInterface,
+  PickupLocationsQuery,
   PlaceOrderInput,
   PlaceOrderMutation,
   ProductAttributeFilterInput,
@@ -60,6 +61,7 @@ import {
   ProductReviewQuery,
   ProductReviewRatingsMetadataQuery,
   ProductsListQuery,
+  QueryPickupLocationsArgs,
   RelatedProductQuery,
   RemoveCouponFromCartInput,
   RemoveCouponFromCartMutation,
@@ -111,6 +113,11 @@ import {
   BundleProductDetailQuery,
   RequestPasswordResetEmailMutation,
   RequestPasswordResetEmailMutationVariables,
+  /** FOCUS */
+  FocusSetGroupOnItemInput,
+  FocusSetGroupOnItemMutation,
+  FocusUpdateCartGroupInput,
+  FocusUpdateCartGroupMutation,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
 import { CustomerProductReviewParams } from '../api/customerProductReview';
@@ -202,6 +209,7 @@ export interface MagentoApiMethods {
   getCustomerAddresses(customQuery?: CustomQuery): Promise<ApolloQueryResult<GetCustomerAddressesQuery>>;
   groupedProductDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<GroupedProductDetailQuery>>;
   mergeCarts(sourceCartId: string, destinationCartId: string): Promise<FetchResult<MergeCartsMutation>>;
+  pickupLocations(searchParams: QueryPickupLocationsArgs): Promise<FetchResult<PickupLocationsQuery>>;
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
   productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductDetailsQueryFocus>>;
   productsFilters(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductsFiltersQuery>>;
@@ -229,4 +237,8 @@ export interface MagentoApiMethods {
   upsellProduct(searchParams: GetProductSearchParams, customQuery?: CustomQuery):Promise<ApolloQueryResult<UpsellProductsQuery>>;
   urlResolver(url: string): Promise<ApolloQueryResult<UrlResolverQuery>>;
   wishlist(queryParams: WishlistQueryVariables): Promise<ApolloQueryResult<WishlistQuery>>;
+
+  focusSetGroupOnItem(input: FocusSetGroupOnItemInput): Promise<FetchResult<FocusSetGroupOnItemMutation>>;
+
+  focusUpdateCartGroup(input: FocusUpdateCartGroupInput): Promise<FetchResult<FocusUpdateCartGroupMutation>>;
 }

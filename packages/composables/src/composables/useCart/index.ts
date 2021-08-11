@@ -101,6 +101,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftC
   addItem: async (context: Context, {
     product,
     quantity,
+    enteredOptions,
     currentCart,
     customQuery,
   }) => {
@@ -127,6 +128,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftC
               {
                 quantity,
                 sku: product.sku,
+                entered_options: enteredOptions,
               },
             ],
           };
@@ -145,6 +147,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftC
               data: {
                 quantity,
                 sku: product.configurable_product_options_selection?.variant?.sku || '',
+                entered_options: enteredOptions,
               },
             },
           ];
@@ -276,8 +279,6 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftC
       gift_card_code: giftCardCode,
     });
 
-    console.log(response.data);
-
     return {
       updatedCart: response.data.applyGiftCardToCart.cart as unknown as Cart
     };
@@ -287,8 +288,6 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftC
       cart_id: currentCart.id,
       gift_card_code: giftCard.code,
     });
-
-    console.log(response.data);
 
     return {
       updatedCart: response.data.removeGiftCardFromCart.cart as unknown as Cart,
@@ -304,6 +303,30 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftC
   ) => !!currentCart
     ?.items
     ?.find((cartItem) => cartItem.product.uid === product.uid),
+
+  focusSetGroupOnItem: async (context: Context, { currentCart, product, groupType }) => {
+    const response = await context.$magento.api.focusSetGroupOnItem({
+      cart_id: currentCart.id,
+      item_uid: product.uid,
+      group_type: groupType,
+    });
+
+    return {
+      updatedCart: response.data.focusSetGroupOnItem as unknown as Cart,
+    };
+  },
+
+  focusUpdateCartGroup: async (context: Context, { currentCart, groupType, data }) => {
+    const response = await context.$magento.api.focusUpdateCartGroup({
+      cart_id: currentCart.id,
+      group_type: groupType,
+      additional_data: data,
+    });
+
+    return {
+      updatedCart: response.data.focusUpdateCartGroup as unknown as Cart,
+    };
+  },
 };
 
 export default useCartFactory<Cart, CartItem, Product, Coupon, GiftCard>(factoryParams);

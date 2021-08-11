@@ -33,6 +33,7 @@ export { default as getAvailableShippingMethods } from './getAvailableShippingMe
 export { default as getCustomerAddresses } from './getCustomerAddresses';
 export { default as groupedProductDetail } from './groupedProductDetail';
 export { default as mergeCarts } from './mergeCarts';
+export { default as pickupLocations } from './pickupLocations';
 export { default as placeOrder } from './placeOrder';
 export { default as productDetail } from './productDetail';
 export { default as productsFilters } from './productsFilters';
@@ -60,3 +61,5 @@ export { default as updateCustomerEmail } from './updateCustomerEmail';
 export { default as upsellProduct } from './upsellProduct';
 export { default as urlResolver } from './urlResolver';
 export { default as wishlist } from './wishlist';
+export { default as focusSetGroupOnItem } from './focusSetGroupOnItem';
+export { default as focusUpdateCartGroup } from './focusUpdateCartGroup';
