@@ -10,6 +10,7 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CAR
       currentCart: CART;
       product: PRODUCT;
       quantity: any;
+      enteredOptions?: any;
       customQuery?: CustomQuery;
     }
   ) => Promise<CART>;
@@ -30,6 +31,8 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CAR
     params: { currentCart: CART; giftCard: GIFT_CARD; customQuery?: CustomQuery }
   ) => Promise<{ updatedCart: CART }>;
   isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
+  focusSetGroupOnItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; groupType: string; }) => Promise<{ updatedCart: CART }>;
+  focusUpdateCartGroup: (context: Context, params: { currentCart: CART; groupType: string; data: any }) => Promise<{ updatedCart: CART }>;
 }
 
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
@@ -47,7 +50,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       applyCoupon: null,
       removeCoupon: null,
       applyGiftCard: null,
-      removeGiftCard: null
+      removeGiftCard: null,
+      focusSetGroupOnItem: null,
+      focusUpdateCartGroup: null,
     }, 'useCart-error');
 
     const _factoryParams = configureFactoryParams(
@@ -59,7 +64,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       Logger.debug('useCartFactory.setCart', newCart);
     };
 
-    const addItem = async ({ product, quantity, customQuery }) => {
+    const addItem = async ({ product, quantity, enteredOptions, customQuery }) => {
       Logger.debug('useCart.addItem', { product, quantity });
 
       try {
@@ -68,6 +73,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
           currentCart: cart.value,
           product,
           quantity,
+          enteredOptions,
           customQuery
         });
         error.value.addItem = null;
@@ -254,6 +260,48 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       }
     };
 
+    const focusSetGroupOnItem = async ({ product, groupType }) => {
+      Logger.debug('useCart.focusSetGroupOnItem');
+
+      try {
+        loading.value = true;
+        const { updatedCart } = await _factoryParams.focusSetGroupOnItem({
+          currentCart: cart.value,
+          product,
+          groupType,
+        });
+        error.value.focusSetGroupOnItem = null;
+        cart.value = updatedCart;
+        loading.value = false;
+      } catch (err) {
+        error.value.focusSetGroupOnItem = err;
+        Logger.error('useCart/focusSetGroupOnItem', err);
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    const focusUpdateCartGroup = async ({ groupType, data }) => {
+      Logger.debug('useCart.focusUpdateCartGroup');
+
+      try {
+        loading.value = true;
+        const { updatedCart } = await _factoryParams.focusUpdateCartGroup({
+          currentCart: cart.value,
+          groupType,
+          data,
+        });
+        error.value.focusUpdateCartGroup = null;
+        cart.value = updatedCart;
+        loading.value = false;
+      } catch (err) {
+        error.value.focusUpdateCartGroup = err;
+        Logger.error('useCart/focusUpdateCartGroup', err);
+      } finally {
+        loading.value = false;
+      }
+    };
+
     return {
       setCart,
       cart: computed(() => cart.value),
@@ -267,6 +315,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       removeCoupon,
       applyGiftCard,
       removeGiftCard,
+      focusSetGroupOnItem,
+      focusUpdateCartGroup,
       loading: computed(() => loading.value),
       error: computed(() => error.value)
     };

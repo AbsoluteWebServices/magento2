@@ -237,6 +237,7 @@ export {
   FilterTypeInput,
   FixedProductTax,
   FixedProductTaxDisplaySettings,
+  FocusItemGroup,
   GenerateCustomerTokenAsAdminInput,
   GenerateCustomerTokenAsAdminOutput,
   GenerateCustomerTokenMutation,

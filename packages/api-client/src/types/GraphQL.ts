@@ -504,6 +504,7 @@ export interface Cart {
   selected_payment_method?: Maybe<SelectedPaymentMethod>;
   shipping_addresses: Array<Maybe<ShippingCartAddress>>;
   total_quantity: Scalars['Float'];
+  item_groups?: Array<Maybe<FocusItemGroup>>;
 }
 
 export interface CartAddressCountry {
@@ -569,6 +570,7 @@ export interface CartItemInterface {
   /** The unique ID for a `CartItemInterface` object */
   uid: Scalars['ID'];
   mp_free_gifts?: Maybe<FreeGiftItem>;
+  group_type?: Maybe<Scalars['String']>;
 }
 
 export interface CartItemPrices {
@@ -3372,6 +3374,9 @@ export interface Mutation {
   updateCustomerV2?: Maybe<CustomerOutput>;
   /** Updates one or more products in the specified wish list */
   updateProductsInWishlist?: Maybe<UpdateProductsInWishlistOutput>;
+  /** FOCUS */
+  focusSetGroupOnItem?: Maybe<FocusSetGroupOnItemMutation>;
+  focusUpdateCartGroup?: Maybe<FocusUpdateCartGroupMutation>;
 }
 
 
@@ -3643,6 +3648,7 @@ export interface Order {
   order_id?: Maybe<Scalars['String']>;
   /** The unique ID for a `Order` object. */
   order_number: Scalars['String'];
+  split_order_numbers?: Maybe<Array<Maybe<Scalars['String']>>>;
 }
 
 /** OrderAddress contains detailed information about an order's billing and shipping addresses */
@@ -4082,6 +4088,10 @@ export interface PickupLocations {
   /** The number of products returned. */
   total_count?: Maybe<Scalars['Int']>;
 }
+
+export type PickupLocationsQuery = {
+  pickupLocations: PickupLocations;
+};
 
 export interface PlaceOrderInput {
   cart_id: Scalars['String'];
@@ -7215,8 +7225,54 @@ export type WishlistDataFragment = (
 );
 
 export interface FreeGiftItem {
-  is_free_gift: Maybe<Scalars['Boolean']>;
-  rule_id: Maybe<Scalars['Int']>;
-  free_gift_message: Maybe<Scalars['String']>;
-  allow_notice: Maybe<Scalars['Boolean']>;
+  is_free_gift: Scalars['Boolean'];
+  rule_id?: Maybe<Scalars['Int']>;
+  free_gift_message?: Maybe<Scalars['String']>;
+  allow_notice?: Maybe<Scalars['Boolean']>;
 }
+
+export interface FocusItemGroup {
+  group_id?: Maybe<Scalars['Int']>;
+  group_type: Scalars['String'];
+  item_uids: Maybe<Array<Maybe<Scalars['String']>>>;
+  additional_data: FocusGroupAdditionalData;
+}
+
+export interface FocusGroupAdditionalData {
+  location_code?: Maybe<Scalars['String']>;
+  pickup_date?: Maybe<Scalars['String']>;
+}
+
+export interface FocusSetGroupOnItemInput {
+  cart_id: Scalars['String'];
+  item_uid?: Maybe<Scalars['ID']>;
+  group_type: Scalars['String'];
+}
+
+export interface FocusSetGroupOnItemMutationVariables {
+  input: FocusSetGroupOnItemInput;
+}
+
+export interface FocusSetGroupOnItemMutation {
+  focusSetGroupOnItem: Cart;
+}
+
+export interface FocusGroupAdditionalDataInput {
+  location_code: Scalars['String'];
+  pickup_date: Scalars['String'];
+}
+
+export interface FocusUpdateCartGroupInput {
+  cart_id: Scalars['String'];
+  group_type: Scalars['String'];
+  additional_data?: Maybe<FocusGroupAdditionalDataInput>;
+}
+
+export interface FocusUpdateCartGroupMutationVariables {
+  input: FocusUpdateCartGroupInput;
+}
+
+export interface FocusUpdateCartGroupMutation {
+  focusUpdateCartGroup: Cart;
+}
+
