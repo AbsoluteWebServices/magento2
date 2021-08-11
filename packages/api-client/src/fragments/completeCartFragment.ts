@@ -49,13 +49,32 @@ export default gql`
   }
   items {
     ...CartProductData
-    ... on ConfigurableCartItem{
+    ... on ConfigurableCartItem {
       configurable_options {
         configurable_product_option_uid
         option_label
         configurable_product_option_value_uid
         value_label
       }
+    }
+    ... on SimpleCartItem {
+      customizable_options {
+        customizable_option_uid
+        label
+        values {
+          customizable_option_value_uid
+          value
+        }
+      }
+    }
+  }
+  item_groups {
+    group_id
+    group_type
+    item_uids
+    additional_data {
+      location_code
+      pickup_date
     }
   }
   total_quantity

@@ -180,9 +180,19 @@ export interface UseAddresses<ADDRESS,
 export interface UseCartErrors extends UseCartErrorsBase {
   applyGiftCard: Error;
   removeGiftCard: Error;
+  focusSetGroupOnItem: Error;
+  focusUpdateCartGroup: Error;
 }
 
 export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends UseCartBase<CART, CART_ITEM, PRODUCT, COUPON> {
+  addItem: (
+    params: {
+      product: PRODUCT;
+      quantity: any;
+      enteredOptions?: any;
+      customQuery?: CustomQuery;
+    }
+  ) => Promise<void>;
   applyGiftCard(params: {
       giftCardCode: string;
       customQuery?: CustomQuery;
@@ -191,5 +201,23 @@ export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends Us
       giftCard: GIFT_CARD;
       customQuery?: CustomQuery;
   }): Promise<void>;
+  focusSetGroupOnItem(params: {
+    product: CART_ITEM;
+    groupType: string;
+  }): Promise<void>;
+  focusUpdateCartGroup(params: {
+    groupType: string; data: any
+  }): Promise<void>;
   error: ComputedProperty<UseCartErrors>;
+}
+
+export interface UsePickupLocationErrors {
+  search: Error;
+}
+
+export interface UsePickupLocation<PICKUP_LOCATION, PICKUP_LOCATION_SEARCH_PARAMS> {
+  search: (params: PICKUP_LOCATION_SEARCH_PARAMS) => Promise<PICKUP_LOCATION[]>;
+  result: ComputedProperty<PICKUP_LOCATION[]>;
+  error: ComputedProperty<UsePickupLocationErrors>;
+  loading: ComputedProperty<boolean>;
 }

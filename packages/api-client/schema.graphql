@@ -33,6 +33,7 @@ interface CartItemInterface {
     quantity: Float!
     "The unique ID for a `CartItemInterface` object"
     uid: ID!
+    group_type: String
 }
 
 "CategoryInterface contains the full set of attributes that can be returned in a category search."
@@ -850,6 +851,7 @@ type Cart {
     selected_payment_method: SelectedPaymentMethod
     shipping_addresses: [ShippingCartAddress]!
     total_quantity: Float!
+    item_groups: [FocusItemGroup]
 }
 
 type CartAddressCountry {
@@ -2627,12 +2629,15 @@ type Mutation {
     updateCustomerV2(input: CustomerUpdateInput!): CustomerOutput
     "Updates one or more products in the specified wish list"
     updateProductsInWishlist(wishlistId: ID!, wishlistItems: [WishlistItemUpdateInput!]!): UpdateProductsInWishlistOutput
+    focusSetGroupOnItem(input: focusSetGroupOnItemInput): Cart
+    focusUpdateCartGroup(input: focusUpdateCartGroupInput): Cart
 }
 
 type Order {
     order_id: String @deprecated(reason : "The order_id field is deprecated, use order_number instead.")
     "The unique ID for a `Order` object."
     order_number: String!
+    split_order_numbers: [String]
 }
 
 "OrderAddress contains detailed information about an order's billing and shipping addresses"
@@ -5730,4 +5735,33 @@ input createEmptyCartInput {
 
 input createKlarnaPaymentsSessionInput {
     cart_id: String!
+}
+
+input focusSetGroupOnItemInput {
+    cart_id: String!
+    item_uid: String!
+    group_type: String!
+}
+
+input focusGroupAdditionalDataInput {
+    location_code: String
+    pickup_date: String
+}
+
+input focusUpdateCartGroupInput {
+    cart_id: String!
+    group_type: String!
+    additional_data: focusGroupAdditionalDataInput
+}
+
+type FocusItemGroup {
+    group_id: Int
+    group_type: String!
+    item_uids: [String]
+    additional_data: focusGroupAdditionalData
+}
+
+type focusGroupAdditionalData {
+    location_code: String
+    pickup_date: String
 }

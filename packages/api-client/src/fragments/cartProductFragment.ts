@@ -14,6 +14,7 @@ export default gql`
   mp_free_gifts {
     ...FreeGiftData
   }
+  group_type
   prices {
     row_total {
       value
