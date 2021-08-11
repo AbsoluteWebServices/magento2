@@ -84,6 +84,7 @@ export default gql`
               }
             }
           }
+          group_type
           mp_free_gifts {
             is_free_gift
             rule_id
@@ -141,6 +142,15 @@ export default gql`
         selected_payment_method {
           code
           title
+        }
+        item_groups {
+          group_id
+          group_type
+          item_uids
+          additional_data {
+            location_code
+            pickup_date
+          }
         }
       }
     }

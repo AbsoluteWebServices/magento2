@@ -18,6 +18,7 @@ import {
   UseCartFactoryParams,
   useCartFactory,
 } from '../../factories/useCartFactory';
+import { cartGetters } from '../../getters';
 
 const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccount> = {
   load: async (context: Context, params: {
@@ -92,6 +93,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   addItem: async (context: Context, {
     product,
     quantity,
+    enteredOptions,
     currentCart,
     customQuery,
   }) => {
@@ -111,6 +113,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       return;
     }
     try {
+      await factoryParams.focusUnsetPickupDate(context, { currentCart });
       // @ts-ignore
       // eslint-disable-next-line no-underscore-dangle
       switch (product.__typename) {
@@ -121,6 +124,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
               {
                 quantity,
                 sku: product.sku,
+                entered_options: enteredOptions,
               },
             ],
           };
@@ -141,6 +145,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
               data: {
                 quantity,
                 sku: product.configurable_product_options_selection?.variant?.sku || '',
+                entered_options: enteredOptions,
               },
             },
           ];
@@ -205,6 +210,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       return;
     }
 
+    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+
     const removeItemParams: RemoveItemFromCartInput = {
       cart_id: currentCart.id,
       cart_item_uid: item.uid,
@@ -226,6 +233,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     quantity,
   }) => {
     Logger.debug('[Magento]: Update product quantity on cart', { product, quantity, currentCart });
+
+    await factoryParams.focusUnsetPickupDate(context, { currentCart });
 
     const updateCartParams: UpdateCartItemsInput = {
       cart_id: currentCart.id,
@@ -264,6 +273,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   }) => {
     Logger.debug('[Magento]: Apply coupon on cart', { couponCode, currentCart });
 
+    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+
     const { data } = await context.$magento.api.applyCouponToCart({
       cart_id: currentCart.id,
       coupon_code: couponCode,
@@ -279,6 +290,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeCoupon: async (context: Context, { currentCart }) => {
     Logger.debug('[Magento]: Remove coupon from cart', { currentCart });
+
+    await factoryParams.focusUnsetPickupDate(context, { currentCart });
 
     const { data } = await context.$magento.api.removeCouponFromCart({
       cart_id: currentCart.id,
@@ -308,6 +321,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   }) => {
     Logger.debug('[Magento]: Apply gift card on cart', { giftCardCode });
 
+    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+
     const { data } = await context.$magento.api.applyGiftCardToCart({
       cart_id: currentCart.id,
       gift_card_code: giftCardCode,
@@ -321,6 +336,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   },
   removeGiftCard: async (context: Context, { currentCart, giftCardCode }) => {
     Logger.debug('[Magento]: Remove gift card from cart', { giftCardCode });
+
+    await factoryParams.focusUnsetPickupDate(context, { currentCart });
 
     const { data } = await context.$magento.api.removeGiftCardFromCart({
       cart_id: currentCart.id,
@@ -341,6 +358,62 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       product,
     },
   ) => !!currentCart?.items.find((cartItem) => cartItem.product.uid === product.uid),
+
+  focusSetGroupOnItem: async (context: Context, { currentCart, product, groupType }) => {
+    Logger.debug('[Magento FOCUS]: Set group on cart item', { currentCart, product, groupType });
+
+    const { data } = await context.$magento.api.focusSetGroupOnItem({
+      cart_id: currentCart.id,
+      item_uid: product.uid,
+      group_type: groupType,
+    });
+
+    Logger.debug('[Result]:', { data });
+
+    return {
+      updatedCart: data.focusSetGroupOnItem as unknown as Cart,
+    };
+  },
+
+  focusUpdateCartGroup: async (context: Context, { currentCart, groupType, data: additional_data }) => {
+    Logger.debug('[Magento FOCUS]: Set update cart group', { currentCart, groupType, data: additional_data });
+
+    const { data } = await context.$magento.api.focusUpdateCartGroup({
+      cart_id: currentCart.id,
+      group_type: groupType,
+      additional_data,
+    });
+
+    Logger.debug('[Result]:', { data });
+
+    return {
+      updatedCart: data.focusUpdateCartGroup as unknown as Cart,
+    };
+  },
+
+  focusUnsetPickupDate: async (context: Context, { currentCart }) => {
+    Logger.debug('[Magento FOCUS]: Set unset pickup date on cart', { currentCart });
+
+    if (!cartGetters.isPickupDateSelected(currentCart)) {
+      return {
+        updatedCart: currentCart,
+      }
+    }
+
+    const { data } = await context.$magento.api.focusUpdateCartGroup({
+      cart_id: currentCart.id,
+      group_type: 'pickup',
+      additional_data: {
+        pickup_date: null,
+      },
+    });
+
+    Logger.debug('[Result]:', { data });
+
+    return {
+      updatedCart: data.focusUpdateCartGroup as unknown as Cart,
+    };
+  },
 };
 
 export default useCartFactory<Cart, CartItem, Product, GiftCardAccount>(factoryParams);

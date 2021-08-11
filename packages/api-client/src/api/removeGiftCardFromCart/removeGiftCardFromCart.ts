@@ -84,6 +84,7 @@ mutation removeGiftCardFromCart($input: RemoveGiftCardFromCartInput) {
             }
           }
         }
+        group_type
         mp_free_gifts {
           is_free_gift
           rule_id
@@ -136,6 +137,15 @@ mutation removeGiftCardFromCart($input: RemoveGiftCardFromCartInput) {
         country {
           code
           label
+        }
+      }
+      item_groups {
+        group_id
+        group_type
+        item_uids
+        additional_data {
+          location_code
+          pickup_date
         }
       }
     }
