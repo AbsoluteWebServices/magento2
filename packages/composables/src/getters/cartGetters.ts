@@ -13,6 +13,7 @@ import {
   Product,
   SelectedShippingMethod,
   AppliedGiftCard,
+  FocusItemGroup,
 } from '@vue-storefront/magento-api';
 import productGetters from './productGetters';
 import { AgnosticPaymentMethod } from '../types';
@@ -178,6 +179,18 @@ export const getAvailablePaymentMethods = (cart: Cart): AgnosticPaymentMethod[] 
   value: p.code,
 }));
 
+export const getItemGroups = (cart: Cart): FocusItemGroup[] => {
+  if (!cart || !cart.item_groups) {
+    return [];
+  }
+
+  return cart.item_groups.filter(group => group.item_uids?.length);
+}
+
+export const isPickupDateSelected = (cart: Cart): Boolean => {
+  return cart?.item_groups?.some(({ group_type, additional_data }) => group_type === 'pickup' && Boolean(additional_data?.pickup_date));
+}
+
 export interface CartGetters extends CartGettersBase<Cart, CartItem> {
   getAppliedCoupon(cart: Cart): AgnosticCoupon | null;
 
@@ -188,6 +201,10 @@ export interface CartGetters extends CartGettersBase<Cart, CartItem> {
   getSelectedShippingMethod(cart: Cart): SelectedShippingMethod | null;
 
   productHasSpecialPrice(product: CartItem): boolean;
+
+  getItemGroups(cart: Cart): FocusItemGroup[];
+
+  isPickupDateSelected(cart: Cart): Boolean;
 }
 
 const cartGetters: CartGetters = {
@@ -210,6 +227,8 @@ const cartGetters: CartGetters = {
   getTotalItems,
   getTotals,
   productHasSpecialPrice,
+  getItemGroups,
+  isPickupDateSelected,
 };
 
 export default cartGetters;

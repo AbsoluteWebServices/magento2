@@ -51,6 +51,7 @@ import {
   GuestAvailableShippingMethodsQueryFocus,
   MergeCartsMutation,
   Order as OrderInterface,
+  PickupLocationsQueryFocus,
   PlaceOrderInput,
   PlaceOrderMutation,
   ProductAttributeFilterInput,
@@ -61,6 +62,7 @@ import {
   ProductReviewQueryFocus,
   ProductReviewRatingsMetadataQueryFocus,
   ProductsListQueryFocus,
+  QueryPickupLocationsArgs,
   RelatedProductQueryFocus,
   RemoveCouponFromCartInput,
   RemoveCouponFromCartMutation,
@@ -111,6 +113,11 @@ import {
   RequestPasswordResetEmailMutationVariables,
   ResetPasswordMutationVariables,
   ResetPasswordMutation, ChangeCustomerPasswordMutation, CreateCustomerAddressMutation,
+  /** FOCUS */
+  FocusSetGroupOnItemInput,
+  FocusSetGroupOnItemMutation,
+  FocusUpdateCartGroupInput,
+  FocusUpdateCartGroupMutation,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
 import { CustomerProductReviewParams } from '../api/customerProductReview';
@@ -251,6 +258,8 @@ export interface MagentoApiMethods {
 
   mergeCarts(sourceCartId: string, destinationCartId: string): Promise<FetchResult<MergeCartsMutation>>;
 
+  pickupLocations(searchParams: QueryPickupLocationsArgs): Promise<FetchResult<PickupLocationsQueryFocus>>;
+
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
 
   productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductDetailsQueryFocus>>;
@@ -308,4 +317,8 @@ export interface MagentoApiMethods {
   urlResolver(url: string): Promise<ApolloQueryResult<UrlResolverQueryFocus>>;
 
   wishlist(queryParams: WishlistQueryVariables): Promise<ApolloQueryResult<WishlistQueryFocus>>;
+
+  focusSetGroupOnItem(input: FocusSetGroupOnItemInput): Promise<FetchResult<FocusSetGroupOnItemMutation>>;
+
+  focusUpdateCartGroup(input: FocusUpdateCartGroupInput): Promise<FetchResult<FocusUpdateCartGroupMutation>>;
 }

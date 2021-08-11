@@ -12,6 +12,7 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUN
       currentCart: CART;
       product: PRODUCT;
       quantity: any;
+      enteredOptions?: any;
       customQuery?: CustomQuery;
     }
   ) => Promise<CART>;
@@ -33,6 +34,9 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUN
     params: { currentCart: CART; giftCardCode: string; customQuery?: CustomQuery }
   ) => Promise<{ updatedCart: CART }>;
   isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
+  focusSetGroupOnItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; groupType: string; }) => Promise<{ updatedCart: CART }>;
+  focusUpdateCartGroup: (context: Context, params: { currentCart: CART; groupType: string; data: any }) => Promise<{ updatedCart: CART }>;
+  focusUnsetPickupDate: (context: Context, params: { currentCart: CART }) => Promise<{ updatedCart: CART }>;
 }
 
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extends PlatformApi = any>(
@@ -51,6 +55,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     checkGiftCard: null,
     applyGiftCard: null,
     removeGiftCard: null,
+    focusSetGroupOnItem: null,
+    focusUpdateCartGroup: null,
+    focusUnsetPickupDate: null,
   }, 'useCart-error');
 
   // eslint-disable-next-line no-underscore-dangle,@typescript-eslint/naming-convention
@@ -72,11 +79,13 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
   const addItem = async ({
     product,
     quantity,
+    enteredOptions,
     customQuery,
   }) => {
     Logger.debug('useCart.addItem', {
       product,
       quantity,
+      enteredOptions,
     });
 
     try {
@@ -85,6 +94,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
         currentCart: cart.value,
         product,
         quantity,
+        enteredOptions,
         customQuery,
       });
       error.value.addItem = null;
@@ -302,6 +312,67 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
+  const focusSetGroupOnItem = async ({ product, groupType }) => {
+    Logger.debug('useCart.focusSetGroupOnItem');
+
+    try {
+      loading.value = true;
+      const { updatedCart } = await _factoryParams.focusSetGroupOnItem({
+        currentCart: cart.value,
+        product,
+        groupType,
+      });
+      error.value.focusSetGroupOnItem = null;
+      cart.value = updatedCart;
+      loading.value = false;
+    } catch (err) {
+      error.value.focusSetGroupOnItem = err;
+      Logger.error('useCart/focusSetGroupOnItem', err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const focusUpdateCartGroup = async ({ groupType, data }) => {
+    Logger.debug('useCart.focusUpdateCartGroup');
+
+    try {
+      loading.value = true;
+      const { updatedCart } = await _factoryParams.focusUpdateCartGroup({
+        currentCart: cart.value,
+        groupType,
+        data,
+      });
+      error.value.focusUpdateCartGroup = null;
+      cart.value = updatedCart;
+      loading.value = false;
+    } catch (err) {
+      error.value.focusUpdateCartGroup = err;
+      Logger.error('useCart/focusUpdateCartGroup', err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const focusUnsetPickupDate = async () => {
+    Logger.debug('useCart.focusUnsetPickupDate');
+
+    try {
+      loading.value = true;
+      const { updatedCart } = await _factoryParams.focusUnsetPickupDate({
+        currentCart: cart.value,
+      });
+      error.value.focusUnsetPickupDate = null;
+      cart.value = updatedCart;
+      loading.value = false;
+    } catch (err) {
+      error.value.focusUnsetPickupDate = err;
+      Logger.error('useCart/focusUnsetPickupDate', err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     api: _factoryParams.api,
     setCart,
@@ -317,6 +388,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     checkGiftCard,
     applyGiftCard,
     removeGiftCard,
+    focusSetGroupOnItem,
+    focusUpdateCartGroup,
+    focusUnsetPickupDate,
     loading: computed(() => loading.value),
     error: computed(() => error.value),
   };

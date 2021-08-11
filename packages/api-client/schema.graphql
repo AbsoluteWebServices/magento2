@@ -33,6 +33,7 @@ interface CartItemInterface {
   quantity: Float!
   "The unique ID for a `CartItemInterface` object"
   uid: ID!
+  group_type: String
 }
 
 "CategoryInterface contains the full set of attributes that can be returned in a category search."
@@ -919,6 +920,7 @@ type Cart {
   selected_payment_method: SelectedPaymentMethod
   shipping_addresses: [ShippingCartAddress]!
   total_quantity: Float!
+  item_groups: [FocusItemGroup]
 }
 
 type CartAddressCountry {
@@ -2834,6 +2836,8 @@ type Mutation {
   updateProductsInWishlist(wishlistId: ID!, wishlistItems: [WishlistItemUpdateInput!]!): UpdateProductsInWishlistOutput
   "Updates the email address of a quote."
   updateQuoteEmail(cartId: String!, email: String!): Boolean
+  focusSetGroupOnItem(input: focusSetGroupOnItemInput): Cart
+  focusUpdateCartGroup(input: focusUpdateCartGroupInput): Cart
 }
 
 "Contains details about the requested order"
@@ -3045,6 +3049,8 @@ type PickupLocation {
   region: String
   region_id: Int
   street: String
+  min_pickup_date_threshold: Int
+  max_pickup_date_threshold: Int
 }
 
 "Top level object returned in a pickup locations search."
