@@ -55,6 +55,9 @@ export interface ClientConfig {
     customerCookieName: string;
     storeCookieName: string;
   },
+  headers: {
+    cacheTagsHeaderName: string;
+  },
   currency: string;
   defaultStore: string;
   externalCheckout: {

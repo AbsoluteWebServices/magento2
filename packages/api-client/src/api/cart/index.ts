@@ -1,13 +1,13 @@
 import { ApolloQueryResult } from '@apollo/client/core';
-import { CartQuery, CartQueryVariables } from '../../types/GraphQL';
+import { CartQueryFocus, CartQueryVariables } from '../../types/GraphQL';
 import cart from './cart';
 import { Context } from '../../types/context';
 
 export default async (
   { client }: Context,
   cartId: string,
-): Promise<ApolloQueryResult<CartQuery>> => client
-  .query<CartQuery, CartQueryVariables>({
+): Promise<ApolloQueryResult<CartQueryFocus>> => client
+  .query<CartQueryFocus, CartQueryVariables>({
   query: cart,
   variables: { cartId },
 });

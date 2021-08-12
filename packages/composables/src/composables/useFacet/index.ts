@@ -5,6 +5,7 @@ import {
   useFacetFactory,
 } from '@absolute-web/vsf-core';
 import { GetProductSearchParams } from '@absolute-web/magento-api/src/types/API';
+import { useCache } from '@absolute-web/vsf-cache';
 
 const availableSortingOptions = [
   {
@@ -57,6 +58,12 @@ const constructSortObject = (sortData: string) => {
 };
 
 const factoryParams = {
+  provide() {
+    return {
+      cache: useCache(),
+    };
+  },
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   search: async (context: Context, params: FacetSearchResult<any>) => {
     Logger.debug('[Magento] Load product facets', { params });
@@ -94,6 +101,10 @@ const factoryParams = {
     };
 
     const { data } = await context.$magento.api.products(productSearchParams);
+
+    if (data?.cacheTags) {
+      context.cache.addTags(data.cacheTags);
+    }
 
     Logger.debug('[Result]:', { data });
 

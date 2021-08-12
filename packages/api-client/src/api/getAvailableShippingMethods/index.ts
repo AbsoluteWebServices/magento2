@@ -4,7 +4,7 @@ import { CustomQuery } from '@absolute-web/vsf-core';
 import { Context } from '../../types/context';
 import GuestAvailableShippingMethods from './GuestAvailableShippingMethods';
 import {
-  GuestAvailableShippingMethodsQuery,
+  GuestAvailableShippingMethodsQueryFocus,
   GuestAvailableShippingMethodsQueryVariables,
 } from '../../types/GraphQL';
 
@@ -14,7 +14,7 @@ export default async (
     cartId: string;
   },
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<GuestAvailableShippingMethodsQuery>> => {
+): Promise<ApolloQueryResult<GuestAvailableShippingMethodsQueryFocus>> => {
   const defaultVariables = params ? {
     cart_id: params.cartId,
   } : {};
@@ -28,7 +28,7 @@ export default async (
     });
 
   try {
-    return await context.client.query<GuestAvailableShippingMethodsQuery,
+    return await context.client.query<GuestAvailableShippingMethodsQueryFocus,
     GuestAvailableShippingMethodsQueryVariables>({
       query: gql`${shippingMethods.query}`,
       variables: shippingMethods.variables,

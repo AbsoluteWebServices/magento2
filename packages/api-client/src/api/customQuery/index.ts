@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import { ApolloQueryResult, FetchPolicy } from '@apollo/client/core';
 import { Context } from '../../types/context';
+import { BaseQuery } from '../../types/GraphQL';
 
 export default async <QUERY = any, QUERY_VARIABLES = any>(
   { client }: Context,
@@ -13,8 +14,8 @@ export default async <QUERY = any, QUERY_VARIABLES = any>(
     queryVariables?: QUERY_VARIABLES,
     fetchPolicy?: FetchPolicy,
   },
-): Promise<ApolloQueryResult<QUERY>> => client
-  .query<QUERY, QUERY_VARIABLES>({
+): Promise<ApolloQueryResult<QUERY & BaseQuery>> => client
+  .query<QUERY & BaseQuery, QUERY_VARIABLES>({
   query: gql`${query}`,
   variables: { ...queryVariables },
   fetchPolicy: fetchPolicy || 'no-cache',

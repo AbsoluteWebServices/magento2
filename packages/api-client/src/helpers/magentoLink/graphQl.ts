@@ -64,9 +64,25 @@ export const apolloLinkFactory = (settings: Config, handlers?: {
     delay: () => 0,
   });
 
+  const afterwareLink = new ApolloLink((operation, forward) => forward(operation).map((response) => {
+    const { response: { headers } } = operation.getContext();
+    const cacheTags = headers.get('x-cache-tags');
+
+    if (cacheTags) {
+      // eslint-disable-next-line no-param-reassign
+      response.data = {
+        ...response.data,
+        cacheTags,
+      };
+    }
+
+    return response;
+  }));
+
   return from([
     onErrorLink,
     errorRetry,
+    afterwareLink,
     // eslint-disable-next-line unicorn/prefer-spread
     baseLink.concat(httpLink),
   ]);

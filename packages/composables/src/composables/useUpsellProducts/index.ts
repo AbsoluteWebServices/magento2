@@ -7,6 +7,7 @@ import {
   GetProductSearchParams,
   UpsellProductsQuery,
 } from '@absolute-web/magento-api';
+import { useCache } from '@absolute-web/vsf-cache';
 import {
   useUpsellProductsFactory,
   UseUpsellProductsFactoryParams,
@@ -14,6 +15,11 @@ import {
 import { UseUpsellProducts } from '../../types/composables';
 
 const factoryParams: UseUpsellProductsFactoryParams<UpsellProductsQuery['products']['items'][0]['upsell_products'], ProductsSearchParams> = {
+  provide() {
+    return {
+      cache: useCache(),
+    };
+  },
   productsSearch: async (context: Context,
     params: GetProductSearchParams & {
       customQuery?: CustomQuery;
@@ -31,6 +37,10 @@ const factoryParams: UseUpsellProductsFactoryParams<UpsellProductsQuery['product
       .upsellProduct(searchParams as GetProductSearchParams, (customQuery || {}));
 
     Logger.debug('[Result]:', { data });
+
+    if (data.cacheTags) {
+      context.cache.addTags(data.cacheTags);
+    }
 
     return data.products?.items[0]?.upsell_products;
   },

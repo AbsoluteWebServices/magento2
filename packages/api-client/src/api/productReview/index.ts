@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import {
   ProductAttributeFilterInput,
   ProductAttributeSortInput,
-  ProductReviewQuery,
+  ProductReviewQueryFocus,
   ProductReviewQueryVariables,
 } from '../../types/GraphQL';
 import productReview from './productReview';
@@ -23,7 +23,7 @@ export default async (
   context: Context,
   searchParams?: GetProductSearchParams,
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<ProductReviewQuery>> => {
+): Promise<ApolloQueryResult<ProductReviewQueryFocus>> => {
   const defaultParams = {
     pageSize: 10,
     currentPage: 1,
@@ -51,7 +51,7 @@ export default async (
   );
 
   try {
-    return await context.client.query<ProductReviewQuery, ProductReviewQueryVariables>({
+    return await context.client.query<ProductReviewQueryFocus, ProductReviewQueryVariables>({
       query: gql`${reviews.query}`,
       variables: reviews.variables,
     });

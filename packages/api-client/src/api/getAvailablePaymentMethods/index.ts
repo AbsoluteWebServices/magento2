@@ -4,7 +4,7 @@ import { CustomQuery } from '@absolute-web/vsf-core';
 import { Context } from '../../types/context';
 import GuestAvailablePaymentMethods from './GuestAvailablePaymentMethods';
 import {
-  GuestAvailablePaymentMethodsQuery,
+  GuestAvailablePaymentMethodsQueryFocus,
   GuestAvailablePaymentMethodsQueryVariables,
 } from '../../types/GraphQL';
 
@@ -14,7 +14,7 @@ export default async (
     cartId: string;
   },
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<GuestAvailablePaymentMethodsQuery>> => {
+): Promise<ApolloQueryResult<GuestAvailablePaymentMethodsQueryFocus>> => {
   const defaultVariables = {
     cartId: params.cartId || '',
   };
@@ -28,7 +28,7 @@ export default async (
     });
 
   try {
-    return await context.client.query<GuestAvailablePaymentMethodsQuery, GuestAvailablePaymentMethodsQueryVariables>({
+    return await context.client.query<GuestAvailablePaymentMethodsQueryFocus, GuestAvailablePaymentMethodsQueryVariables>({
       query: gql`${paymentMethods.query}`,
       variables: paymentMethods.variables,
     });

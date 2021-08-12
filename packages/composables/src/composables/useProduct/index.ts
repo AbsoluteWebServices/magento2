@@ -8,9 +8,15 @@ import {
 } from '@absolute-web/vsf-core';
 import { ProductsListQuery, GetProductSearchParams, ProductsQueryType } from '@absolute-web/magento-api';
 import { Scalars } from '@absolute-web/magento-api/lib/types/GraphQL';
+import { useCache } from '@absolute-web/vsf-cache';
 
 const factoryParams: UseProductFactoryParams<ProductsListQuery['products'],
 ProductsSearchParams> = {
+  provide() {
+    return {
+      cache: useCache(),
+    };
+  },
   productsSearch: async (context: Context, params: GetProductSearchParams & {
     queryType: ProductsQueryType;
     customQuery?: CustomQuery;
@@ -33,6 +39,10 @@ ProductsSearchParams> = {
             ...searchParams,
           } as GetProductSearchParams, (customQuery || {}));
 
+        if (productDetailsResults.data.cacheTags) {
+          context.cache.addTags(productDetailsResults.data.cacheTags);
+        }
+
         Logger.debug('[Result]:', { data: productDetailsResults });
 
         return productDetailsResults.data.products;
@@ -43,6 +53,10 @@ ProductsSearchParams> = {
           .$magento
           .api
           .products(searchParams as GetProductSearchParams, (customQuery || {}));
+
+        if (productListResults.data.cacheTags) {
+          context.cache.addTags(productListResults.data.cacheTags);
+        }
 
         Logger.debug('[Result]:', { data: productListResults });
 

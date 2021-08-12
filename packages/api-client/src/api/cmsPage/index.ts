@@ -1,16 +1,16 @@
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Logger } from '@absolute-web/vsf-core';
-import { CmsPageQueryVariables, CmsPageQuery } from '../../types/GraphQL';
+import { CmsPageQueryVariables, CmsPageQueryFocus } from '../../types/GraphQL';
 import cmsPage from './cmsPage';
 import { Context } from '../../types/context';
 
 export default async (
   { client }: Context,
   identifier: string,
-): Promise<ApolloQueryResult<CmsPageQuery>> => {
+): Promise<ApolloQueryResult<CmsPageQueryFocus>> => {
   try {
     return await client
-      .query<CmsPageQuery, CmsPageQueryVariables>({
+      .query<CmsPageQueryFocus, CmsPageQueryVariables>({
       query: cmsPage,
       variables: { identifier },
     });

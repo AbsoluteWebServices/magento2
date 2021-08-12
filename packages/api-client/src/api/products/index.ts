@@ -4,7 +4,7 @@ import { CustomQuery } from '@absolute-web/vsf-core';
 import {
   ProductAttributeFilterInput,
   ProductAttributeSortInput,
-  ProductsListQuery,
+  ProductsListQueryFocus,
   ProductsListQueryVariables,
 } from '../../types/GraphQL';
 import productsList from './productsList';
@@ -23,7 +23,7 @@ export default async (
   context: Context,
   searchParams?: GetProductSearchParams,
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<ProductsListQuery>> => {
+): Promise<ApolloQueryResult<ProductsListQueryFocus>> => {
   const defaultParams = {
     pageSize: 10,
     currentPage: 1,
@@ -51,7 +51,7 @@ export default async (
   );
 
   try {
-    return await context.client.query<ProductsListQuery, ProductsListQueryVariables>({
+    return await context.client.query<ProductsListQueryFocus, ProductsListQueryVariables>({
       query: gql`${products.query}`,
       variables: products.variables,
     });

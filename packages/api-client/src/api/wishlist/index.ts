@@ -2,7 +2,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { CustomQuery } from '@absolute-web/vsf-core';
 import gql from 'graphql-tag';
 import {
-  WishlistQuery,
+  WishlistQueryFocus,
   WishlistQueryVariables,
 } from '../../types/GraphQL';
 import wishlistQuery from './wishlist';
@@ -17,7 +17,7 @@ export default async (
   context: Context,
   searchParams: WishlistQueryVariables,
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<WishlistQuery>> => {
+): Promise<ApolloQueryResult<WishlistQueryFocus>> => {
   const defaultParams = {
     pageSize: 10,
     currentPage: 1,
@@ -39,7 +39,7 @@ export default async (
   );
   try {
     return await context.client
-      .query<WishlistQuery, WishlistQueryVariables>({
+      .query<WishlistQueryFocus, WishlistQueryVariables>({
       query: gql`${wishlist.query}`,
       variables: wishlist.variables,
     });

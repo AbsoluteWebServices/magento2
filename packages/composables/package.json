@@ -36,6 +36,7 @@
   },
   "peerDependencies": {
     "@absolute-web/magento-api": "~0.0.1",
+    "@absolute-web/vsf-cache": "~0.0.1",
     "@absolute-web/vsf-core": "~0.0.1"
   },
   "files": [

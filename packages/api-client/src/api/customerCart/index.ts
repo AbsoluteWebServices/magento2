@@ -1,9 +1,9 @@
 import { ApolloQueryResult } from '@apollo/client/core';
-import { CustomerCartQuery } from '../../types/GraphQL';
+import { CustomerCartQueryFocus } from '../../types/GraphQL';
 import customerCart from './customerCart';
 import { Context } from '../../types/context';
 
-export default async ({ client }: Context): Promise<ApolloQueryResult<CustomerCartQuery>> => client
-  .query<CustomerCartQuery>({
+export default async ({ client }: Context): Promise<ApolloQueryResult<CustomerCartQueryFocus>> => client
+  .query<CustomerCartQueryFocus>({
   query: customerCart,
 });

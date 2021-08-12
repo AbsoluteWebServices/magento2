@@ -3,7 +3,7 @@ import { CustomQuery } from '@absolute-web/vsf-core';
 import gql from 'graphql-tag';
 import {
   CustomerOrdersFilterInput,
-  CustomerOrdersQuery,
+  CustomerOrdersQueryFocus,
   CustomerOrdersQueryVariables,
 } from '../../types/GraphQL';
 import customerOrdersQuery from './customerOrders';
@@ -20,7 +20,7 @@ export default async (
   context: Context,
   searchParams: GetOrdersSearchParams,
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<CustomerOrdersQuery>> => {
+): Promise<ApolloQueryResult<CustomerOrdersQueryFocus>> => {
   const defaultParams = {
     pageSize: 10,
     currentPage: 1,
@@ -45,7 +45,7 @@ export default async (
 
   try {
     return await context.client
-      .query<CustomerOrdersQuery, CustomerOrdersQueryVariables>({
+      .query<CustomerOrdersQueryFocus, CustomerOrdersQueryVariables>({
       query: gql`${customerOrders.query}`,
       variables: customerOrders.variables,
     });
