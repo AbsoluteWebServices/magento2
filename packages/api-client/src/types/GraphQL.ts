@@ -4089,7 +4089,7 @@ export interface PickupLocations {
   total_count?: Maybe<Scalars['Int']>;
 }
 
-export type PickupLocationsQuery = {
+export type PickupLocationsQuery = BaseQuery & {
   pickupLocations: PickupLocations;
 };
 
@@ -5855,9 +5855,9 @@ export type CartQueryVariables = Exact<{
 }>;
 
 
-export type CartQuery = { cart?: Maybe<CompleteCartDataFragment> };
+export type CartQuery = BaseQuery & { cart?: Maybe<CompleteCartDataFragment> };
 
-export type CategoryQuery = { categoryList?: Maybe<Array<Maybe<(
+export type CategoryQuery = BaseQuery & { categoryList?: Maybe<Array<Maybe<(
   CategoryDataFragment
   & CategoryUrlDataFragment
   & { siblings?: Maybe<Array<Maybe<Pick<Breadcrumb, 'category_uid' | 'category_name' | 'category_level' | 'category_url_path'>>>> }
@@ -5902,7 +5902,7 @@ export type CategoryQuery = { categoryList?: Maybe<Array<Maybe<(
 export type CategoryListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CategoryListQuery = { categories?: Maybe<{ items?: Maybe<Array<Maybe<(
+export type CategoryListQuery = BaseQuery & { categories?: Maybe<{ items?: Maybe<Array<Maybe<(
       Pick<CategoryTree, 'product_count' | 'name' | 'uid'>
       & { children?: Maybe<Array<Maybe<(
         { children?: Maybe<Array<Maybe<(
@@ -5919,7 +5919,7 @@ export type CategorySearchQueryVariables = Exact<{
 }>;
 
 
-export type CategorySearchQuery = { categoryList?: Maybe<Array<Maybe<(
+export type CategorySearchQuery = BaseQuery & { categoryList?: Maybe<Array<Maybe<(
     CategoryDataFragment
     & CategoryUrlDataFragment
   )>>> };
@@ -5937,7 +5937,7 @@ export type CmsPageQueryVariables = Exact<{
 }>;
 
 
-export type CmsPageQuery = { cmsPage?: Maybe<Pick<CmsPage, 'identifier' | 'content' | 'title' | 'meta_title' | 'meta_description' | 'content_heading'>> };
+export type CmsPageQuery = BaseQuery & { cmsPage?: Maybe<Pick<CmsPage, 'identifier' | 'content' | 'title' | 'meta_title' | 'meta_description' | 'content_heading'>> };
 
 export type ConfigurableProductDetailQueryVariables = Exact<{
   search?: Maybe<Scalars['String']>;
@@ -5949,7 +5949,7 @@ export type ConfigurableProductDetailQueryVariables = Exact<{
 }>;
 
 
-export type ConfigurableProductDetailQuery = { products?: Maybe<{ items?: Maybe<Array<Maybe<Pick<BundleProduct, 'uid'> | (
+export type ConfigurableProductDetailQuery = BaseQuery & { products?: Maybe<{ items?: Maybe<Array<Maybe<Pick<BundleProduct, 'uid'> | (
       Pick<ConfigurableProduct, 'uid'>
       & { configurable_product_options_selection?: Maybe<{ options_available_for_selection?: Maybe<Array<Maybe<Pick<ConfigurableOptionAvailableForSelection, 'attribute_code' | 'option_value_uids'>>>>, media_gallery?: Maybe<Array<Maybe<Pick<ProductImage, 'disabled' | 'label' | 'position' | 'url'> | Pick<ProductVideo, 'disabled' | 'label' | 'position' | 'url'>>>>, variant?: Maybe<Pick<SimpleProduct, 'uid' | 'sku' | 'name'>> }> }
       & ConfigurableProductOptionsDataFragment
@@ -5958,14 +5958,14 @@ export type ConfigurableProductDetailQuery = { products?: Maybe<{ items?: Maybe<
 export type CountriesListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CountriesListQuery = { countries?: Maybe<Array<Maybe<Pick<Country, 'id' | 'two_letter_abbreviation' | 'full_name_locale' | 'full_name_english'>>>> };
+export type CountriesListQuery = BaseQuery & { countries?: Maybe<Array<Maybe<Pick<Country, 'id' | 'two_letter_abbreviation' | 'full_name_locale' | 'full_name_english'>>>> };
 
 export type CountryInformationQueryVariables = Exact<{
   id?: Maybe<Scalars['String']>;
 }>;
 
 
-export type CountryInformationQuery = { country?: Maybe<(
+export type CountryInformationQuery = BaseQuery & { country?: Maybe<(
     Pick<Country, 'id' | 'two_letter_abbreviation' | 'full_name_locale' | 'full_name_english'>
     & { available_regions?: Maybe<Array<Maybe<Pick<Region, 'id' | 'code' | 'name'>>>> }
   )> };
@@ -6005,7 +6005,7 @@ export type CreateProductReviewMutation = { createProductReview: { review: (
 export type CustomerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CustomerQuery = { customer?: Maybe<(
+export type CustomerQuery = BaseQuery & { customer?: Maybe<(
     Pick<Customer, 'is_subscribed'>
     & CustomerDataFragment
   )> };
@@ -6013,7 +6013,7 @@ export type CustomerQuery = { customer?: Maybe<(
 export type CustomerCartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CustomerCartQuery = { customerCart: CompleteCartDataFragment };
+export type CustomerCartQuery = BaseQuery & { customerCart: CompleteCartDataFragment };
 
 export type CustomerOrdersQueryVariables = Exact<{
   currentPage?: Maybe<Scalars['Int']>;
@@ -6022,7 +6022,7 @@ export type CustomerOrdersQueryVariables = Exact<{
 }>;
 
 
-export type CustomerOrdersQuery = { customer?: Maybe<{ orders?: Maybe<{ items: Array<Maybe<(
+export type CustomerOrdersQuery = BaseQuery & { customer?: Maybe<{ orders?: Maybe<{ items: Array<Maybe<(
         Pick<CustomerOrder, 'order_number' | 'id' | 'created_at' | 'grand_total' | 'status' | 'shipping_method'>
         & { total?: Maybe<OrderTotalDataFragment>, comments?: Maybe<Array<Maybe<Pick<SalesCommentItem, 'message' | 'timestamp'>>>>, invoices: Array<Maybe<(
           Pick<Invoice, 'id' | 'number'>
@@ -6042,7 +6042,7 @@ export type CustomerProductReviewQueryVariables = Exact<{
 }>;
 
 
-export type CustomerProductReviewQuery = { customer?: Maybe<{ reviews: { items: Array<Maybe<(
+export type CustomerProductReviewQuery = BaseQuery & { customer?: Maybe<{ reviews: { items: Array<Maybe<(
         Pick<ProductReview, 'average_rating' | 'nickname' | 'summary' | 'text' | 'created_at'>
         & { ratings_breakdown: Array<Maybe<Pick<ProductReviewRating, 'name' | 'value'>>>, product: Pick<BundleProduct, 'name' | 'uid'> | Pick<ConfigurableProduct, 'name' | 'uid'> | Pick<DownloadableProduct, 'name' | 'uid'> | Pick<GroupedProduct, 'name' | 'uid'> | Pick<SimpleProduct, 'name' | 'uid'> | Pick<VirtualProduct, 'name' | 'uid'> }
       )>>, page_info: Pick<SearchResultPageInfo, 'current_page' | 'page_size' | 'total_pages'> } }> };
@@ -6065,12 +6065,12 @@ export type GenerateCustomerTokenMutation = { generateCustomerToken?: Maybe<Pick
 export type CustomerAvailablePaymentMethodsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CustomerAvailablePaymentMethodsQuery = { customerCart: { available_payment_methods?: Maybe<Array<Maybe<Pick<AvailablePaymentMethod, 'code' | 'title'>>>> } };
+export type CustomerAvailablePaymentMethodsQuery = BaseQuery & { customerCart: { available_payment_methods?: Maybe<Array<Maybe<Pick<AvailablePaymentMethod, 'code' | 'title'>>>> } };
 
 export type CustomerAvailableShippingMethodsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CustomerAvailableShippingMethodsQuery = { customerCart: { shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<(
+export type CustomerAvailableShippingMethodsQuery = BaseQuery & { customerCart: { shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<(
         Pick<AvailableShippingMethod, 'available' | 'carrier_code' | 'carrier_title' | 'error_message' | 'method_code' | 'method_title'>
         & { amount: Pick<Money, 'currency' | 'value'>, price_excl_tax: Pick<Money, 'currency' | 'value'>, price_incl_tax: Pick<Money, 'currency' | 'value'> }
       )>>> }>> } };
@@ -6080,14 +6080,14 @@ export type GuestAvailablePaymentMethodsQueryVariables = Exact<{
 }>;
 
 
-export type GuestAvailablePaymentMethodsQuery = { cart?: Maybe<{ available_payment_methods?: Maybe<Array<Maybe<Pick<AvailablePaymentMethod, 'code' | 'title'>>>> }> };
+export type GuestAvailablePaymentMethodsQuery = BaseQuery & { cart?: Maybe<{ available_payment_methods?: Maybe<Array<Maybe<Pick<AvailablePaymentMethod, 'code' | 'title'>>>> }> };
 
 export type GuestAvailableShippingMethodsQueryVariables = Exact<{
   cart_id: Scalars['String'];
 }>;
 
 
-export type GuestAvailableShippingMethodsQuery = { cart?: Maybe<{ shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<(
+export type GuestAvailableShippingMethodsQuery = BaseQuery & { cart?: Maybe<{ shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<(
         Pick<AvailableShippingMethod, 'available' | 'carrier_code' | 'carrier_title' | 'error_message' | 'method_code' | 'method_title'>
         & { amount: Pick<Money, 'currency' | 'value'>, price_excl_tax: Pick<Money, 'currency' | 'value'>, price_incl_tax: Pick<Money, 'currency' | 'value'> }
       )>>> }>> }> };
@@ -6095,7 +6095,7 @@ export type GuestAvailableShippingMethodsQuery = { cart?: Maybe<{ shipping_addre
 export type GetCustomerAddressesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCustomerAddressesQuery = { customer?: Maybe<{ addresses?: Maybe<Array<Maybe<CustomerAddressDataFragment>>> }> };
+export type GetCustomerAddressesQuery = BaseQuery & { customer?: Maybe<{ addresses?: Maybe<Array<Maybe<CustomerAddressDataFragment>>> }> };
 
 export type MergeCartsMutationVariables = Exact<{
   sourceCartId: Scalars['String'];
@@ -6120,7 +6120,7 @@ export type ProductDetailsQueryVariables = Exact<{
   sort?: Maybe<ProductAttributeSortInput>;
 }>;
 
-export type ProductDetailsQuery = {
+export type ProductDetailsQuery = BaseQuery & {
   products?: Maybe<{
     aggregations?: Maybe<Array<Maybe<(
       Pick<Aggregation, 'attribute_code' | 'label'>
@@ -6193,7 +6193,7 @@ export type ProductReviewQueryVariables = Exact<{
 }>;
 
 
-export type ProductReviewQuery = { products?: Maybe<{ items?: Maybe<Array<Maybe<(
+export type ProductReviewQuery = BaseQuery & { products?: Maybe<{ items?: Maybe<Array<Maybe<(
       Pick<BundleProduct, 'review_count'>
       & { reviews?: { items: Array<Maybe<(
           Pick<ProductReview, 'average_rating' | 'nickname' | 'summary' | 'text' | 'created_at'>
@@ -6234,7 +6234,7 @@ export type ProductReviewQuery = { products?: Maybe<{ items?: Maybe<Array<Maybe<
 export type ProductReviewRatingsMetadataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductReviewRatingsMetadataQuery = { productReviewRatingsMetadata: { items: Array<Maybe<(
+export type ProductReviewRatingsMetadataQuery = BaseQuery & { productReviewRatingsMetadata: { items: Array<Maybe<(
       Pick<ProductReviewRatingMetadata, 'id' | 'name'>
       & { values: Array<Maybe<Pick<ProductReviewRatingValueMetadata, 'value_id' | 'value'>>> }
     )>> } };
@@ -6248,7 +6248,7 @@ export type ProductsListQueryVariables = Exact<{
 }>;
 
 
-export type ProductsListQuery = { products?: Maybe<(
+export type ProductsListQuery = BaseQuery & { products?: Maybe<(
     Pick<Products, 'total_count'>
     & { aggregations?: Maybe<Array<Maybe<(
       Pick<Aggregation, 'attribute_code' | 'label'>
@@ -6256,7 +6256,7 @@ export type ProductsListQuery = { products?: Maybe<(
     )>>>, items?: Maybe<Array<Maybe<ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment>>>, page_info?: Maybe<Pick<SearchResultPageInfo, 'current_page' | 'page_size' | 'total_pages'>> }
   )> };
 
-export type ProductsFiltersQuery = { products?: Maybe<(
+export type ProductsFiltersQuery = BaseQuery & { products?: Maybe<(
   {
     aggregations?: Maybe<Array<Maybe<(
       Pick<Aggregation, 'attribute_code' | 'label' | 'count'>
@@ -6274,7 +6274,7 @@ export type RelatedProductQueryVariables = Exact<{
 }>;
 
 
-export type RelatedProductQuery = { products?: Maybe<{ items?: Maybe<Array<Maybe<(
+export type RelatedProductQuery = BaseQuery & { products?: Maybe<{ items?: Maybe<Array<Maybe<(
       { __typename: 'BundleProduct' }
       & Pick<BundleProduct, 'uid'>
       & { related_products?: Maybe<Array<Maybe<ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment>>> }
@@ -6398,7 +6398,7 @@ export type SetShippingMethodsOnCartMutation = {
 export type StoreConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type StoreConfigQuery = { storeConfig?: Maybe<Pick<StoreConfig, 'absolute_footer' | 'base_currency_code' | 'catalog_default_sort_by' | 'category_url_suffix' | 'cms_home_page' | 'cms_no_cookies' | 'code' | 'copyright' | 'default_description' | 'default_display_currency_code' | 'default_keywords' | 'default_title' | 'grid_per_page' | 'grid_per_page_values' | 'head_shortcut_icon' | 'header_logo_src' | 'id' | 'list_per_page' | 'list_per_page_values' | 'locale' | 'logo_alt' | 'logo_height' | 'logo_width' | 'magento_wishlist_general_is_enabled' | 'no_route' | 'product_url_suffix' | 'root_category_id' | 'show_cms_breadcrumbs' | 'store_name' | 'timezone' | 'title_prefix' | 'title_separator' | 'title_suffix' | 'website_id' | 'welcome' | 'allow_guests_to_write_product_reviews' | 'head_includes'>> };
+export type StoreConfigQuery = BaseQuery & { storeConfig?: Maybe<Pick<StoreConfig, 'absolute_footer' | 'base_currency_code' | 'catalog_default_sort_by' | 'category_url_suffix' | 'cms_home_page' | 'cms_no_cookies' | 'code' | 'copyright' | 'default_description' | 'default_display_currency_code' | 'default_keywords' | 'default_title' | 'grid_per_page' | 'grid_per_page_values' | 'head_shortcut_icon' | 'header_logo_src' | 'id' | 'list_per_page' | 'list_per_page_values' | 'locale' | 'logo_alt' | 'logo_height' | 'logo_width' | 'magento_wishlist_general_is_enabled' | 'no_route' | 'product_url_suffix' | 'root_category_id' | 'show_cms_breadcrumbs' | 'store_name' | 'timezone' | 'title_prefix' | 'title_separator' | 'title_suffix' | 'website_id' | 'welcome' | 'allow_guests_to_write_product_reviews' | 'head_includes'>> };
 
 export type SubscribeEmailToNewsletterMutationVariables = Exact<{
   email: Scalars['String'];
@@ -6449,7 +6449,7 @@ export type UpsellProductsQueryVariables = Exact<{
 }>;
 
 
-export type UpsellProductsQuery = { products?: Maybe<{ items?: Maybe<Array<Maybe<(
+export type UpsellProductsQuery = BaseQuery & { products?: Maybe<{ items?: Maybe<Array<Maybe<(
       { __typename: 'BundleProduct' }
       & Pick<BundleProduct, 'uid'>
       & { upsell_products?: Maybe<Array<Maybe<ProductData_BundleProduct_Fragment | ProductData_ConfigurableProduct_Fragment | ProductData_DownloadableProduct_Fragment | ProductData_GroupedProduct_Fragment | ProductData_SimpleProduct_Fragment | ProductData_VirtualProduct_Fragment>>> }
@@ -6480,7 +6480,7 @@ export type UrlResolverQueryVariables = Exact<{
 }>;
 
 
-export type UrlResolverQuery = { urlResolver?: Maybe<Pick<EntityUrl, 'id' | 'redirectCode' | 'relative_url' | 'type' | 'entity_uid'>> };
+export type UrlResolverQuery = BaseQuery & { urlResolver?: Maybe<Pick<EntityUrl, 'id' | 'redirectCode' | 'relative_url' | 'type' | 'entity_uid'>> };
 
 export type WishlistQueryVariables = Exact<{
   currentPage?: Maybe<Scalars['Int']>;
@@ -6488,7 +6488,7 @@ export type WishlistQueryVariables = Exact<{
 }>;
 
 
-export type WishlistQuery = { customer?: Maybe<{ wishlists: Array<Maybe<WishlistDataFragment>> }> };
+export type WishlistQuery = BaseQuery & { customer?: Maybe<{ wishlists: Array<Maybe<WishlistDataFragment>> }> };
 
 export type CustomerAddressDataFragment = (
   Pick<CustomerAddress, 'city' | 'country_code' | 'default_billing' | 'default_shipping' | 'firstname' | 'id' | 'lastname' | 'postcode' | 'prefix' | 'street' | 'suffix' | 'telephone'>
@@ -7276,3 +7276,11 @@ export interface FocusUpdateCartGroupMutation {
   focusUpdateCartGroup: Cart;
 }
 
+export type CacheTag = {
+  prefix: Scalars['String'];
+  value: Scalars['String'];
+}
+
+export type BaseQuery = {
+  cacheTags?: Maybe<Array<Maybe<CacheTag>>>
+}

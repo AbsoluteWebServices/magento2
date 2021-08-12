@@ -6,6 +6,7 @@ import {
   useProductFactory,
   UseProductFactoryParams,
 } from '@vue-storefront/core';
+import { useCache } from '@absolute-web/vsf-cache';
 import { ProductsListQuery, ProductDetailsQuery, RelatedProductQuery, UpsellProductsQuery, GetProductSearchParams, ProductsQueryType, Product, Aggregation } from '@vue-storefront/magento-api';
 
 const pdpDataBlacklist = ['media_gallery', 'description', 'short_description', 'image', 'small_image', 'thumbnail'];
@@ -78,6 +79,12 @@ const extractCustomAttributes = (productDetails: Product, aggregations: Aggregat
 }
 
 const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], ProductsSearchParams> = {
+  provide() {
+    return {
+      cache: useCache(),
+    };
+  },
+
   productsSearch: async (context: Context, params: GetProductSearchParams & { queryType: ProductsQueryType; customQuery?: CustomQuery }) => {
     const {
       queryType,
@@ -90,6 +97,10 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
           .$magento
           .api
           .productDetail(searchParams as GetProductSearchParams, (customQuery || null));
+
+        if (productDetailsResults.data.cacheTags) {
+          context.cache.addTags(productDetailsResults.data.cacheTags);
+        }
 
         if (!productDetailsResults.data.products.items.length) {
           return productDetailsResults.data.products;
@@ -128,6 +139,11 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
           .$magento
           .api
           .upsellProduct(searchParams as GetProductSearchParams, (customQuery || null));
+
+        if (upsellProduct.data.cacheTags) {
+          context.cache.addTags(upsellProduct.data.cacheTags);
+        }
+
         return upsellProduct.data.products;
 
       case ProductsQueryType.Related:
@@ -135,6 +151,11 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
           .$magento
           .api
           .relatedProduct(searchParams as GetProductSearchParams, (customQuery || null));
+
+        if (relatedProduct.data.cacheTags) {
+          context.cache.addTags(relatedProduct.data.cacheTags);
+        }
+
         return relatedProduct.data.products;
 
       case ProductsQueryType.List:
@@ -143,6 +164,11 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
           .$magento
           .api
           .products(searchParams as GetProductSearchParams, (customQuery || null));
+
+        if (productListResults.data.cacheTags) {
+          context.cache.addTags(productListResults.data.cacheTags);
+        }
+
         return productListResults.data.products;
     }
   },
