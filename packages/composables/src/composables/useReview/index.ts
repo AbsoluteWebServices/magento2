@@ -4,6 +4,7 @@ import {
   Context,
   Logger,
 } from '@vue-storefront/core';
+import { useCache } from '@absolute-web/vsf-cache';
 import {
   GetProductSearchParams,
   ProductReviewRatingMetadata,
@@ -17,6 +18,12 @@ ComposableFunctionArgs<GetProductSearchParams>,
 ComposableFunctionArgs<CustomerProductReviewParams>,
 CreateProductReviewInput,
 ProductReviewRatingMetadata> = {
+  provide() {
+    return {
+      cache: useCache(),
+    };
+  },
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   searchReviews: async (context: Context, params?: ComposableFunctionArgs<GetProductSearchParams>) => {
     Logger.debug('[Magento] searchReviews');
@@ -24,6 +31,10 @@ ProductReviewRatingMetadata> = {
     Logger.debug(JSON.stringify(params, null, 2));
 
     const { data } = await context.$magento.api.productReview(params as GetProductSearchParams);
+
+    if (data.cacheTags) {
+      context.cache.addTags(data.cacheTags);
+    }
 
     return data.products.items;
   },
