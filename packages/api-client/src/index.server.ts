@@ -91,6 +91,25 @@ const tokenExtension: ApiClientExtension = {
         },
       };
     },
+    afterCall: ({ configuration, response }) => {
+      if (response.data.cacheTags) {
+        const cacheTagsHeaderName = configuration.headers?.cacheTagsHeaderName || defaultSettings.headers.cacheTagsHeaderName;
+        res.header(cacheTagsHeaderName, response.data.cacheTags);
+        // eslint-disable-next-line no-param-reassign
+        response.data.cacheTags = response.data.cacheTags.split(',').map((tag) => {
+          const parts = tag.split('_');
+
+          if (parts.length === 2) {
+            return { prefix: `${parts[0]}_`, value: parts[1] };
+          }
+          if (parts.length === 3) {
+            return { prefix: `${parts[0]}_${parts[1]}_`, value: parts[2] };
+          }
+          return { prefix: '', value: parts[0] };
+        });
+      }
+      return response;
+    },
   }),
 };
 
