@@ -59,8 +59,25 @@ export const apolloLinkFactory = (settings: Config, handlers?: {
     delay: () => 0,
   });
 
+  const afterwareLink = new ApolloLink((operation, forward) => {
+    return forward(operation).map(response => {
+      const { response: { headers } } = operation.getContext();
+      const cacheTags = headers.get('x-cache-tags');
+
+      if (cacheTags) {
+        response.data = {
+          ...response.data,
+          cacheTags
+        }
+      }
+
+      return response;
+    });
+  });
+
+
   // eslint-disable-next-line unicorn/prefer-spread
-  return ApolloLink.from([onErrorLink, errorRetry, baseAuthLink.concat(httpLink)]);
+  return ApolloLink.from([onErrorLink, errorRetry, afterwareLink, baseAuthLink.concat(httpLink)]);
 };
 
 export const apolloClientFactory = (customOptions: Record<string, any>) => new ApolloClient({

@@ -3,7 +3,7 @@ import { ApolloQueryResult } from 'apollo-client';
 import { CustomQuery } from '@vue-storefront/core';
 import {
   ProductAttributeFilterInput,
-  ProductAttributeSortInput, UpsellProductsQuery, UpsellProductsQueryVariables,
+  ProductAttributeSortInput, UpsellProductsQueryFocus, UpsellProductsQueryVariables,
 } from '../../types/GraphQL';
 import upsellProducts from './upsellProducts';
 import { Context } from '../../types/context';
@@ -21,7 +21,7 @@ export default async (
   context: Context,
   searchParams?: GetProductSearchParams,
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<UpsellProductsQuery>> => {
+): Promise<ApolloQueryResult<UpsellProductsQueryFocus>> => {
   const defaultParams = {
     pageSize: 20,
     currentPage: 1,
@@ -49,7 +49,7 @@ export default async (
   );
 
   try {
-    return await context.client.query<UpsellProductsQuery, UpsellProductsQueryVariables>({
+    return await context.client.query<UpsellProductsQueryFocus, UpsellProductsQueryVariables>({
       query: gql`${products.query}`,
       variables: products.variables,
       fetchPolicy: 'no-cache',

@@ -6,8 +6,9 @@ import {
   useProductFactory,
   UseProductFactoryParams,
 } from '@vue-storefront/core';
-import { ProductsListQuery, ProductDetailsQueryFocus, RelatedProductQuery, UpsellProductsQuery, GetProductSearchParams, ProductsQueryType, Product, Aggregation } from '@vue-storefront/magento-api';
+import { ProductsListQueryFocus, ProductDetailsQueryFocus, RelatedProductQueryFocus, UpsellProductsQueryFocus, GetProductSearchParams, ProductsQueryType, Product, Aggregation } from '@vue-storefront/magento-api';
 import { Scalars } from '@vue-storefront/magento-api/lib/types/GraphQL';
+import { useCache } from '@absolute-web/vsf-cache';
 
 const pdpDataBlacklist = ['media_gallery', 'description', 'short_description', 'image', 'small_image', 'thumbnail'];
 
@@ -78,7 +79,13 @@ const extractCustomAttributes = (productDetails: Product, aggregations: Aggregat
   return result;
 }
 
-const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], ProductsSearchParams> = {
+
+const factoryParams: UseProductFactoryParams<ProductsListQueryFocus['products'], ProductsSearchParams> = {
+  provide() {
+    return {
+      cache: useCache(),
+    };
+  },
   productsSearch: async (context: Context, params: GetProductSearchParams & { queryType: ProductsQueryType; customQuery?: CustomQuery; configurations?: Scalars['ID'] }) => {
     const {
       queryType,
@@ -112,6 +119,10 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
           productDetailsResults,
           configurableProduct,
         ] = result;
+
+        if (productDetailsResults.data.cacheTags) {
+          context.cache.addTags(productDetailsResults.data.cacheTags);
+        }
 
         if (!productDetailsResults.data.products.items.length) {
           return productDetailsResults.data.products;
@@ -180,6 +191,11 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
           .$magento
           .api
           .upsellProduct(searchParams as GetProductSearchParams, (customQuery || {}));
+
+        if (upsellProduct.data.cacheTags) {
+          context.cache.addTags(upsellProduct.data.cacheTags);
+        }
+
         return upsellProduct.data.products;
 
       case ProductsQueryType.Related:
@@ -187,6 +203,11 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
           .$magento
           .api
           .relatedProduct(searchParams as GetProductSearchParams, (customQuery || {}));
+
+        if (relatedProduct.data.cacheTags) {
+          context.cache.addTags(relatedProduct.data.cacheTags);
+        }
+
         return relatedProduct.data.products;
 
       case ProductsQueryType.List:
@@ -195,11 +216,16 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
           .$magento
           .api
           .products(searchParams as GetProductSearchParams, (customQuery || {}));
+
+        if (productListResults.data.cacheTags) {
+          context.cache.addTags(productListResults.data.cacheTags);
+        }
+
         return productListResults.data.products;
     }
   },
 };
 
-const useProduct: (cacheId?: string) => UseProduct<ProductsListQuery['products'] | ProductDetailsQueryFocus['products'] | RelatedProductQuery['products'] | UpsellProductsQuery['products'], ProductsSearchParams> = useProductFactory<ProductsListQuery['products'], ProductsSearchParams>(factoryParams);
+const useProduct: (cacheId?: string) => UseProduct<ProductsListQueryFocus['products'] | ProductDetailsQueryFocus['products'] | RelatedProductQueryFocus['products'] | UpsellProductsQueryFocus['products'], ProductsSearchParams> = useProductFactory<ProductsListQueryFocus['products'], ProductsSearchParams>(factoryParams);
 
 export default useProduct;

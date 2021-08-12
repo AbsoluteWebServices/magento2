@@ -3,11 +3,18 @@ import {
   Context,
   UseCategoryFactoryParams,
 } from '@vue-storefront/core';
+import { useCache } from '@absolute-web/vsf-cache';
 import {
   Category,
 } from '@vue-storefront/magento-api';
 
 const factoryParams: UseCategoryFactoryParams<Category, any> = {
+  provide() {
+    return {
+      cache: useCache(),
+    };
+  },
+
   categorySearch: async (context: Context, params) => {
 
     const filters = {};
@@ -29,6 +36,10 @@ const factoryParams: UseCategoryFactoryParams<Category, any> = {
     }
 
     const { data } = await context.$magento.api.category({ filters });
+
+    if (data.cacheTags) {
+      context.cache.addTags(data.cacheTags);
+    }
 
     return data.categoryList;
   },

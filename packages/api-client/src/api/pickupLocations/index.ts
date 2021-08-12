@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import {
-  PickupLocationsQuery,
+  PickupLocationsQueryFocus,
   QueryPickupLocationsArgs,
 } from '../../types/GraphQL';
 import pickupLocations from './pickupLocations';
@@ -9,7 +9,7 @@ import { Context } from '../../types/context';
 export default async (
   { client }: Context,
   searchParams?: QueryPickupLocationsArgs,
-): Promise<ApolloQueryResult<PickupLocationsQuery>> => {
+): Promise<ApolloQueryResult<PickupLocationsQueryFocus>> => {
   const defaultParams = {
     pageSize: 20,
     currentPage: 1,
@@ -30,7 +30,7 @@ export default async (
   if (defaultParams.sort) variables.sort = defaultParams.sort;
 
   return client
-    .query<PickupLocationsQuery, QueryPickupLocationsArgs>({
+    .query<PickupLocationsQueryFocus, QueryPickupLocationsArgs>({
     query: pickupLocations,
     variables,
     fetchPolicy: 'cache-first',

@@ -5,13 +5,13 @@ import { CustomQuery } from '@vue-storefront/core';
 import { Context } from '../../types/context';
 import CustomerAvailableShippingMethods from './CustomerShippingMethods';
 import {
-  CustomerAvailableShippingMethodsQuery,
+  CustomerAvailableShippingMethodsQueryFocus,
 } from '../../types/GraphQL';
 
 export default async (
   context: Context,
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<CustomerAvailableShippingMethodsQuery>> => {
+): Promise<ApolloQueryResult<CustomerAvailableShippingMethodsQueryFocus>> => {
   const { shippingMethods } = context.extendQuery(customQuery,
     {
       shippingMethods: {
@@ -20,7 +20,7 @@ export default async (
     });
 
   try {
-    return await context.client.query<CustomerAvailableShippingMethodsQuery>({
+    return await context.client.query<CustomerAvailableShippingMethodsQueryFocus>({
       query: gql`${shippingMethods.query}`,
       fetchPolicy: 'no-cache',
     });

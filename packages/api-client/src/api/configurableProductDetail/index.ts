@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { ApolloQueryResult } from 'apollo-client';
 import { CustomQuery } from '@vue-storefront/core';
 import {
-  ConfigurableProductDetailQuery,
+  ConfigurableProductDetailQueryFocus,
   ProductAttributeFilterInput,
   ProductAttributeSortInput,
   ConfigurableProductDetailQueryVariables,
@@ -23,7 +23,7 @@ export default async (
   context: Context,
   searchParams?: GetProductSearchParams,
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<ConfigurableProductDetailQuery>> => {
+): Promise<ApolloQueryResult<ConfigurableProductDetailQueryFocus>> => {
   const defaultParams = {
     pageSize: 20,
     currentPage: 1,
@@ -51,7 +51,7 @@ export default async (
   );
 
   try {
-    return await context.client.query<ConfigurableProductDetailQuery, ConfigurableProductDetailQueryVariables>({
+    return await context.client.query<ConfigurableProductDetailQueryFocus, ConfigurableProductDetailQueryVariables>({
       query: gql`${products.query}`,
       variables: products.variables,
       fetchPolicy: 'no-cache',

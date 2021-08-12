@@ -3,6 +3,7 @@ import {
   FacetSearchResult,
   ProductsSearchParams,
 } from '@vue-storefront/core';
+import { useCache } from '@absolute-web/vsf-cache';
 import { GetProductSearchParams, ProductsQueryType } from '@vue-storefront/magento-api/src/types/API';
 import { useFacetFactory } from '../../factories/useFacetFactory';
 
@@ -57,6 +58,12 @@ const constructSortObject = (sortData: string) => {
 };
 
 const factoryParams = {
+  provide() {
+    return {
+      cache: useCache(),
+    };
+  },
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   search: async (context: Context, params: FacetSearchResult<any> & { input: { queryType: ProductsQueryType } }) => {
     const itemsPerPage = (params.input.itemsPerPage) ? params.input.itemsPerPage : 20;
@@ -100,6 +107,9 @@ const factoryParams = {
         break;
     }
 
+    if (productResponse?.data?.cacheTags) {
+      context.cache.addTags(productResponse?.data?.cacheTags);
+    }
 
     const data = {
       items: productResponse?.data?.products?.items || [],

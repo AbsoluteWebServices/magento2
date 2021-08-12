@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
 import { ApolloQueryResult } from 'apollo-client';
 import { CustomQuery } from '@vue-storefront/core';
-import { GetCustomerAddressesQuery } from '../../types/GraphQL';
+import { GetCustomerAddressesQueryFocus } from '../../types/GraphQL';
 import getCustomerAddressesQuery from './getCustomerAddresses';
 import { Context } from '../../types/context';
 
-export default async (context: Context, customQuery?: CustomQuery): Promise<ApolloQueryResult<GetCustomerAddressesQuery>> => {
+export default async (context: Context, customQuery?: CustomQuery): Promise<ApolloQueryResult<GetCustomerAddressesQueryFocus>> => {
   const { getCustomerAddresses } = context.extendQuery(
     customQuery,
     {
@@ -18,7 +18,7 @@ export default async (context: Context, customQuery?: CustomQuery): Promise<Apol
   const query = customQuery ? gql`${getCustomerAddresses.query}` : getCustomerAddresses.query;
 
   try {
-    return await context.client.query<GetCustomerAddressesQuery>({
+    return await context.client.query<GetCustomerAddressesQueryFocus>({
       query,
       fetchPolicy: 'no-cache',
     });

@@ -3,7 +3,7 @@ import { CustomQuery } from '@vue-storefront/core';
 import {
   ProductAttributeFilterInput,
   ProductAttributeSortInput,
-  ProductsFiltersQuery,
+  ProductsFiltersQueryFocus,
   ProductsListQueryVariables,
 } from '../../types/GraphQL';
 import productsFiltersQuery from './productsFiltersQuery';
@@ -22,7 +22,7 @@ export default async (
   context: Context,
   searchParams?: GetProductSearchParams,
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<ProductsFiltersQuery>> => {
+): Promise<ApolloQueryResult<ProductsFiltersQueryFocus>> => {
   const defaultParams = {
     pageSize: 1,
     currentPage: 1,
@@ -49,7 +49,7 @@ export default async (
     },
   );
 
-  return context.client.query<ProductsFiltersQuery, ProductsListQueryVariables>({
+  return context.client.query<ProductsFiltersQueryFocus, ProductsListQueryVariables>({
     query: products.query,
     variables: products.variables,
     fetchPolicy: 'cache-first',
