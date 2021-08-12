@@ -1,15 +1,26 @@
 import {
   Context, Logger,
 } from '@vue-storefront/core';
+import { useCache } from '@absolute-web/vsf-cache';
 import { Countries, Country } from '@vue-storefront/magento-api';
 import { UseCountryFactoryParams, useCountrySearchFactory } from '../../factories/useCountrySearchFactory';
 import { UseCountrySearch } from '../../types/composables';
 
 const factoryParams: UseCountryFactoryParams<Countries, Country> = {
+  provide() {
+    return {
+      cache: useCache(),
+    };
+  },
+
   load: async (context: Context): Promise<Countries[]> => {
     Logger.debug('[Magento]: Load available countries on store');
 
     const { data } = await context.$magento.api.countries();
+
+    if (data.cacheTags) {
+      context.cache.addTags(data.cacheTags);
+    }
 
     Logger.debug('[Result]:', { data });
 
@@ -19,6 +30,10 @@ const factoryParams: UseCountryFactoryParams<Countries, Country> = {
     Logger.debug('[Magento]: Search country information based on', { params });
 
     const { data } = await context.$magento.api.country(params.id);
+
+    if (data.cacheTags) {
+      context.cache.addTags(data.cacheTags);
+    }
 
     Logger.debug('[Result]:', { data });
 

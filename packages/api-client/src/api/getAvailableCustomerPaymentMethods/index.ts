@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { CustomQuery } from '@vue-storefront/core';
 import { Context } from '../../types/context';
 import CustomerAvailablePaymentMethods from './CustomerPaymentMethods';
-import { CustomerAvailablePaymentMethodsQuery } from '../../types/GraphQL';
+import { CustomerAvailablePaymentMethodsQueryFocus } from '../../types/GraphQL';
 
 export default async (
   context: Context,
@@ -11,7 +11,7 @@ export default async (
     cartId: string;
   },
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<CustomerAvailablePaymentMethodsQuery>> => {
+): Promise<ApolloQueryResult<CustomerAvailablePaymentMethodsQueryFocus>> => {
   const { paymentMethods } = context.extendQuery(customQuery,
     {
       paymentMethods: {
@@ -20,7 +20,7 @@ export default async (
     });
 
   try {
-    return await context.client.query<CustomerAvailablePaymentMethodsQuery>({
+    return await context.client.query<CustomerAvailablePaymentMethodsQueryFocus>({
       query: gql`${paymentMethods.query}`,
       fetchPolicy: 'no-cache',
     });

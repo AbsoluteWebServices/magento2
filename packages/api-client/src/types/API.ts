@@ -12,48 +12,49 @@ import {
   ApplyCouponToCartInput,
   ApplyCouponToCartMutation,
   AvailableShippingMethod,
+  BaseQuery,
   BundleProduct,
   Cart as CartInterface,
   CartItemInterface,
-  CartQuery,
+  CartQueryFocus,
   CategoryFilterInput,
-  CategoryListQuery,
+  CategoryListQueryFocus,
   CategoryListQueryVariables,
-  CategorySearchQuery,
+  CategorySearchQueryFocus,
   CategorySearchQueryVariables,
   CategoryTree,
   CmsPage,
-  CmsPageQuery,
+  CmsPageQueryFocus,
   ConfigurableProduct,
-  CountriesListQuery,
-  CountryInformationQuery,
+  CountriesListQueryFocus,
+  CountryInformationQueryFocus,
   CustomerAddress as CustomerAddressInterface,
   CustomerAddressInput,
-  CustomerAvailablePaymentMethodsQuery,
-  CustomerAvailableShippingMethodsQuery,
-  CustomerCartQuery,
+  CustomerAvailablePaymentMethodsQueryFocus,
+  CustomerAvailableShippingMethodsQueryFocus,
+  CustomerCartQueryFocus,
   CustomerCreateInput,
   CustomerOrder as CustomerOrderInterface,
-  CustomerOrdersQuery,
+  CustomerOrdersQueryFocus,
   CustomerOrdersQueryVariables,
-  CustomerQuery,
+  CustomerQueryFocus,
   CustomerUpdateInput,
   DeleteCustomerAddressMutation,
   GenerateCustomerTokenMutation,
-  GuestAvailablePaymentMethodsQuery,
-  GuestAvailableShippingMethodsQuery,
+  GuestAvailablePaymentMethodsQueryFocus,
+  GuestAvailableShippingMethodsQueryFocus,
   MergeCartsMutation,
   Order as OrderInterface,
   PlaceOrderInput,
   PlaceOrderMutation,
   ProductAttributeFilterInput,
   ProductAttributeSortInput,
-  ProductDetailsQuery,
+  ProductDetailsQueryFocus,
   ProductInterface,
-  ProductReviewQuery,
-  ProductReviewRatingsMetadataQuery,
-  ProductsListQuery,
-  RelatedProductQuery,
+  ProductReviewQueryFocus,
+  ProductReviewRatingsMetadataQueryFocus,
+  ProductsListQueryFocus,
+  RelatedProductQueryFocus,
   RemoveCouponFromCartInput,
   RemoveCouponFromCartMutation,
   RemoveItemFromCartInput,
@@ -69,19 +70,19 @@ import {
   SetShippingMethodsOnCartInput,
   SetShippingMethodsOnCartMutation,
   ShippingCartAddress,
-  StoreConfigQuery,
+  StoreConfigQueryFocus,
   UpdateCartItemsInput,
   UpdateCartItemsMutation,
   UpdateCustomerAddressMutation,
-  UpsellProductsQuery,
-  UrlResolverQuery,
+  UpsellProductsQueryFocus,
+  UrlResolverQueryFocus,
   WishlistItemInterface,
-  WishlistQuery,
+  WishlistQueryFocus,
   WishlistQueryVariables,
   CreateProductReviewInput,
   CreateEmptyCartMutation,
   CreateProductReviewMutation,
-  CustomerProductReviewQuery,
+  CustomerProductReviewQueryFocus,
   SubscribeEmailToNewsletterMutationVariables,
   SubscribeEmailToNewsletterMutation,
   UpdateCustomerMutation,
@@ -91,9 +92,9 @@ import {
   UpdateCustomerEmailMutationVariables,
   RemoveProductsFromWishlistMutationVariables,
   RemoveProductsFromWishlistMutation,
-  GetCustomerAddressesQuery,
+  GetCustomerAddressesQueryFocus,
   AddProductsToCartMutation,
-  CmsBlockQuery,
+  CmsBlockQueryFocus,
   GroupedProduct,
   AddBundleProductsToCartInput,
   AddBundleProductsToCartMutation,
@@ -112,23 +113,23 @@ export interface Product extends ProductInterface, ConfigurableProduct, Omit<Bun
 export type AddressOnCart = ShippingCartAddress;
 export type Cart = CartInterface;
 export type CartItem = CartItemInterface;
-export type Category = CategoryTree | CategorySearchQuery['categoryList'][0];
+export type Category = CategoryTree | CategorySearchQueryFocus['categoryList'][0];
 export type CategoryFilter = CategoryFilterInput;
 export type CategoryMenu = CategoryTree;
-export type Countries = CountriesListQuery['countries'][0];
+export type Countries = CountriesListQueryFocus['countries'][0];
 export type Coupon = AppliedCoupon;
 export type CustomerAddress = CustomerAddressInterface;
 export type CustomerOrder = CustomerOrderInterface;
 export type CustomerUpdateParameters = CustomerCreateInput;
 export type Order = OrderInterface;
-export type Page = CmsPage | CmsPageQuery['cmsPage'];
+export type Page = CmsPage | CmsPageQueryFocus['cmsPage'];
 export type ProductAttributeFilter = ProductAttributeFilterInput;
-export type ProductReview = ProductReviewQuery['products']['items'][0]['reviews']['items'][0];
-export type ProductReviews = ProductReviewQuery['products']['items'][0];
-export type ReviewMetadata = ProductReviewRatingsMetadataQuery['productReviewRatingsMetadata']['items'][0];
-export type Route = UrlResolverQuery['urlResolver'];
+export type ProductReview = ProductReviewQueryFocus['products']['items'][0]['reviews']['items'][0];
+export type ProductReviews = ProductReviewQueryFocus['products']['items'][0];
+export type ReviewMetadata = ProductReviewRatingsMetadataQueryFocus['productReviewRatingsMetadata']['items'][0];
+export type Route = UrlResolverQueryFocus['urlResolver'];
 export type ShippingMethod = AvailableShippingMethod;
-export type StoreConfig = StoreConfigQuery['storeConfig'];
+export type StoreConfig = StoreConfigQueryFocus['storeConfig'];
 export type WishlistProduct = WishlistItemInterface;
 
 export const enum ProductsQueryType {
@@ -162,21 +163,21 @@ export interface MagentoApiMethods {
 
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
 
-  cart(cartId: string): Promise<ApolloQueryResult<CartQuery>>;
+  cart(cartId: string): Promise<ApolloQueryResult<CartQueryFocus>>;
 
-  categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CategoryListQuery>>;
+  categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CategoryListQueryFocus>>;
 
-  categorySearch(categoryFilter?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CategorySearchQuery>>;
+  categorySearch(categoryFilter?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CategorySearchQueryFocus>>;
 
   changeCustomerPassword(currentPassword: string, newPassword: string): Promise<ApolloQueryResult<ChangeCustomerPasswordMutation>>;
 
-  cmsBlocks(identifiers: string[]): Promise<ApolloQueryResult<CmsBlockQuery>>;
+  cmsBlocks(identifiers: string[]): Promise<ApolloQueryResult<CmsBlockQueryFocus>>;
 
-  cmsPage(identifier: string): Promise<ApolloQueryResult<CmsPageQuery>>;
+  cmsPage(identifier: string): Promise<ApolloQueryResult<CmsPageQueryFocus>>;
 
-  countries(): Promise<ApolloQueryResult<CountriesListQuery>>;
+  countries(): Promise<ApolloQueryResult<CountriesListQueryFocus>>;
 
-  country(id: string): Promise<ApolloQueryResult<CountryInformationQuery>>;
+  country(id: string): Promise<ApolloQueryResult<CountryInformationQueryFocus>>;
 
   createCustomer(input: CustomerCreateInput): Promise<FetchResult<CreateCustomerMutation>>;
 
@@ -186,11 +187,11 @@ export interface MagentoApiMethods {
 
   createProductReview(input: CreateProductReviewInput): Promise<FetchResult<CreateProductReviewMutation>>;
 
-  customer(): Promise<ApolloQueryResult<CustomerQuery>>;
+  customer(): Promise<ApolloQueryResult<CustomerQueryFocus>>;
 
-  customerCart(): Promise<ApolloQueryResult<CustomerCartQuery>>;
+  customerCart(): Promise<ApolloQueryResult<CustomerCartQueryFocus>>;
 
-  customerOrders(orderParams: CustomerOrdersQueryVariables): Promise<ApolloQueryResult<CustomerOrdersQuery>>;
+  customerOrders(orderParams: CustomerOrdersQueryVariables): Promise<ApolloQueryResult<CustomerOrdersQueryFocus>>;
 
   customQuery<QUERY = any, QUERY_VARIABLES = any>({
     query,
@@ -200,7 +201,7 @@ export interface MagentoApiMethods {
     query: QUERY,
     queryVariables?: QUERY_VARIABLES,
     fetchPolicy?: FetchPolicy,
-  }): Promise<ApolloQueryResult<QUERY>>;
+  }): Promise<ApolloQueryResult<QUERY & BaseQuery>>;
 
   customMutation<MUTATION = any, MUTATION_VARIABLES = any>({
     mutation,
@@ -212,35 +213,35 @@ export interface MagentoApiMethods {
     fetchPolicy?: FetchPolicy,
   }): Promise<FetchResult<MUTATION>>;
 
-  customerProductReview(input: CustomerProductReviewParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerProductReviewQuery>>;
+  customerProductReview(input: CustomerProductReviewParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerProductReviewQueryFocus>>;
 
   deleteCustomerAddress(addressId: number): Promise<ExecutionResult<DeleteCustomerAddressMutation>>;
 
   generateCustomerToken(email: string, password: string): Promise<FetchResult<GenerateCustomerTokenMutation>>;
 
-  getAvailableCustomerPaymentMethods(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerAvailablePaymentMethodsQuery>>;
+  getAvailableCustomerPaymentMethods(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerAvailablePaymentMethodsQueryFocus>>;
 
-  getAvailableCustomerShippingMethods(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerAvailableShippingMethodsQuery>>;
+  getAvailableCustomerShippingMethods(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerAvailableShippingMethodsQueryFocus>>;
 
-  getAvailablePaymentMethods(params: { cartId: string }, customQuery?: CustomQuery): Promise<ApolloQueryResult<GuestAvailablePaymentMethodsQuery>>;
+  getAvailablePaymentMethods(params: { cartId: string }, customQuery?: CustomQuery): Promise<ApolloQueryResult<GuestAvailablePaymentMethodsQueryFocus>>;
 
-  getAvailableShippingMethods(params: { cartId: string }, customQuery?: CustomQuery): Promise<ApolloQueryResult<GuestAvailableShippingMethodsQuery>>;
+  getAvailableShippingMethods(params: { cartId: string }, customQuery?: CustomQuery): Promise<ApolloQueryResult<GuestAvailableShippingMethodsQueryFocus>>;
 
-  getCustomerAddresses(customQuery?: CustomQuery): Promise<ApolloQueryResult<GetCustomerAddressesQuery>>;
+  getCustomerAddresses(customQuery?: CustomQuery): Promise<ApolloQueryResult<GetCustomerAddressesQueryFocus>>;
 
   mergeCarts(sourceCartId: string, destinationCartId: string): Promise<FetchResult<MergeCartsMutation>>;
 
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
 
-  productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductDetailsQuery>>;
+  productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductDetailsQueryFocus>>;
 
-  productReview(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductReviewQuery>>;
+  productReview(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductReviewQueryFocus>>;
 
-  productReviewRatingsMetadata(): Promise<ApolloQueryResult<ProductReviewRatingsMetadataQuery>>;
+  productReviewRatingsMetadata(): Promise<ApolloQueryResult<ProductReviewRatingsMetadataQueryFocus>>;
 
-  products(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductsListQuery>>;
+  products(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductsListQueryFocus>>;
 
-  relatedProduct(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<RelatedProductQuery>>;
+  relatedProduct(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<RelatedProductQueryFocus>>;
 
   removeCouponFromCart(input: RemoveCouponFromCartInput): Promise<FetchResult<RemoveCouponFromCartMutation>>;
 
@@ -266,7 +267,7 @@ export interface MagentoApiMethods {
 
   setShippingMethodsOnCart(input: SetShippingMethodsOnCartInput): Promise<FetchResult<SetShippingMethodsOnCartMutation>>;
 
-  storeConfig(): Promise<ApolloQueryResult<StoreConfigQuery>>;
+  storeConfig(): Promise<ApolloQueryResult<StoreConfigQueryFocus>>;
 
   subscribeEmailToNewsletter(input: SubscribeEmailToNewsletterMutationVariables): Promise<FetchResult<SubscribeEmailToNewsletterMutation>>;
 
@@ -278,9 +279,9 @@ export interface MagentoApiMethods {
 
   updateCustomerEmail(input: UpdateCustomerEmailMutationVariables): Promise<FetchResult<UpdateCustomerAddressMutation>>;
 
-  upsellProduct(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<UpsellProductsQuery>>;
+  upsellProduct(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<UpsellProductsQueryFocus>>;
 
-  urlResolver(url: string): Promise<ApolloQueryResult<UrlResolverQuery>>;
+  urlResolver(url: string): Promise<ApolloQueryResult<UrlResolverQueryFocus>>;
 
-  wishlist(queryParams: WishlistQueryVariables): Promise<ApolloQueryResult<WishlistQuery>>;
+  wishlist(queryParams: WishlistQueryVariables): Promise<ApolloQueryResult<WishlistQueryFocus>>;
 }

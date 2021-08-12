@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { ApolloQueryResult } from 'apollo-client';
 import { CustomQuery } from '@vue-storefront/core';
 import {
-  CustomerProductReviewQuery,
+  CustomerProductReviewQueryFocus,
   CustomerProductReviewQueryVariables,
 } from '../../types/GraphQL';
 import customerProductReview from './customerProductReview';
@@ -17,7 +17,7 @@ export default async (
   context: Context,
   searchParams?: CustomerProductReviewParams,
   customQuery?: CustomQuery,
-): Promise<ApolloQueryResult<CustomerProductReviewQuery>> => {
+): Promise<ApolloQueryResult<CustomerProductReviewQueryFocus>> => {
   const defaultParams = {
     pageSize: 20,
     currentPage: 1,
@@ -39,7 +39,7 @@ export default async (
   );
 
   try {
-    return await context.client.query<CustomerProductReviewQuery, CustomerProductReviewQueryVariables>({
+    return await context.client.query<CustomerProductReviewQueryFocus, CustomerProductReviewQueryVariables>({
       query: gql`${reviews.query}`,
       variables: reviews.variables,
       fetchPolicy: 'no-cache',
