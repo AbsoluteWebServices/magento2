@@ -16,4 +16,6 @@ fragment PickupLocationData on PickupLocation {
   street
   postcode
   phone
+  min_pickup_date_threshold
+  max_pickup_date_threshold
 }`;
