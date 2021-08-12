@@ -4021,6 +4021,8 @@ export interface PickupLocation {
   region?: Maybe<Scalars['String']>;
   region_id?: Maybe<Scalars['Int']>;
   street?: Maybe<Scalars['String']>;
+  min_pickup_date_threshold?: Maybe<Scalars['Int']>;
+  max_pickup_date_threshold?: Maybe<Scalars['Int']>;
 }
 
 /** PickupLocationFilterInput defines the list of attributes and filters for the search. */

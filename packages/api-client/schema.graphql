@@ -2838,6 +2838,8 @@ type PickupLocation {
     region: String
     region_id: Int
     street: String
+    min_pickup_date_threshold: Int
+    max_pickup_date_threshold: Int
 }
 
 "Top level object returned in a pickup locations search."
