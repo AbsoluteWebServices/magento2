@@ -261,6 +261,8 @@ export {
   FixedProductTax,
   FixedProductTaxDisplaySettings,
   FocusItemGroup,
+  FocusTrackedOrdersQuery,
+  FocusTrackedOrdersQueryVariables,
   GenerateCustomerTokenAsAdminInput,
   GenerateCustomerTokenAsAdminOutput,
   GenerateCustomerTokenMutation,
