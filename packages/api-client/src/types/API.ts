@@ -110,6 +110,8 @@ import {
   FocusSetGroupOnItemMutation,
   FocusUpdateCartGroupInput,
   FocusUpdateCartGroupMutation,
+  FocusTrackedOrdersQuery,
+  FocusTrackedOrdersQueryVariables,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
 import { CustomerProductReviewParams } from '../api/customerProductReview';
@@ -273,6 +275,8 @@ export interface MagentoApiMethods {
 
   subscribeEmailToNewsletter(input: SubscribeEmailToNewsletterMutationVariables):
   Promise<FetchResult<SubscribeEmailToNewsletterMutation>>;
+
+  orderTracker(orderParams: FocusTrackedOrdersQueryVariables): Promise<ApolloQueryResult<FocusTrackedOrdersQuery>>;
 
   updateCartItems(input: UpdateCartItemsInput): Promise<FetchResult<UpdateCartItemsMutation>>;
 
