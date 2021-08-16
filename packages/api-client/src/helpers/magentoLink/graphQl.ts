@@ -7,6 +7,8 @@ import { RetryLink } from '@apollo/client/link/retry';
 import { setContext } from '@apollo/client/link/context';
 import fetch from 'isomorphic-fetch';
 import { Logger } from '@absolute-web/vsf-core';
+import { stripIgnoredCharacters } from 'graphql';
+import { URL } from 'node:url';
 import { handleRetry } from './linkHandlers';
 import { Config } from '../../types/setup';
 import possibleTypes from '../../types/fragmentTypes.json';
@@ -42,6 +44,21 @@ const createErrorHandler = () => onError(({
   }
 });
 
+const strippedUrl = (currentUrl) => {
+  const url = new URL(currentUrl);
+  const query = url.searchParams.get('query');
+
+  if (!query) {
+    return currentUrl;
+  }
+
+  const minifiedQuery = stripIgnoredCharacters(query);
+
+  url.searchParams.set('query', minifiedQuery);
+
+  return url.toString();
+};
+
 export const apolloLinkFactory = (settings: Config, handlers?: {
   apolloLink?: ApolloLink;
 }) => {
@@ -54,7 +71,7 @@ export const apolloLinkFactory = (settings: Config, handlers?: {
   const httpLink = new HttpLink({
     useGETForQueries: true,
     uri: settings.api,
-    fetch,
+    fetch: (url, options) => fetch(strippedUrl(url), options),
     ...settings.customApolloHttpLinkOptions,
   });
 

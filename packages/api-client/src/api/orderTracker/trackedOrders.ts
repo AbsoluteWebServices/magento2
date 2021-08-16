@@ -1,10 +1,9 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  query customerOrders($currentPage: Int = 1, $filter: CustomerOrdersFilterInput = {}, $pageSize: Int = 10) {
-    customer {
-      orders(currentPage: $currentPage, filter: $filter, pageSize: $pageSize) {
-        items {
+query trackedOrders($orderId: String = "", $email: String = "", $zipCode: String = "") {
+  trackedOrder(orderId: $orderId, email: $email, zipCode: $zipCode) {
+      items {
           order_number
           id
           created_at
@@ -255,7 +254,5 @@ export default gql`
             telephone
           }
         }
-      }
     }
-  }
-`;
+}`;
