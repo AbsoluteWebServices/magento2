@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import ApolloClient from 'apollo-client';
 import fetch from 'isomorphic-fetch';
+import { stripIgnoredCharacters } from 'graphql';
 import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -8,6 +9,7 @@ import { Logger } from '@vue-storefront/core';
 import { onError } from 'apollo-link-error';
 import { RetryLink } from 'apollo-link-retry';
 import { setContext } from 'apollo-link-context';
+import { URL } from 'url';
 import { handleRetry } from './linkHandlers';
 import { Config } from '../../types/setup';
 
@@ -42,6 +44,21 @@ const createErrorHandler = () => onError(({
   }
 });
 
+const strippedUrl = (currentUrl) => {
+  const url = new URL(currentUrl);
+  const query = url.searchParams.get('query');
+
+  if (!query) {
+    return currentUrl;
+  }
+
+  const minifiedQuery = stripIgnoredCharacters(query);
+
+  url.searchParams.set('query', minifiedQuery);
+
+  return url.toString();
+}
+
 export const apolloLinkFactory = (settings: Config, handlers?: {
   authLink?: ApolloLink;
 }) => {
@@ -50,7 +67,12 @@ export const apolloLinkFactory = (settings: Config, handlers?: {
       ...headers,
     },
   }));
-  const httpLink = createHttpLink({ useGETForQueries: true, uri: settings.api, fetch });
+
+  const httpLink = createHttpLink({
+    useGETForQueries: true,
+    uri: settings.api,
+    fetch: (url, options) => fetch(strippedUrl(url), options)
+  });
 
   const onErrorLink = createErrorHandler();
 

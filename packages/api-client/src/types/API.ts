@@ -118,6 +118,8 @@ import {
   FocusSetGroupOnItemMutation,
   FocusUpdateCartGroupInput,
   FocusUpdateCartGroupMutation,
+  FocusTrackedOrdersQuery,
+  FocusTrackedOrdersQueryVariables,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
 import { CustomerProductReviewParams } from '../api/customerProductReview';
@@ -257,6 +259,8 @@ export interface MagentoApiMethods {
   giftCardAccount(code: string): Promise<ApolloQueryResult<GiftCardAccountQueryFocus>>;
 
   mergeCarts(sourceCartId: string, destinationCartId: string): Promise<FetchResult<MergeCartsMutation>>;
+
+  orderTracker(orderParams: FocusTrackedOrdersQueryVariables): Promise<ApolloQueryResult<FocusTrackedOrdersQuery>>;
 
   pickupLocations(searchParams: QueryPickupLocationsArgs): Promise<FetchResult<PickupLocationsQueryFocus>>;
 
