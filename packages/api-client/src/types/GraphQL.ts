@@ -7286,3 +7286,23 @@ export type CacheTag = {
 export type BaseQuery = {
   cacheTags?: Maybe<Array<Maybe<CacheTag>>>
 }
+
+export type FocusTrackedOrdersQueryVariables = Exact<{
+  orderId?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+}>;
+
+export type FocusTrackedOrdersQuery = { trackedOrder?: Maybe<{ items: Array<Maybe<(
+      Pick<CustomerOrder, 'order_number' | 'id' | 'created_at' | 'grand_total' | 'status' | 'shipping_method'>
+      & { total?: Maybe<OrderTotalDataFragment>, comments?: Maybe<Array<Maybe<Pick<SalesCommentItem, 'message' | 'timestamp'>>>>, invoices: Array<Maybe<(
+        Pick<Invoice, 'id' | 'number'>
+        & { comments?: Maybe<Array<Maybe<Pick<SalesCommentItem, 'message' | 'timestamp'>>>>, items?: Maybe<Array<Maybe<InvoiceItemData_BundleInvoiceItem_Fragment | InvoiceItemData_DownloadableInvoiceItem_Fragment | InvoiceItemData_InvoiceItem_Fragment>>>, total?: Maybe<InvoiceTotalDataFragment> }
+        )>>, items?: Maybe<Array<Maybe<OrderItemData_BundleOrderItem_Fragment | OrderItemData_DownloadableOrderItem_Fragment | OrderItemData_OrderItem_Fragment>>>, payment_methods?: Maybe<Array<Maybe<(
+        Pick<OrderPaymentMethod, 'name' | 'type'>
+        & { additional_data?: Maybe<Array<Maybe<Pick<KeyValue, 'name' | 'value'>>>> }
+        )>>>, shipments?: Maybe<Array<Maybe<(
+        Pick<OrderShipment, 'id' | 'number'>
+        & { comments?: Maybe<Array<Maybe<Pick<SalesCommentItem, 'message' | 'timestamp'>>>>, tracking?: Maybe<Array<Maybe<Pick<ShipmentTracking, 'carrier' | 'number' | 'title'>>>>, items?: Maybe<Array<Maybe<ShipmentItemData_BundleShipmentItem_Fragment | ShipmentItemData_ShipmentItem_Fragment>>> }
+        )>>>, shipping_address?: Maybe<OrderAddressDataFragment> }
+      )>> }> };
