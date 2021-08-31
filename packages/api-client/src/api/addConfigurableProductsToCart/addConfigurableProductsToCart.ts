@@ -128,6 +128,12 @@ export default gql`mutation addConfigurableProductsToCart($input: AddConfigurabl
             }
           }
         }
+        mp_free_gifts {
+          is_free_gift
+          rule_id
+          free_gift_message
+          allow_notice
+        }
       }
       total_quantity
       shipping_addresses {

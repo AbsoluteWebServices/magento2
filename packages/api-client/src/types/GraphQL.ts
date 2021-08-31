@@ -731,6 +731,7 @@ export interface CartItemInterface {
   quantity: Scalars['Float'];
   /** The unique ID for a `CartItemInterface` object */
   uid: Scalars['ID'];
+  mp_free_gifts?: Maybe<FreeGiftItem>;
 }
 
 export interface CartItemPrices {
@@ -7506,4 +7507,10 @@ export interface ProductInterfaceFocus {
   manufacturer_sku?: string | null | undefined;
   pdp_data?: string | null | undefined;
   [key: string]: any;
+}
+export interface FreeGiftItem {
+  is_free_gift?: boolean | null | undefined;
+  rule_id?: number | null | undefined;
+  free_gift_message?: string | null | undefined;
+  allow_notice?: boolean | null | undefined;
 }
