@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import productFragment from '../../fragments/productFragment';
 
 export default gql`
   query productsList($search: String = "", $filter: ProductAttributeFilterInput, $pageSize: Int = 20, $currentPage: Int = 1, $sort: ProductAttributeSortInput) {
@@ -13,72 +14,7 @@ export default gql`
         }
       }
       items {
-        uid
-        sku
-        name
-        stock_status
-        only_x_left_in_stock
-        rating_summary
-        thumbnail {
-          url
-          position
-          disabled
-          label
-        }
-        url_key
-        url_rewrites {
-          url
-          parameters {
-            name
-            value
-          }
-        }
-        price_range {
-          maximum_price {
-            final_price {
-              currency
-              value
-            }
-            regular_price {
-              currency
-              value
-            }
-          }
-          minimum_price {
-            final_price {
-              currency
-              value
-            }
-            regular_price {
-              currency
-              value
-            }
-          }
-        }
-        categories {
-          id
-          uid
-          name
-          url_suffix
-          url_path
-          breadcrumbs {
-            category_name,
-            category_url_path
-          }
-        }
-        review_count
-        reviews {
-          items {
-            average_rating
-            ratings_breakdown {
-              name
-              value
-            }
-          }
-        }
-        short_description {
-          html
-        }
+        ${productFragment}
       }
       page_info {
         current_page

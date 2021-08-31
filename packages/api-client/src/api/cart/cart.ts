@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import productFragment from '../../fragments/productFragment';
 
 export default gql`
   query cart($cartId: String!) {
@@ -35,65 +36,7 @@ export default gql`
       items {
         uid
         product {
-          uid
-          __typename
-          sku
-          name
-          stock_status
-          only_x_left_in_stock
-          rating_summary
-          thumbnail {
-            url
-            position
-            disabled
-            label
-          }
-          url_key
-          url_rewrites {
-            url
-          }
-          price_range {
-            maximum_price {
-              final_price {
-                currency
-                value
-              }
-              regular_price {
-                currency
-                value
-              }
-            }
-            minimum_price {
-              final_price {
-                currency
-                value
-              }
-              regular_price {
-                currency
-                value
-              }
-            }
-          }
-          categories {
-            uid
-            name
-            url_suffix
-            url_path
-            breadcrumbs {
-              category_name,
-              category_url_path
-            }
-          }
-          review_count
-          reviews {
-            items {
-              average_rating
-              ratings_breakdown {
-                name
-                value
-              }
-            }
-          }
+          ${productFragment}
         }
         prices {
           row_total {
