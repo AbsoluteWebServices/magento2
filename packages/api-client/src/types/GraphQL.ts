@@ -877,6 +877,7 @@ export interface CategoryInterface {
   product_count?: Maybe<Scalars['Int']>;
   /** The list of products assigned to the category. */
   products?: Maybe<CategoryProducts>;
+  siblings?: Maybe<Array<Maybe<Breadcrumb>>>;
   /** The unique ID for a `CategoryInterface` object. */
   uid: Scalars['ID'];
   /**
@@ -976,6 +977,7 @@ export interface CategoryTree extends CategoryInterface, RoutableInterface {
   relative_url?: Maybe<Scalars['String']>;
   /** One of PRODUCT, CATEGORY, or CMS_PAGE. */
   type?: Maybe<UrlRewriteEntityTypeEnum>;
+  siblings?: Maybe<Array<Maybe<Breadcrumb>>>;
   /** The unique ID for a `CategoryInterface` object. */
   uid: Scalars['ID'];
   /**
@@ -4961,6 +4963,8 @@ export interface ProductAttributeFilterInput {
   style_bottom?: Maybe<FilterEqualTypeInput>;
   /** Attribute label: Style General */
   style_general?: Maybe<FilterEqualTypeInput>;
+  /** The unique ID that identifies the product */
+  uid?: Maybe<FilterEqualTypeInput>;
   /** The part of the URL that identifies the product */
   url_key?: Maybe<FilterEqualTypeInput>;
 }
@@ -7071,12 +7075,18 @@ export type CartQuery = { cart?: { id: string, email?: string | null | undefined
 
 export type CartQueryFocus = BaseQuery & CartQuery;
 
+export type CategoryQueryVariables = Exact<{ id: Scalars['Int'] }>;
+
+export type CategoryQuery = { categoryList?: Array<CategoryTree | null | undefined> | null | undefined };
+
+export type CategoryQueryFocus = BaseQuery & CategoryQuery;
+
 export type CategoryListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CategoryListQuery = { categories?: { items?: Array<{ product_count?: number | null | undefined, name?: string | null | undefined, uid: string, children?: Array<{ include_in_menu?: number | null | undefined, is_anchor?: number | null | undefined, level?: number | null | undefined, name?: string | null | undefined, position?: number | null | undefined, product_count?: number | null | undefined, uid: string, url_path?: string | null | undefined, url_suffix?: string | null | undefined, children?: Array<{ include_in_menu?: number | null | undefined, is_anchor?: number | null | undefined, level?: number | null | undefined, name?: string | null | undefined, position?: number | null | undefined, product_count?: number | null | undefined, uid: string, url_path?: string | null | undefined, url_suffix?: string | null | undefined, children?: Array<{ include_in_menu?: number | null | undefined, is_anchor?: number | null | undefined, level?: number | null | undefined, name?: string | null | undefined, position?: number | null | undefined, product_count?: number | null | undefined, uid: string, url_path?: string | null | undefined, url_suffix?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
-export type CategoryListQueryFocus = BaseQuery & CategoryListQuery;
+export type CategoryListQueryFocus = BaseQuery & CategoryListQuery & { categories?: { items?: Array<CategoryTree | null | undefined> | null | undefined } };
 
 export type CategorySearchQueryVariables = Exact<{
   filters?: Maybe<CategoryFilterInput>;
@@ -7085,7 +7095,8 @@ export type CategorySearchQueryVariables = Exact<{
 
 export type CategorySearchQuery = { categoryList?: Array<{ include_in_menu?: number | null | undefined, is_anchor?: number | null | undefined, level?: number | null | undefined, name?: string | null | undefined, position?: number | null | undefined, product_count?: number | null | undefined, uid: string, url_path?: string | null | undefined, url_suffix?: string | null | undefined } | null | undefined> | null | undefined };
 
-export type CategorySearchQueryFocus = BaseQuery & CategorySearchQuery;
+export type CategorySearchQueryFocus = BaseQuery & CategorySearchQuery & { categoryList?: Array<CategoryTree | null | undefined> | null | undefined };
+
 
 export type ChangeCustomerPasswordMutationVariables = Exact<{
   currentPassword: Scalars['String'];

@@ -19,6 +19,7 @@ import {
   Cart as CartInterface,
   CartItemInterface,
   CartQueryFocus,
+  CategoryQueryFocus,
   CategoryFilterInput,
   CategoryListQueryFocus,
   CategoryListQueryVariables,
@@ -180,6 +181,8 @@ export interface MagentoApiMethods {
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
 
   cart(cartId: string): Promise<ApolloQueryResult<CartQueryFocus>>;
+
+  category(categoryInput?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CategoryQueryFocus>>;
 
   categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CategoryListQueryFocus>>;
 
