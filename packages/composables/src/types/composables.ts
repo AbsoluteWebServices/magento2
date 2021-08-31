@@ -1,6 +1,11 @@
 import {
   Composable,
-  ComposableFunctionArgs, ComputedProperty, Context, CustomQuery,
+  ComposableFunctionArgs,
+  ComputedProperty,
+  Context,
+  CustomQuery,
+  UseCart as UseCartBase,
+  UseCartErrors as UseCartErrorsBase,
 } from '@absolute-web/vsf-core';
 import { ComputedRef, computed } from '@vue/composition-api';
 import { PlatformApi, UseProductErrors } from '@absolute-web/vsf-core/lib/src/types';
@@ -268,4 +273,65 @@ export interface UseCustomMutation<MUTATION, MUTATION_VARIABLES, MUTATION_RETURN
 
 export interface UseUpsellProductsErrors {
   query: Error;
+}
+
+export interface UseCartErrors extends UseCartErrorsBase {
+  checkGiftCard: Error;
+  applyGiftCard: Error;
+  removeGiftCard: Error;
+  focusSetGroupOnItem: Error;
+  focusUpdateCartGroup: Error;
+  focusUnsetPickupDate: Error;
+}
+
+export interface CartCompliance {
+  itar?: boolean;
+  twenty_one_and_over?: boolean;
+}
+
+export interface UseCart<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extends PlatformApi = any>
+  extends UseCartBase<CART, CART_ITEM, PRODUCT, API> {
+  compliance: ComputedProperty<CartCompliance>;
+  setCompliance: (compliance: CartCompliance) => void;
+  addItem: (
+    params: {
+      product: PRODUCT;
+      quantity: any;
+      enteredOptions?: any;
+      customQuery?: CustomQuery;
+    }
+  ) => Promise<void>;
+  checkGiftCard(params: {
+    giftCardCode: string;
+  }): Promise<GIFT_CARD_ACCOUNT>;
+  applyGiftCard(params: {
+    giftCardCode: string;
+    customQuery?: CustomQuery;
+  }): Promise<void>;
+  removeGiftCard(params: {
+    giftCardCode: string;
+    customQuery?: CustomQuery;
+  }): Promise<void>;
+  focusSetGroupOnItem(params: {
+    product: CART_ITEM;
+    groupType: string;
+  }): Promise<void>;
+  focusUpdateCartGroup(params: {
+    groupType: string; data: any
+  }): Promise<void>;
+  focusUnsetPickupDate: (params: {
+    currentCart: CART
+  }) => Promise<void>;
+  error: ComputedProperty<UseCartErrors>;
+}
+
+export interface UsePickupLocationErrors {
+  search: Error;
+}
+
+export interface UsePickupLocation<PICKUP_LOCATION, PICKUP_LOCATION_SEARCH_PARAMS> {
+  search: (params: PICKUP_LOCATION_SEARCH_PARAMS) => Promise<PICKUP_LOCATION[]>;
+  result: ComputedProperty<PICKUP_LOCATION[]>;
+  error: ComputedProperty<UsePickupLocationErrors>;
+  loading: ComputedProperty<boolean>;
 }

@@ -23,12 +23,8 @@ export default async (
     },
   );
 
-  try {
-    return await context.client.mutate<PlaceOrderMutation, PlaceOrderMutationVariables>({
-      mutation: gql`${placeOrder.query}`,
-      variables: { input },
-    });
-  } catch (error) {
-    throw error.graphQLErrors?.[0].message || error.networkError?.result || error;
-  }
+  return context.client.mutate<PlaceOrderMutation, PlaceOrderMutationVariables>({
+    mutation: gql`${placeOrder.query}`,
+    variables: { input },
+  });
 };

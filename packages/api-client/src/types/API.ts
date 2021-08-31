@@ -11,8 +11,11 @@ import {
   AddVirtualProductsToCartInput,
   AddVirtualProductsToCartMutation,
   AppliedCoupon,
+  AppliedGiftCard,
   ApplyCouponToCartInput,
   ApplyCouponToCartMutation,
+  ApplyGiftCardToCartInput,
+  ApplyGiftCardToCartMutation,
   AvailableShippingMethod,
   BaseQuery,
   BundleProduct,
@@ -43,10 +46,13 @@ import {
   CustomerUpdateInput,
   DeleteCustomerAddressMutation,
   GenerateCustomerTokenMutation,
+  GiftCardAccount as GiftCardAccountInterface,
+  GiftCardAccountQueryFocus,
   GuestAvailablePaymentMethodsQueryFocus,
   GuestAvailableShippingMethodsQueryFocus,
   MergeCartsMutation,
   Order as OrderInterface,
+  PickupLocationsQueryFocus,
   PlaceOrderInput,
   PlaceOrderMutation,
   ProductAttributeFilterInput,
@@ -56,9 +62,12 @@ import {
   ProductReviewQueryFocus,
   ProductReviewRatingsMetadataQueryFocus,
   ProductsListQueryFocus,
+  QueryPickupLocationsArgs,
   RelatedProductQueryFocus,
   RemoveCouponFromCartInput,
   RemoveCouponFromCartMutation,
+  RemoveGiftCardFromCartInput,
+  RemoveGiftCardFromCartMutation,
   RemoveItemFromCartInput,
   RemoveItemFromCartMutation,
   RevokeCustomerTokenMutation,
@@ -108,6 +117,11 @@ import {
   CreateCustomerAddressMutation,
   DownloadableProduct,
   VirtualProduct, CustomerOrdersFilterInput,
+  /** FOCUS */
+  FocusSetGroupOnItemInput,
+  FocusSetGroupOnItemMutation,
+  FocusUpdateCartGroupInput,
+  FocusUpdateCartGroupMutation,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
 import { CustomerProductReviewParams } from '../api/customerProductReview';
@@ -127,6 +141,8 @@ export type Coupon = AppliedCoupon;
 export type CustomerAddress = CustomerAddressInterface;
 export type CustomerOrder = CustomerOrderInterface;
 export type CustomerUpdateParameters = CustomerCreateInput;
+export type GiftCard = AppliedGiftCard;
+export type GiftCardAccount = GiftCardAccountInterface;
 export type Order = OrderInterface;
 export type Page = CmsPage | CmsPageQueryFocus['cmsPage'];
 export type ProductAttributeFilter = ProductAttributeFilterInput;
@@ -179,6 +195,8 @@ export interface MagentoApiMethods {
   addVirtualProductsToCart(input: AddVirtualProductsToCartInput): Promise<FetchResult<AddVirtualProductsToCartMutation>>;
 
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
+
+  applyGiftCardToCart(input: ApplyGiftCardToCartInput): Promise<FetchResult<ApplyGiftCardToCartMutation>>;
 
   cart(cartId: string): Promise<ApolloQueryResult<CartQueryFocus>>;
 
@@ -257,7 +275,11 @@ export interface MagentoApiMethods {
 
   getCustomerAddresses(customQuery?: CustomQuery): Promise<ApolloQueryResult<GetCustomerAddressesQueryFocus>>;
 
+  giftCardAccount(code: string): Promise<ApolloQueryResult<GiftCardAccountQueryFocus>>;
+
   mergeCarts(sourceCartId: string, destinationCartId: string): Promise<FetchResult<MergeCartsMutation>>;
+
+  pickupLocations(searchParams: QueryPickupLocationsArgs): Promise<FetchResult<PickupLocationsQueryFocus>>;
 
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
 
@@ -272,6 +294,8 @@ export interface MagentoApiMethods {
   relatedProduct(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<RelatedProductQueryFocus>>;
 
   removeCouponFromCart(input: RemoveCouponFromCartInput): Promise<FetchResult<RemoveCouponFromCartMutation>>;
+
+  removeGiftCardFromCart(input: RemoveGiftCardFromCartInput): Promise<FetchResult<RemoveGiftCardFromCartMutation>>;
 
   removeItemFromCart(input: RemoveItemFromCartInput): Promise<FetchResult<RemoveItemFromCartMutation>>;
 
@@ -315,4 +339,8 @@ export interface MagentoApiMethods {
     searchParams: WishlistQueryVariables,
     customQuery?: CustomQuery,
   ): Promise<ApolloQueryResult<WishlistQueryFocus>>;
+
+  focusSetGroupOnItem(input: FocusSetGroupOnItemInput): Promise<FetchResult<FocusSetGroupOnItemMutation>>;
+
+  focusUpdateCartGroup(input: FocusUpdateCartGroupInput): Promise<FetchResult<FocusUpdateCartGroupMutation>>;
 }
