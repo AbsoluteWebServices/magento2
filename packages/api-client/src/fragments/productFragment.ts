@@ -1,4 +1,5 @@
 import baseProductFragment from './baseProductFragment';
+import freeGiftRuleFragment from './freeGiftRuleFragment';
 
 export default `
 ${baseProductFragment}
@@ -55,5 +56,8 @@ ${baseProductFragment}
       }
     }
   }
+}
+free_gift_data {
+  ${freeGiftRuleFragment}
 }
 `;
