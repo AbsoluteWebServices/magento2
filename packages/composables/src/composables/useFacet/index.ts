@@ -2,10 +2,10 @@ import {
   Context,
   FacetSearchResult, Logger,
   ProductsSearchParams,
-  useFacetFactory,
 } from '@vue-storefront/core';
 import { useCache } from '@absolute-web/vsf-cache';
-import { GetProductSearchParams } from '@vue-storefront/magento-api/src/types/API';
+import { GetProductSearchParams, ProductsQueryType } from '@vue-storefront/magento-api/src/types/API';
+import { useFacetFactory } from '../../factories/useFacetFactory';
 
 const availableSortingOptions = [
   {
@@ -65,7 +65,7 @@ const factoryParams = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  search: async (context: Context, params: FacetSearchResult<any>) => {
+  search: async (context: Context, params: FacetSearchResult<any> & { input: { queryType: ProductsQueryType } }) => {
     Logger.debug('[Magento] Load product facets', { params });
 
     const itemsPerPage = (params.input.itemsPerPage) ? params.input.itemsPerPage : 20;
@@ -100,7 +100,16 @@ const factoryParams = {
       currentPage: productParams.page,
     };
 
-    const { data } = await context.$magento.api.products(productSearchParams);
+    let response;
+    switch(params.input.queryType || ProductsQueryType.List) {
+      case ProductsQueryType.Filters:
+        response = await context.$magento.api.productsFilters(productSearchParams);
+        break;
+      default:
+        response = await context.$magento.api.products(productSearchParams);
+        break;
+    }
+    const { data } = response;
 
     if (data?.cacheTags) {
       context.cache.addTags(data.cacheTags);

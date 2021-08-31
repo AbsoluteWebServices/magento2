@@ -49,6 +49,7 @@ export default gql`
           }
         }
         categories {
+          id
           uid
           name
           url_suffix
@@ -118,6 +119,10 @@ export default gql`
         url_key
         url_rewrites {
           url
+          parameters {
+            name
+            value
+          }
         }
         meta_description
         meta_keyword

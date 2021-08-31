@@ -33,6 +33,10 @@ query upsellProducts(
   url_key
   url_rewrites {
     url
+    parameters {
+      name
+      value
+    }
   }
   price_range {
     maximum_price {
@@ -57,6 +61,7 @@ query upsellProducts(
     }
   }
   categories {
+    id
     uid
     name
     url_suffix
@@ -76,6 +81,9 @@ query upsellProducts(
       }
     }
   }
+      short_description {
+          html
+        }
       }
       uid
     }

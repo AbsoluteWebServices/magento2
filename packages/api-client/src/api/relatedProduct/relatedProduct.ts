@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default gql`  
+export default gql`
 query relatedProduct(
   $search: String = ""
   $filter: ProductAttributeFilterInput
@@ -33,6 +33,10 @@ query relatedProduct(
   url_key
   url_rewrites {
     url
+    parameters {
+      name
+      value
+    }
   }
   price_range {
     maximum_price {
@@ -57,6 +61,7 @@ query relatedProduct(
     }
   }
   categories {
+    id
     uid
     name
     url_suffix
@@ -76,6 +81,9 @@ query relatedProduct(
       }
     }
   }
+        short_description {
+          html
+        }
       }
       uid
     }

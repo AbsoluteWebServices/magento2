@@ -28,6 +28,10 @@ export default gql`
         url_key
         url_rewrites {
           url
+          parameters {
+            name
+            value
+          }
         }
         price_range {
           maximum_price {
@@ -52,6 +56,7 @@ export default gql`
           }
         }
         categories {
+          id
           uid
           name
           url_suffix
@@ -70,6 +75,9 @@ export default gql`
               value
             }
           }
+        }
+        short_description {
+          html
         }
       }
       page_info {
