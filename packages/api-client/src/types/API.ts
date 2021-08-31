@@ -15,10 +15,12 @@ import {
   Cart as CartInterface,
   CartItemInterface,
   CartQuery,
+  CategoryQuery,
+  CategoryQueryVariables,
   CategoryFilterInput,
-  CategoryListQuery,
+  CategoryListQueryFocus,
   CategoryListQueryVariables,
-  CategorySearchQuery,
+  CategorySearchQueryFocus,
   CategorySearchQueryVariables,
   CategoryTree,
   CmsPage,
@@ -51,6 +53,7 @@ import {
   ProductAttributeFilterInput,
   ProductAttributeSortInput,
   ProductDetailsQuery,
+  ProductsFiltersQuery,
   ProductInterface,
   ProductReviewQuery,
   ProductReviewRatingsMetadataQuery,
@@ -139,6 +142,7 @@ export type WishlistProduct = WishlistItemInterface;
 export const enum ProductsQueryType {
   List = 'LIST',
   Detail = 'DETAIL',
+  Filters = 'FILTERS',
 }
 
 export type GetProductSearchParams = {
@@ -163,8 +167,9 @@ export interface MagentoApiMethods {
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
   bundleProductDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<BundleProductDetailQuery>>;
   cart(cartId: string): Promise<ApolloQueryResult<CartQuery>>;
-  categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CategoryListQuery>>;
-  categorySearch(categoryFilter?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CategorySearchQuery>>;
+  category(categoryInput?: CategoryQueryVariables): Promise<ApolloQueryResult<CategoryQuery>>;
+  categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CategoryListQueryFocus>>;
+  categorySearch(categoryFilter?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CategorySearchQueryFocus>>;
   changeCustomerPassword(currentPassword: string, newPassword: string): Promise<CustomerFragment>;
   cmsBlocks(identifiers: string[]): Promise<ApolloQueryResult<CmsBlockQuery>>;
   cmsPage(identifier: string): Promise<ApolloQueryResult<CmsPageQuery>>;
@@ -191,6 +196,7 @@ export interface MagentoApiMethods {
   mergeCarts(sourceCartId: string, destinationCartId: string): Promise<FetchResult<MergeCartsMutation>>;
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
   productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductDetailsQuery>>;
+  productsFilters(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductsFiltersQuery>>;
   productReview(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductReviewQuery>>;
   productReviewRatingsMetadata(): Promise<ApolloQueryResult<ProductReviewRatingsMetadataQuery>>;
   products(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductsListQuery>>;

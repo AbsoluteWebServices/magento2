@@ -2,22 +2,33 @@ import { CategoryGetters, AgnosticCategoryTree, AgnosticBreadcrumb } from '@vue-
 import { Category } from '@vue-storefront/magento-api';
 import { htmlDecode } from '../../helpers/htmlDecoder';
 
+const getChildrenUids = (category: Category) => {
+  if(!Array.isArray(category.children) || category.children.length < 1) {
+    return [];
+  }
+
+  return category
+    .children
+    .reduce((acc, curr) => [...acc, curr.uid, ...getChildrenUids(curr)], [])
+};
+
+const getChildrenProductCount = (category: Category) => {
+  if(!Array.isArray(category.children) || category.children.length < 1) {
+    return 0;
+  }
+
+  return category
+  .children
+  .reduce((acc, curr) => acc + curr.product_count + getChildrenProductCount(curr), 0)
+};
+
 const buildTree = (rootCategory: Category, currentCategory: string, withProducts = false): AgnosticCategoryTree => {
   const hasChildren = Array.isArray(rootCategory.children) && rootCategory.children.length > 0;
   const isCurrent = rootCategory.uid === currentCategory;
   const label = htmlDecode(rootCategory.name);
   const slug = `/${rootCategory.url_path}${rootCategory.url_suffix || ''}`;
-  const childrenUid = hasChildren
-    ? rootCategory
-      .children
-      .reduce((acc, curr) => [...acc, curr.uid], [])
-    : [];
-
-  const childProductCount = hasChildren
-    ? rootCategory
-      .children
-      .reduce((acc, curr) => acc + curr.product_count, 0)
-    : 0;
+  const childrenUid = getChildrenUids(rootCategory);
+  const childProductCount = getChildrenProductCount(rootCategory);
 
   const items = hasChildren
     ? rootCategory
@@ -64,13 +75,13 @@ export const getCategoryBreadcrumbs = (category: Category): AgnosticBreadcrumb[]
   if (Array.isArray(category?.breadcrumbs)) {
     breadcrumbs = category.breadcrumbs.map((breadcrumb) => ({
       text: breadcrumb.category_name,
-      link: `/c/${breadcrumb.category_url_path}${category.url_suffix || ''}`,
+      link: `/${breadcrumb.category_url_path}${category.url_suffix || ''}`,
     } as AgnosticBreadcrumb));
   }
 
   breadcrumbs.push({
     text: category.name,
-    link: `/c/${category.url_path}${category.url_suffix || ''}`,
+    link: `/${category.url_path}${category.url_suffix || ''}`,
   } as AgnosticBreadcrumb);
 
   return breadcrumbs;

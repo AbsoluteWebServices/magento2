@@ -84,6 +84,7 @@ export {
   CartUserInputErrorType,
   Categories,
   CategoryDataFragment,
+  CategoryDataFragmentFocus,
   CategoryFilterInput,
   CategoryInterface,
   CategoryInterfaceProductsArgs,
