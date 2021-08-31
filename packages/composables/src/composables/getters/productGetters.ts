@@ -75,6 +75,8 @@ export const getGallery = (product: Product): AgnosticMediaGalleryItem[] => {
     ? product.configurable_product_options_selection.media_gallery
     : product.media_gallery;
 
+  selectedGallery.sort((a, b) => a.position - b.position);
+
   // eslint-disable-next-line no-restricted-syntax
   for (const galleryItem of selectedGallery) {
     images.push({
@@ -227,7 +229,7 @@ export const getBreadcrumbs = (product: Product, category?: Category): AgnosticB
   breadcrumbs.push({
     text: getName(product),
     route: {
-      path: getSlug(product),
+      path: getSlug(product, category),
     },
   });
 
@@ -253,6 +255,7 @@ export const getGroupedProducts = (product: GroupedProduct & { __typename: strin
 export const getBundleProducts = (product: BundleProduct & { __typename: string }): BundleProduct['items'] | undefined => product.__typename === 'BundleProduct' && product?.items?.sort(sortProduct);
 
 export interface ProductGetters extends ProductGettersBase<Product, ProductVariantFilters>{
+  getBreadcrumbs(product: Product, category?: Category): AgnosticBreadcrumb[];
   getCategory(product: Product, currentUrlPath: string): Category | null;
   getProductRelatedProduct(product: Product): Product[];
   getProductSku(product: Product): string;

@@ -51,7 +51,7 @@ import {
   PlaceOrderMutation,
   ProductAttributeFilterInput,
   ProductAttributeSortInput,
-  ProductDetailsQuery,
+  ProductDetailsQueryFocus,
   ProductsFiltersQuery,
   ProductInterface,
   ProductReviewQuery,
@@ -142,6 +142,8 @@ export const enum ProductsQueryType {
   List = 'LIST',
   Detail = 'DETAIL',
   Filters = 'FILTERS',
+  Upsell = 'UPSELL',
+  Related = 'RELATED',
 }
 
 export type GetProductSearchParams = {
@@ -194,7 +196,7 @@ export interface MagentoApiMethods {
   groupedProductDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<GroupedProductDetailQuery>>;
   mergeCarts(sourceCartId: string, destinationCartId: string): Promise<FetchResult<MergeCartsMutation>>;
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
-  productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductDetailsQuery>>;
+  productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductDetailsQueryFocus>>;
   productsFilters(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductsFiltersQuery>>;
   productReview(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductReviewQuery>>;
   productReviewRatingsMetadata(): Promise<ApolloQueryResult<ProductReviewRatingsMetadataQuery>>;

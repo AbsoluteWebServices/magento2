@@ -3,7 +3,7 @@ import ProductData from '../../fragments/productFragment';
 
 export default gql`
   ${ProductData}
-  
+
 query upsellProducts(
   $search: String = ""
   $filter: ProductAttributeFilterInput
@@ -22,6 +22,7 @@ query upsellProducts(
       upsell_products {
         ...ProductData
       }
+      id
       uid
     }
   }

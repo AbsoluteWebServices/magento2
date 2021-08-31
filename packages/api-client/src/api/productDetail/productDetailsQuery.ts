@@ -23,12 +23,21 @@ query productDetails($search: String = "", $filter: ProductAttributeFilterInput,
       description {
         html
       }
+      pdp_data
       ...ProductData
       ...ProductPriceRangeData
       ...ProductImagesData
       ...ProductGalleryData
       ...ProductThumbnailData
       ...ProductUrlFragmentData
+    }
+    aggregations {
+      attribute_code
+      label
+      options {
+        label
+        value
+      }
     }
   }
 }`;

@@ -386,6 +386,7 @@ export {
   ProductCategoriesDataFragment,
   ProductDataFragment,
   ProductDetailsQuery,
+  ProductDetailsQueryFocus,
   ProductDetailsQueryVariables,
   ProductDiscount,
   ProductFilterInput,

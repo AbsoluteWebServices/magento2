@@ -3,7 +3,7 @@ import ProductData from '../../fragments/productFragment';
 
 export default gql`
   ${ProductData}
-  
+
 query relatedProduct(
   $search: String = ""
   $filter: ProductAttributeFilterInput
@@ -20,8 +20,9 @@ query relatedProduct(
   ) {
     items {
       related_products {
-       ...ProductData
+        ...ProductData
       }
+      id
       uid
     }
   }
