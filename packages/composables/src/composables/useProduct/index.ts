@@ -176,15 +176,17 @@ const factoryParams: UseProductFactoryParams<ProductsListQuery['products'], Prod
         return { items: [productDetails] };
 
       case ProductsQueryType.Upsell:
-        const upsellProduct = await context.$magento.api.upsellProduct(
-          searchParams as GetProductSearchParams
-        );
+        const upsellProduct = await context
+          .$magento
+          .api
+          .upsellProduct(searchParams as GetProductSearchParams, (customQuery || {}));
         return upsellProduct.data.products;
 
       case ProductsQueryType.Related:
-        const relatedProduct = await context.$magento.api.relatedProduct(
-          searchParams as GetProductSearchParams
-        );
+        const relatedProduct = await context
+          .$magento
+          .api
+          .relatedProduct(searchParams as GetProductSearchParams, (customQuery || {}));
         return relatedProduct.data.products;
 
       case ProductsQueryType.List:
