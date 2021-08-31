@@ -13,8 +13,10 @@ export default gql`
         }
       }
       items {
+        id
         uid
         sku
+        manufacturer_sku
         name
         stock_status
         only_x_left_in_stock

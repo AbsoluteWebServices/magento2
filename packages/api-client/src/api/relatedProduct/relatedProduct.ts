@@ -17,9 +17,11 @@ query relatedProduct(
   ) {
     items {
       related_products {
+        id
         uid
   __typename
   sku
+  manufacturer_sku
   name
   stock_status
   only_x_left_in_stock

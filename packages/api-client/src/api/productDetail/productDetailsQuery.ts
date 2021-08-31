@@ -11,8 +11,10 @@ export default gql`
   ) {
     products(search: $search, filter: $filter, sort: $sort, pageSize: $pageSize, currentPage: $currentPage) {
       items {
+        id
         uid
         sku
+        manufacturer_sku
         name
         stock_status
         only_x_left_in_stock
@@ -296,6 +298,15 @@ export default gql`
             position
             sku
           }
+        }
+        pdp_data
+      }
+      aggregations {
+        attribute_code
+        label
+        options {
+          label
+          value
         }
       }
     }
