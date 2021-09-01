@@ -17,6 +17,7 @@ fragment ProductData on ProductInterface {
   uid
   __typename
   sku
+  manufacturer_sku
   name
   stock_status
   only_x_left_in_stock

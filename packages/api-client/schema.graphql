@@ -3171,6 +3171,7 @@ type Query {
     urlResolver(url: String!): EntityUrl
     "The wishlist query returns the contents of a customer's wish list"
     wishlist: WishlistOutput @deprecated(reason : "Moved under `Customer` `wishlist`")
+    focusInventory(filter: FocusInventoryFilterInput!): focusProductInventory
 }
 
 type Region {
@@ -5766,4 +5767,31 @@ type FocusItemGroup {
 type focusGroupAdditionalData {
     location_code: String
     pickup_date: String
+}
+
+input FocusInventoryFilterInput {
+  id: FilterEqualTypeInput
+  uid: FilterEqualTypeInput
+  sku: FilterEqualTypeInput
+}
+
+type focusProductInventory {
+  items: [focusProductInventoryItem]
+}
+
+type focusProductInventoryItem {
+  sku: String
+  salable_qty: Float
+  manage_stock: Boolean
+  is_backorder: Boolean
+  is_preorder: Boolean
+  custom_stock_status: String
+  sources: [focusInventorySource]
+}
+
+type focusInventorySource {
+  sku: String
+  source_code: String
+  quantity: Float
+  status: Int
 }
