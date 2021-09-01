@@ -4921,6 +4921,8 @@ export interface ProductInterface {
   image?: Maybe<ProductImage>;
   /** A number representing the product's manufacturer. */
   manufacturer?: Maybe<Scalars['Int']>;
+  /** A number or code assigned to a product to identify the product, options, price, and manufacturer. */
+  manufacturer_sku?: Maybe<Scalars['String']>;
   /** An array of Media Gallery objects. */
   media_gallery?: Maybe<Array<Maybe<MediaGalleryInterface>>>;
   /**
@@ -5028,6 +5030,7 @@ export interface ProductInterface {
    * @deprecated The field should not be used on the storefront.
    */
   websites?: Maybe<Array<Maybe<Website>>>;
+  inventory?: Maybe<FocusProductInventoryItem>;
 }
 
 
@@ -5380,6 +5383,7 @@ export interface Query {
    * @deprecated Moved under `Customer` `wishlist`
    */
   wishlist?: Maybe<WishlistOutput>;
+  focusInventory?: Maybe<FocusProductInventory>;
 }
 
 
@@ -7473,7 +7477,7 @@ export type CacheTag = {
 }
 
 export type BaseQuery = {
-  cacheTags?: Maybe<Array<Maybe<CacheTag>>>
+  cacheTags?: Maybe<Array<Maybe<CacheTag>>>;
 }
 
 export type FocusTrackedOrdersQueryVariables = Exact<{
@@ -7495,3 +7499,38 @@ export type FocusTrackedOrdersQuery = BaseQuery & { trackedOrder?: Maybe<{ items
         & { comments?: Maybe<Array<Maybe<Pick<SalesCommentItem, 'message' | 'timestamp'>>>>, tracking?: Maybe<Array<Maybe<Pick<ShipmentTracking, 'carrier' | 'number' | 'title'>>>>, items?: Maybe<Array<Maybe<ShipmentItemData_BundleShipmentItem_Fragment | ShipmentItemData_ShipmentItem_Fragment>>> }
         )>>>, shipping_address?: Maybe<OrderAddressDataFragment> }
       )>> }> };
+
+export interface FocusInventoryFilterInput {
+  id?: Maybe<FilterEqualTypeInput>;
+  uid?: Maybe<FilterEqualTypeInput>;
+  sku?: Maybe<FilterEqualTypeInput>;
+}
+
+export type FocusProductInventory = {
+  items: Maybe<Array<Maybe<FocusProductInventoryItem>>>;
+}
+
+export type FocusProductInventoryItem = {
+  sku: Scalars['String'];
+  salable_qty: Scalars['Float'];
+  manage_stock: Scalars['Boolean'];
+  is_backorder: Scalars['Boolean'];
+  is_preorder: Scalars['Boolean'];
+  custom_stock_status: Scalars['String'];
+  sources?: Maybe<Array<Maybe<FocusInventorySource>>>;
+}
+
+export type FocusInventorySource = {
+  sku: Scalars['String'];
+  source_code: Scalars['String'];
+  quantity: Scalars['Float'];
+  status: Scalars['Int'];
+}
+
+export type FocusInventoryQuery = BaseQuery & {
+  focusInventory: FocusProductInventory;
+}
+
+export interface FocusInventoryQueryVariables {
+  filter: FocusInventoryFilterInput;
+}
