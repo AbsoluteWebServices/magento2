@@ -5688,6 +5688,7 @@ export interface Query {
    * @deprecated Moved under `Customer` `wishlist`
    */
   wishlist?: Maybe<WishlistOutput>;
+  focusInventory?: Maybe<FocusProductInventory>;
 }
 
 
@@ -7603,6 +7604,7 @@ export type BaseQuery = {
 export interface ProductInterfaceFocus {
   manufacturer_sku?: string | null | undefined;
   pdp_data?: string | null | undefined;
+  inventory?: Maybe<FocusProductInventoryItem>;
   [key: string]: any;
 }
 export interface FreeGiftItem {
@@ -7664,3 +7666,38 @@ export type FocusTrackedOrdersQueryVariables = Exact<{
 }>;
 
 export type FocusTrackedOrdersQuery = BaseQuery & { trackedOrder?: { items?: Array<CustomerOrder | null | undefined>  | null | undefined } | null | undefined };
+
+export interface FocusInventoryFilterInput {
+  id?: Maybe<FilterEqualTypeInput>;
+  uid?: Maybe<FilterEqualTypeInput>;
+  sku?: Maybe<FilterEqualTypeInput>;
+}
+
+export type FocusProductInventory = {
+  items: Maybe<Array<Maybe<FocusProductInventoryItem>>>;
+}
+
+export type FocusProductInventoryItem = {
+  sku: Scalars['String'];
+  salable_qty: Scalars['Float'];
+  manage_stock: Scalars['Boolean'];
+  is_backorder: Scalars['Boolean'];
+  is_preorder: Scalars['Boolean'];
+  custom_stock_status: Scalars['String'];
+  sources?: Maybe<Array<Maybe<FocusInventorySource>>>;
+}
+
+export type FocusInventorySource = {
+  sku: Scalars['String'];
+  source_code: Scalars['String'];
+  quantity: Scalars['Float'];
+  status: Scalars['Int'];
+}
+
+export type FocusInventoryQuery = BaseQuery & {
+  focusInventory: FocusProductInventory;
+}
+
+export interface FocusInventoryQueryVariables {
+  filter: FocusInventoryFilterInput;
+}
