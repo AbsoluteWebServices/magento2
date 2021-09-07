@@ -107,4 +107,8 @@ export default gql`
   billing_address {
     ...CartAddress
   }
+  selected_payment_method {
+    code
+    title
+  }
 }`;
