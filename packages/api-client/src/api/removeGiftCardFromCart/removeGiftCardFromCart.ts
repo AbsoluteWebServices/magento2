@@ -107,6 +107,8 @@ mutation removeGiftCardFromCart($input: RemoveGiftCardFromCartInput) {
               }
             }
           }
+          itar_compliance
+          required_age_verification
         }
         prices {
           row_total {

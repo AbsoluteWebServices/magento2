@@ -4902,6 +4902,8 @@ export type PickupLocationsQueryFocus = BaseQuery & PickupLocationsQuery;
 
 export interface PlaceOrderInput {
   cart_id: Scalars['String'];
+  itar?: Scalars['Boolean'];
+  twenty_one_and_over?: Scalars['Boolean'];
 }
 
 export interface PlaceOrderOutput {
@@ -7605,6 +7607,8 @@ export interface ProductInterfaceFocus {
   manufacturer_sku?: string | null | undefined;
   pdp_data?: string | null | undefined;
   inventory?: Maybe<FocusProductInventoryItem>;
+  itar_compliance?: Maybe<Scalars['Boolean']>;
+  required_age_verification?: Maybe<Scalars['Boolean']>;
   [key: string]: any;
 }
 export interface FreeGiftItem {

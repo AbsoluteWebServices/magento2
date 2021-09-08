@@ -107,6 +107,8 @@ mutation applyGiftCardToCart($input: ApplyGiftCardToCartInput) {
               }
             }
           }
+          itar_compliance
+          required_age_verification
         }
         prices {
           row_total {

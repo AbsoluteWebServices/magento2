@@ -106,6 +106,8 @@ mutation focusUpdateCartGroup($input: focusUpdateCartGroupInput) {
             }
           }
         }
+        itar_compliance
+        required_age_verification
       }
       prices {
         row_total {

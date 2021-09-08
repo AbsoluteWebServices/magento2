@@ -107,6 +107,8 @@ export default gql`
                 }
               }
             }
+            itar_compliance
+            required_age_verification
           }
           prices {
             row_total {

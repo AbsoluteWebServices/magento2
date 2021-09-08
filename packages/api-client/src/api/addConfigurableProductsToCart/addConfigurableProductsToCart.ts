@@ -106,6 +106,8 @@ export default gql`mutation addConfigurableProductsToCart($input: AddConfigurabl
               }
             }
           }
+          itar_compliance
+          required_age_verification
         }
         prices {
           row_total {
