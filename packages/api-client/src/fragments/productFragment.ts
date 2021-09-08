@@ -40,4 +40,6 @@ fragment ProductData on ProductInterface {
       }
     }
   }
+  itar_compliance
+  required_age_verification
 }`;

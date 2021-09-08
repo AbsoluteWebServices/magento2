@@ -1,8 +1,8 @@
 import {
   Composable,
-  ComposableFunctionArgs, 
-  ComputedProperty, 
-  Context, 
+  ComposableFunctionArgs,
+  ComputedProperty,
+  Context,
   CustomQuery,
   UseCart as UseCartBase,
   UseCartErrors as UseCartErrorsBase,
@@ -201,9 +201,17 @@ export interface UseCartErrors extends UseCartErrorsBase {
   removeGiftCard: Error;
   focusSetGroupOnItem: Error;
   focusUpdateCartGroup: Error;
+  focusUnsetPickupDate: Error;
 }
 
-export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends UseCartBase<CART, CART_ITEM, PRODUCT, COUPON> {
+export interface CartCompliance {
+  itar?: boolean;
+  twenty_one_and_over?: boolean;
+}
+
+export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends UseCartBase<CART, CART_ITEM, PRODUCT> {
+  compliance: ComputedProperty<CartCompliance>;
+  setCompliance: (compliance: CartCompliance) => void;
   addItem: (
     params: {
       product: PRODUCT;
@@ -227,6 +235,7 @@ export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends Us
   focusUpdateCartGroup(params: {
     groupType: string; data: any
   }): Promise<void>;
+  focusUnsetPickupDate(): Promise<void>;
   error: ComputedProperty<UseCartErrors>;
 }
 

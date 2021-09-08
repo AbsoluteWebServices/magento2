@@ -490,7 +490,6 @@ export interface BundleProduct extends CustomizableProductInterface, PhysicalPro
   options?: Maybe<Array<Maybe<CustomizableOptionInterface>>>;
   /** If the product has multiple options, determines where they appear on the product page. */
   options_container?: Maybe<Scalars['String']>;
-  pdp_data?: Maybe<Scalars['String']>;
   /**
    * A ProductPrices object, indicating the price of an item.
    * @deprecated Use price_range for product price information.
@@ -1194,7 +1193,6 @@ export interface ConfigurableProduct extends CustomizableProductInterface, Physi
   options?: Maybe<Array<Maybe<CustomizableOptionInterface>>>;
   /** If the product has multiple options, determines where they appear on the product page. */
   options_container?: Maybe<Scalars['String']>;
-  pdp_data?: Maybe<Scalars['String']>;
   /**
    * A ProductPrices object, indicating the price of an item.
    * @deprecated Use price_range for product price information.
@@ -3107,7 +3105,6 @@ export interface DownloadableProduct extends CustomizableProductInterface, Produ
   options?: Maybe<Array<Maybe<CustomizableOptionInterface>>>;
   /** If the product has multiple options, determines where they appear on the product page. */
   options_container?: Maybe<Scalars['String']>;
-  pdp_data?: Maybe<Scalars['String']>;
   /**
    * A ProductPrices object, indicating the price of an item.
    * @deprecated Use price_range for product price information.
@@ -3480,7 +3477,6 @@ export interface GroupedProduct extends PhysicalProductInterface, ProductInterfa
   only_x_left_in_stock?: Maybe<Scalars['Float']>;
   /** If the product has multiple options, determines where they appear on the product page. */
   options_container?: Maybe<Scalars['String']>;
-  pdp_data?: Maybe<Scalars['String']>;
   /**
    * A ProductPrices object, indicating the price of an item.
    * @deprecated Use price_range for product price information.
@@ -4671,6 +4667,8 @@ export type PickupLocationsQueryFocus = BaseQuery & PickupLocationsQuery;
 
 export interface PlaceOrderInput {
   cart_id: Scalars['String'];
+  itar?: Scalars['Boolean'];
+  twenty_one_and_over?: Scalars['Boolean'];
 }
 
 export interface PlaceOrderOutput {
@@ -4888,7 +4886,7 @@ export interface ProductInfoInput {
 }
 
 /** The ProductInterface contains attributes that are common to all types of products. Note that descriptions may not be available for custom and EAV attributes. */
-export interface ProductInterface {
+export interface ProductInterface extends FocusProductInterface {
   /**
    * The attribute set assigned to the product.
    * @deprecated The field should not be used on the storefront.
@@ -4952,7 +4950,6 @@ export interface ProductInterface {
   only_x_left_in_stock?: Maybe<Scalars['Float']>;
   /** If the product has multiple options, determines where they appear on the product page. */
   options_container?: Maybe<Scalars['String']>;
-  pdp_data?: Maybe<Scalars['String']>;
   /**
    * A ProductPrices object, indicating the price of an item.
    * @deprecated Use price_range for product price information.
@@ -5907,7 +5904,6 @@ export interface SimpleProduct extends CustomizableProductInterface, PhysicalPro
   options?: Maybe<Array<Maybe<CustomizableOptionInterface>>>;
   /** If the product has multiple options, determines where they appear on the product page. */
   options_container?: Maybe<Scalars['String']>;
-  pdp_data?: Maybe<Scalars['String']>;
   /**
    * A ProductPrices object, indicating the price of an item.
    * @deprecated Use price_range for product price information.
@@ -6388,7 +6384,6 @@ export interface VirtualProduct extends CustomizableProductInterface, ProductInt
   options?: Maybe<Array<Maybe<CustomizableOptionInterface>>>;
   /** If the product has multiple options, determines where they appear on the product page. */
   options_container?: Maybe<Scalars['String']>;
-  pdp_data?: Maybe<Scalars['String']>;
   /**
    * A ProductPrices object, indicating the price of an item.
    * @deprecated Use price_range for product price information.
@@ -7453,8 +7448,8 @@ export interface FocusSetGroupOnItemMutation {
 }
 
 export interface FocusGroupAdditionalDataInput {
-  location_code: Scalars['String'];
-  pickup_date: Scalars['String'];
+  location_code?: Scalars['String'];
+  pickup_date?: Scalars['String'];
 }
 
 export interface FocusUpdateCartGroupInput {
@@ -7533,4 +7528,10 @@ export type FocusInventoryQuery = BaseQuery & {
 
 export interface FocusInventoryQueryVariables {
   filter: FocusInventoryFilterInput;
+}
+
+export interface FocusProductInterface {
+  itar_compliance?: Maybe<Scalars['Boolean']>;
+  pdp_data?: Maybe<Scalars['String']>;
+  required_age_verification?: Maybe<Scalars['Boolean']>;
 }
