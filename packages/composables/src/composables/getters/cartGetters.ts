@@ -187,6 +187,26 @@ export const getItemGroups = (cart: Cart): FocusItemGroup[] => {
   return cart.item_groups.filter(group => group.item_uids?.length);
 }
 
+export const isItarComplianceRequired = (cart: Cart): Boolean => {
+  if (!cart || !cart.items) {
+    return false;
+  }
+
+  return cart.items.some(({ product: { itar_compliance } }) => Boolean(itar_compliance));
+}
+
+export const isAgeCheckRequired = (cart: Cart): Boolean => {
+  if (!cart || !cart.items) {
+    return false;
+  }
+
+  return cart.items.some(({ product: { required_age_verification } }) => Boolean(required_age_verification));
+}
+
+export const isPickupDateSelected = (cart: Cart): Boolean => {
+  return cart?.item_groups?.some(({ group_type, additional_data }) => group_type === 'pickup' && Boolean(additional_data?.pickup_date));
+}
+
 export interface CartGetters extends CartGettersBase<Cart, CartItem> {
   getAppliedCoupon(cart: Cart): AgnosticCoupon | null;
 
@@ -199,6 +219,12 @@ export interface CartGetters extends CartGettersBase<Cart, CartItem> {
   productHasSpecialPrice(product: CartItem): boolean;
 
   getItemGroups(cart: Cart): FocusItemGroup[];
+
+  isItarComplianceRequired(cart: Cart): Boolean;
+
+  isAgeCheckRequired(cart: Cart): Boolean;
+
+  isPickupDateSelected(cart: Cart): Boolean;
 }
 
 const cartGetters: CartGetters = {
@@ -222,6 +248,9 @@ const cartGetters: CartGetters = {
   getTotals,
   productHasSpecialPrice,
   getItemGroups,
+  isItarComplianceRequired,
+  isAgeCheckRequired,
+  isPickupDateSelected,
 };
 
 export default cartGetters;

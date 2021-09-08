@@ -5402,6 +5402,8 @@ input PickupLocationSortInput {
 
 input PlaceOrderInput {
     cart_id: String!
+    itar: Boolean
+    twenty_one_and_over: Boolean
 }
 
 "ProductAttributeFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for."

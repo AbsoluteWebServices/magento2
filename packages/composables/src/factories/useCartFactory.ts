@@ -1,6 +1,6 @@
 import { Ref, computed } from 'vue-demi';
 import { CustomQuery, Context, FactoryParams, sharedRef, Logger, configureFactoryParams } from '@vue-storefront/core';
-import { UseCart, UseCartErrors } from '../types/composables';
+import { UseCart, UseCartErrors, CartCompliance } from '../types/composables';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends FactoryParams {
   load: (context: Context, params: { customQuery?: any }) => Promise<CART>;
@@ -33,6 +33,7 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CAR
   isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
   focusSetGroupOnItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; groupType: string; }) => Promise<{ updatedCart: CART }>;
   focusUpdateCartGroup: (context: Context, params: { currentCart: CART; groupType: string; data: any }) => Promise<{ updatedCart: CART }>;
+  focusUnsetPickupDate: (context: Context, params: { currentCart: CART }) => Promise<{ updatedCart: CART }>;
 }
 
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
@@ -53,7 +54,13 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       removeGiftCard: null,
       focusSetGroupOnItem: null,
       focusUpdateCartGroup: null,
+      focusUnsetPickupDate: null,
     }, 'useCart-error');
+
+    const compliance: Ref<CartCompliance> = sharedRef({
+      itar: false,
+      twenty_one_and_over: false,
+    }, 'useCart-compliance');
 
     const _factoryParams = configureFactoryParams(
       factoryParams
@@ -63,6 +70,13 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       cart.value = newCart;
       Logger.debug('useCartFactory.setCart', newCart);
     };
+
+    const setCompliance = (value: CartCompliance) => {
+      compliance.value = {
+        ...compliance.value,
+        ...value,
+      }
+    }
 
     const addItem = async ({ product, quantity, enteredOptions, customQuery }) => {
       Logger.debug('useCart.addItem', { product, quantity });
@@ -302,9 +316,30 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       }
     };
 
+    const focusUnsetPickupDate = async () => {
+      Logger.debug('useCart.focusUnsetPickupDate');
+
+      try {
+        loading.value = true;
+        const { updatedCart } = await _factoryParams.focusUnsetPickupDate({
+          currentCart: cart.value,
+        });
+        error.value.focusUnsetPickupDate = null;
+        cart.value = updatedCart;
+        loading.value = false;
+      } catch (err) {
+        error.value.focusUnsetPickupDate = err;
+        Logger.error('useCart/focusUnsetPickupDate', err);
+      } finally {
+        loading.value = false;
+      }
+    };
+
     return {
       setCart,
       cart: computed(() => cart.value),
+      compliance: computed(() => compliance.value),
+      setCompliance,
       isInCart,
       addItem,
       load,
@@ -317,6 +352,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       removeGiftCard,
       focusSetGroupOnItem,
       focusUpdateCartGroup,
+      focusUnsetPickupDate,
       loading: computed(() => loading.value),
       error: computed(() => error.value)
     };
