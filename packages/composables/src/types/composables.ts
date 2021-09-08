@@ -285,7 +285,14 @@ export interface UseCartErrors extends UseCartErrorsBase {
   focusUnsetPickupDate: Error;
 }
 
+export interface CartCompliance {
+  itar?: boolean;
+  twenty_one_and_over?: boolean;
+}
+
 export interface UseCart<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extends PlatformApi = any> extends UseCartBase<CART, CART_ITEM, PRODUCT, API> {
+  compliance: ComputedProperty<CartCompliance>;
+  setCompliance: (compliance: CartCompliance) => void;
   addItem: (
     params: {
       product: PRODUCT;

@@ -49,6 +49,8 @@ export default gql`mutation addConfigurableProductsToCart($input: AddConfigurabl
         uid
         product {
           ${productFragment}
+          itar_compliance
+          required_age_verification
         }
         prices {
           row_total {

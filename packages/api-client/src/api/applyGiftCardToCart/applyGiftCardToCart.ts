@@ -50,6 +50,8 @@ mutation applyGiftCardToCart($input: ApplyGiftCardToCartInput) {
         uid
         product {
           ${productFragment}
+          itar_compliance
+          required_age_verification
         }
         prices {
           row_total {

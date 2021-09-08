@@ -2,7 +2,7 @@ import {
   CustomQuery, Context, FactoryParams, PlatformApi, sharedRef, Logger, configureFactoryParams,
 } from '@vue-storefront/core';
 import { computed, Ref } from 'vue-demi';
-import { UseCart, UseCartErrors } from '../types/composables';
+import { UseCart, UseCartErrors, CartCompliance } from '../types/composables';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extends PlatformApi = any> extends FactoryParams<API> {
   load: (context: Context, params: { customQuery?: any; realCart?: boolean; }) => Promise<CART>;
@@ -60,6 +60,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     focusUnsetPickupDate: null,
   }, 'useCart-error');
 
+  const compliance: Ref<CartCompliance> = sharedRef({
+    itar: false,
+    twenty_one_and_over: false,
+  }, 'useCart-compliance');
+
   // eslint-disable-next-line no-underscore-dangle,@typescript-eslint/naming-convention
   const _factoryParams = configureFactoryParams(
     factoryParams,
@@ -74,6 +79,13 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
   const setCart = (newCart: CART) => {
     cart.value = newCart;
     Logger.debug('useCartFactory.setCart', newCart);
+  };
+
+  const setCompliance = (value: CartCompliance) => {
+    compliance.value = {
+      ...compliance.value,
+      ...value,
+    }
   };
 
   const addItem = async ({
@@ -377,6 +389,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     api: _factoryParams.api,
     setCart,
     cart: computed(() => cart.value),
+    setCompliance,
+    compliance: computed(() => compliance.value),
     isInCart,
     addItem,
     load,
