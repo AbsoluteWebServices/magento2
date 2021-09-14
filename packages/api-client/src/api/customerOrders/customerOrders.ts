@@ -13,7 +13,7 @@ export default gql`
   ${OrderItemData}
   ${OrderTotalData}
   ${ShipmentItemData}
-  
+
 query customerOrders($currentPage: Int = 1, $filter: CustomerOrdersFilterInput = {}, $pageSize: Int = 20) {
   customer {
     orders(currentPage: $currentPage, filter: $filter, pageSize: $pageSize) {
@@ -76,6 +76,12 @@ query customerOrders($currentPage: Int = 1, $filter: CustomerOrdersFilterInput =
         }
         shipping_method
       }
+      page_info {
+        current_page
+        page_size
+        total_pages
+      }
+      total_count
     }
   }
 }`;
