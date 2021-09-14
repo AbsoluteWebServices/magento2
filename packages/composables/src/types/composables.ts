@@ -202,6 +202,7 @@ export interface UseCartErrors extends UseCartErrorsBase {
   focusSetGroupOnItem: Error;
   focusUpdateCartGroup: Error;
   focusUnsetPickupDate: Error;
+  addItems: Error;
 }
 
 export interface CartCompliance {
@@ -217,6 +218,16 @@ export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends Us
       product: PRODUCT;
       quantity: any;
       enteredOptions?: any;
+      customQuery?: CustomQuery;
+    }
+  ) => Promise<void>;
+  addItems: (
+    params: {
+      products: {
+        product: PRODUCT;
+        quantity: any;
+        enteredOptions?: any;
+      }[];
       customQuery?: CustomQuery;
     }
   ) => Promise<void>;
