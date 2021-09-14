@@ -334,6 +334,7 @@ export interface UseWishlist<WISHLIST,
 }
 
 export interface UseCartErrors extends UseCartErrorsBase {
+  addItems: Error;
   checkGiftCard: Error;
   applyGiftCard: Error;
   removeGiftCard: Error;
@@ -356,6 +357,16 @@ export interface UseCart<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extend
       product: PRODUCT;
       quantity: any;
       enteredOptions?: any;
+      customQuery?: CustomQuery;
+    }
+  ) => Promise<void>;
+  addItems: (
+    params: {
+      products: {
+        product: PRODUCT;
+        quantity: any;
+        enteredOptions?: any;
+      }[];
       customQuery?: CustomQuery;
     }
   ) => Promise<void>;
