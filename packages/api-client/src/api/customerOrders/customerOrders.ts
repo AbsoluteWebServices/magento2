@@ -255,6 +255,12 @@ export default gql`
             telephone
           }
         }
+        page_info {
+          current_page
+          page_size
+          total_pages
+        }
+        total_count
       }
     }
   }

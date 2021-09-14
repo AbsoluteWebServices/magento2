@@ -2674,6 +2674,10 @@ export interface CustomerOrders {
 export interface CustomerOrdersFilterInput {
   /** Filters by order number. */
   number?: Maybe<FilterStringTypeInput>;
+  /** Filters by order date. */
+  order_date?: Maybe<FilterRangeTypeInput>;
+  /** Filters by status. */
+  status?: Maybe<FilterStringTypeInput>;
 }
 
 export interface CustomerOutput {
