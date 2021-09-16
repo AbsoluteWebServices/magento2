@@ -6945,7 +6945,7 @@ export type CustomerAvailableShippingMethodsQueryVariables = Exact<{ [key: strin
 
 export type CustomerAvailableShippingMethodsQuery = { customerCart: { shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> } }>>> }>> } };
 
-export type CustomerAvailableShippingMethodsQueryFocus = BaseQuery & CustomerAvailableShippingMethodsAdditionalDataQueryFocus;
+export type CustomerAvailableShippingMethodsQueryFocus = BaseQuery & CustomerAvailableShippingMethodsQuery & CustomerAvailableShippingMethodsAdditionalDataQueryFocus;
 
 export type GuestAvailablePaymentMethodsQueryVariables = Exact<{
   cartId: Scalars['String'];
@@ -6963,7 +6963,7 @@ export type GuestAvailableShippingMethodsQueryVariables = Exact<{
 
 export type GuestAvailableShippingMethodsQuery = { cart?: Maybe<{ shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> } }>>> }>> }> };
 
-export type GuestAvailableShippingMethodsQueryFocus = BaseQuery & GuestAvailableShippingMethodsAdditionalDataQueryFocus;
+export type GuestAvailableShippingMethodsQueryFocus = BaseQuery & GuestAvailableShippingMethodsQuery & GuestAvailableShippingMethodsAdditionalDataQueryFocus;
 
 export type GetCustomerAddressesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7501,9 +7501,27 @@ export type FocusTrackedOrdersQuery = BaseQuery & { trackedOrder?: Maybe<{ items
         )>>>, shipping_address?: Maybe<OrderAddressDataFragment> }
       )>> }> };
 
-export type CustomerAvailableShippingMethodsAdditionalDataQueryFocus = { customerCart: { shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, additional_data?: Maybe<string>, description?: Maybe<string> }>>> }>> } };
+export type CustomerAvailableShippingMethodsAdditionalDataQueryFocus = {
+  customerCart: {
+    shipping_addresses: Array<Maybe<{
+      available_shipping_methods?: Maybe<Array<Maybe<{
+        additional_data?: Maybe<string>,
+        description?: Maybe<string>
+      }>>>
+    }>>
+  }
+};
 
-export type GuestAvailableShippingMethodsAdditionalDataQueryFocus = { cart?: Maybe<{ shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, additional_data?: Maybe<string>, description?: Maybe<string> }>>> }>> }> };
+export type GuestAvailableShippingMethodsAdditionalDataQueryFocus = {
+  cart?: Maybe<{
+    shipping_addresses: Array<Maybe<{
+      available_shipping_methods?: Maybe<Array<Maybe<{
+        additional_data?: Maybe<string>,
+        description?: Maybe<string>
+      }>>>
+    }>>
+  }>
+};
 
 export interface FocusInventoryFilterInput {
   id?: Maybe<FilterEqualTypeInput>;
