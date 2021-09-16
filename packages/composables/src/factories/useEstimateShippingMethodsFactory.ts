@@ -18,9 +18,9 @@ export function useEstimateShippingMethodsFactory<SHIPPING_METHOD, API extends P
 ) {
   return function useEstimateShippingMethods(id: string = ''): UseEstimateShippingMethods<SHIPPING_METHOD, API> {
     // @ts-ignore
-    const estimatedShippingMethods: Ref<SHIPPING_METHOD[]> = sharedRef(null, 'UseEstimateShippingMethods-response');
-    const lowerEstimatedShippingMethod: Ref<SHIPPING_METHOD> = sharedRef(null, 'UseEstimateShippingMethods-lowerEstimatedShippingMethod');
     const ssrKey = id || 'useEstimateShippingMethods';
+    const estimatedShippingMethods: Ref<SHIPPING_METHOD[]> = sharedRef(null, `${ssrKey}-estimatedShippingMethods`);
+    const lowerEstimatedShippingMethod: Ref<SHIPPING_METHOD> = sharedRef(null, `${ssrKey}-lowerEstimatedShippingMethod`);
     const loading = sharedRef(false, `${ssrKey}-loading`);
     const error = sharedRef<UseEstimateShippingMethodsErrors>({
       load: null,

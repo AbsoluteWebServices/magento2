@@ -6943,9 +6943,9 @@ export type CustomerAvailablePaymentMethodsQueryFocus = BaseQuery & CustomerAvai
 export type CustomerAvailableShippingMethodsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CustomerAvailableShippingMethodsQuery = { customerCart: { shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, additional_data?: Maybe<string>, description?: Maybe<string> }>>> }>> } };
+export type CustomerAvailableShippingMethodsQuery = { customerCart: { shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> } }>>> }>> } };
 
-export type CustomerAvailableShippingMethodsQueryFocus = BaseQuery & CustomerAvailableShippingMethodsQuery;
+export type CustomerAvailableShippingMethodsQueryFocus = BaseQuery & CustomerAvailableShippingMethodsAdditionalDataQueryFocus;
 
 export type GuestAvailablePaymentMethodsQueryVariables = Exact<{
   cartId: Scalars['String'];
@@ -6961,9 +6961,9 @@ export type GuestAvailableShippingMethodsQueryVariables = Exact<{
 }>;
 
 
-export type GuestAvailableShippingMethodsQuery = { cart?: Maybe<{ shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, additional_data?: Maybe<string>, description?: Maybe<string> }>>> }>> }> };
+export type GuestAvailableShippingMethodsQuery = { cart?: Maybe<{ shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> } }>>> }>> }> };
 
-export type GuestAvailableShippingMethodsQueryFocus = BaseQuery & GuestAvailableShippingMethodsQuery;
+export type GuestAvailableShippingMethodsQueryFocus = BaseQuery & GuestAvailableShippingMethodsAdditionalDataQueryFocus;
 
 export type GetCustomerAddressesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7501,6 +7501,10 @@ export type FocusTrackedOrdersQuery = BaseQuery & { trackedOrder?: Maybe<{ items
         )>>>, shipping_address?: Maybe<OrderAddressDataFragment> }
       )>> }> };
 
+export type CustomerAvailableShippingMethodsAdditionalDataQueryFocus = { customerCart: { shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, additional_data?: Maybe<string>, description?: Maybe<string> }>>> }>> } };
+
+export type GuestAvailableShippingMethodsAdditionalDataQueryFocus = { cart?: Maybe<{ shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, additional_data?: Maybe<string>, description?: Maybe<string> }>>> }>> }> };
+
 export interface FocusInventoryFilterInput {
   id?: Maybe<FilterEqualTypeInput>;
   uid?: Maybe<FilterEqualTypeInput>;
@@ -7552,7 +7556,7 @@ export interface FocusEstimateShippingMethodsAddressInput {
   region_id?: Maybe<Scalars['Int']>;
   postcode?: Maybe<Scalars['String']>;
   country_code: Scalars['String'];
-  telephone?: Scalars['String'];
+  telephone?: Maybe<Scalars['String']>;
 }
 
 export interface FocusEstimateShippingMethodsInput {
