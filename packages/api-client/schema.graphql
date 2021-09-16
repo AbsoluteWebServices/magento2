@@ -508,8 +508,6 @@ type AvailableShippingMethod {
     method_title: String
     price_excl_tax: Money!
     price_incl_tax: Money!
-    additional_data: String
-    description: String
 }
 
 type BillingCartAddress implements CartAddressInterface {
@@ -2633,7 +2631,6 @@ type Mutation {
     updateProductsInWishlist(wishlistId: ID!, wishlistItems: [WishlistItemUpdateInput!]!): UpdateProductsInWishlistOutput
     focusSetGroupOnItem(input: focusSetGroupOnItemInput): Cart
     focusUpdateCartGroup(input: focusUpdateCartGroupInput): Cart
-    focusEstimateShippingMethods(input: focusEstimateShippingMethodsInput): [AvailableShippingMethod]
 }
 
 type Order {
@@ -5799,22 +5796,4 @@ type focusInventorySource {
   source_code: String
   quantity: Float
   status: Int
-}
-
-input focusEstimateShippingMethodsAddressInput {
-    firstname: String
-    lastname: String
-    company: String
-    street: [String!]
-    city: String
-    region: String
-    region_id: Int
-    postcode: String
-    country_code: String!
-    telephone: String
-}
-
-input focusEstimateShippingMethodsInput {
-    id: String!
-    address: focusEstimateShippingMethodsAddressInput!
 }
