@@ -242,6 +242,8 @@ export interface AvailableShippingMethod {
   method_title?: Maybe<Scalars['String']>;
   price_excl_tax: Money;
   price_incl_tax: Money;
+  additional_data?: Scalars['String'];
+  description?: Scalars['String'];
 }
 
 export interface BillingAddressInput {
@@ -7327,7 +7329,7 @@ export type CustomerAvailableShippingMethodsQueryVariables = Exact<{ [key: strin
 
 export type CustomerAvailableShippingMethodsQuery = { customerCart: { shipping_addresses: Array<{ available_shipping_methods?: Array<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: string | null | undefined, method_code?: string | null | undefined, method_title?: string | null | undefined, amount: { currency?: CurrencyEnum | null | undefined, value?: number | null | undefined }, price_excl_tax: { currency?: CurrencyEnum | null | undefined, value?: number | null | undefined }, price_incl_tax: { currency?: CurrencyEnum | null | undefined, value?: number | null | undefined } } | null | undefined> | null | undefined } | null | undefined> } };
 
-export type CustomerAvailableShippingMethodsQueryFocus = BaseQuery & CustomerAvailableShippingMethodsQuery;
+export type CustomerAvailableShippingMethodsQueryFocus = BaseQuery & CustomerAvailableShippingMethodsQuery & CustomerAvailableShippingMethodsAdditionalDataQueryFocus;
 
 export type GuestAvailablePaymentMethodsQueryVariables = Exact<{
   cartId: Scalars['String'];
@@ -7345,7 +7347,7 @@ export type GuestAvailableShippingMethodsQueryVariables = Exact<{
 
 export type GuestAvailableShippingMethodsQuery = { cart?: { shipping_addresses: Array<{ available_shipping_methods?: Array<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: string | null | undefined, method_code?: string | null | undefined, method_title?: string | null | undefined, amount: { currency?: CurrencyEnum | null | undefined, value?: number | null | undefined }, price_excl_tax: { currency?: CurrencyEnum | null | undefined, value?: number | null | undefined }, price_incl_tax: { currency?: CurrencyEnum | null | undefined, value?: number | null | undefined } } | null | undefined> | null | undefined } | null | undefined> } | null | undefined };
 
-export type GuestAvailableShippingMethodsQueryFocus = BaseQuery & GuestAvailableShippingMethodsQuery;
+export type GuestAvailableShippingMethodsQueryFocus = BaseQuery & GuestAvailableShippingMethodsQuery & GuestAvailableShippingMethodsAdditionalDataQueryFocus;
 
 export type GetCustomerAddressesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7703,6 +7705,28 @@ export type FocusTrackedOrdersQueryVariables = Exact<{
 
 export type FocusTrackedOrdersQuery = BaseQuery & { trackedOrder?: { items?: Array<CustomerOrder | null | undefined>  | null | undefined } | null | undefined };
 
+export type CustomerAvailableShippingMethodsAdditionalDataQueryFocus = {
+  customerCart: {
+    shipping_addresses: Array<Maybe<{
+      available_shipping_methods?: Maybe<Array<Maybe<{
+        additional_data?: Maybe<string>,
+        description?: Maybe<string>
+      }>>>
+    }>>
+  }
+};
+
+export type GuestAvailableShippingMethodsAdditionalDataQueryFocus = {
+  cart?: Maybe<{
+    shipping_addresses: Array<Maybe<{
+      available_shipping_methods?: Maybe<Array<Maybe<{
+        additional_data?: Maybe<string>,
+        description?: Maybe<string>
+      }>>>
+    }>>
+  }>
+};
+
 export interface FocusInventoryFilterInput {
   id?: Maybe<FilterEqualTypeInput>;
   uid?: Maybe<FilterEqualTypeInput>;
@@ -7736,4 +7760,30 @@ export type FocusInventoryQuery = BaseQuery & {
 
 export interface FocusInventoryQueryVariables {
   filter: FocusInventoryFilterInput;
+}
+
+export interface FocusEstimateShippingMethodsAddressInput {
+  firstname?: Scalars['String'];
+  lastname?: Scalars['String'];
+  company?: Scalars['String'];
+  street?: Array<Maybe<Scalars['String']>>;
+  city?: Scalars['String']
+  region?: Maybe<Scalars['String']>;
+  region_id?: Maybe<Scalars['Int']>;
+  postcode?: Maybe<Scalars['String']>;
+  country_code: Scalars['String'];
+  telephone?: Maybe<Scalars['String']>;
+}
+
+export interface FocusEstimateShippingMethodsInput {
+  cart_id: Scalars['String'];
+  address: Maybe<FocusEstimateShippingMethodsAddressInput>;
+}
+
+export interface FocusEstimateShippingMethodsMutationVariables {
+  input: FocusEstimateShippingMethodsInput;
+}
+
+export interface FocusEstimateShippingMethodsMutation {
+  focusEstimateShippingMethods: Array<AvailableShippingMethod>;
 }
