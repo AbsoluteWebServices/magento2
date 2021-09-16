@@ -209,6 +209,8 @@ export interface AvailableShippingMethod {
   method_title?: Maybe<Scalars['String']>;
   price_excl_tax: Money;
   price_incl_tax: Money;
+  additional_data?: Scalars['String'];
+  description?: Scalars['String'];
 }
 
 export interface BillingAddressInput {
@@ -6943,7 +6945,7 @@ export type CustomerAvailableShippingMethodsQueryVariables = Exact<{ [key: strin
 
 export type CustomerAvailableShippingMethodsQuery = { customerCart: { shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> } }>>> }>> } };
 
-export type CustomerAvailableShippingMethodsQueryFocus = BaseQuery & CustomerAvailableShippingMethodsQuery;
+export type CustomerAvailableShippingMethodsQueryFocus = BaseQuery & CustomerAvailableShippingMethodsQuery & CustomerAvailableShippingMethodsAdditionalDataQueryFocus;
 
 export type GuestAvailablePaymentMethodsQueryVariables = Exact<{
   cartId: Scalars['String'];
@@ -6961,7 +6963,7 @@ export type GuestAvailableShippingMethodsQueryVariables = Exact<{
 
 export type GuestAvailableShippingMethodsQuery = { cart?: Maybe<{ shipping_addresses: Array<Maybe<{ available_shipping_methods?: Maybe<Array<Maybe<{ available: boolean, carrier_code: string, carrier_title: string, error_message?: Maybe<string>, method_code?: Maybe<string>, method_title?: Maybe<string>, amount: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_excl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> }, price_incl_tax: { currency?: Maybe<CurrencyEnum>, value?: Maybe<number> } }>>> }>> }> };
 
-export type GuestAvailableShippingMethodsQueryFocus = BaseQuery & GuestAvailableShippingMethodsQuery;
+export type GuestAvailableShippingMethodsQueryFocus = BaseQuery & GuestAvailableShippingMethodsQuery & GuestAvailableShippingMethodsAdditionalDataQueryFocus;
 
 export type GetCustomerAddressesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7499,6 +7501,28 @@ export type FocusTrackedOrdersQuery = BaseQuery & { trackedOrder?: Maybe<{ items
         )>>>, shipping_address?: Maybe<OrderAddressDataFragment> }
       )>> }> };
 
+export type CustomerAvailableShippingMethodsAdditionalDataQueryFocus = {
+  customerCart: {
+    shipping_addresses: Array<Maybe<{
+      available_shipping_methods?: Maybe<Array<Maybe<{
+        additional_data?: Maybe<string>,
+        description?: Maybe<string>
+      }>>>
+    }>>
+  }
+};
+
+export type GuestAvailableShippingMethodsAdditionalDataQueryFocus = {
+  cart?: Maybe<{
+    shipping_addresses: Array<Maybe<{
+      available_shipping_methods?: Maybe<Array<Maybe<{
+        additional_data?: Maybe<string>,
+        description?: Maybe<string>
+      }>>>
+    }>>
+  }>
+};
+
 export interface FocusInventoryFilterInput {
   id?: Maybe<FilterEqualTypeInput>;
   uid?: Maybe<FilterEqualTypeInput>;
@@ -7538,4 +7562,30 @@ export interface FocusProductInterface {
   itar_compliance?: Maybe<Scalars['Boolean']>;
   pdp_data?: Maybe<Scalars['String']>;
   required_age_verification?: Maybe<Scalars['Boolean']>;
+}
+
+export interface FocusEstimateShippingMethodsAddressInput {
+  firstname?: Scalars['String'];
+  lastname?: Scalars['String'];
+  company?: Scalars['String'];
+  street?: Array<Maybe<Scalars['String']>>;
+  city?: Scalars['String']
+  region?: Maybe<Scalars['String']>;
+  region_id?: Maybe<Scalars['Int']>;
+  postcode?: Maybe<Scalars['String']>;
+  country_code: Scalars['String'];
+  telephone?: Maybe<Scalars['String']>;
+}
+
+export interface FocusEstimateShippingMethodsInput {
+  cart_id: Scalars['String'];
+  address: Maybe<FocusEstimateShippingMethodsAddressInput>;
+}
+
+export interface FocusEstimateShippingMethodsMutationVariables {
+  input: FocusEstimateShippingMethodsInput;
+}
+
+export interface FocusEstimateShippingMethodsMutation {
+  focusEstimateShippingMethods: Array<AvailableShippingMethod>;
 }
