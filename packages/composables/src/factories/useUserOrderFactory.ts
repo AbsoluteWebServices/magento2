@@ -16,8 +16,7 @@ export function useUserOrderFactory<
 >(factoryParams: UseUserOrderFactoryParams<ORDERS, ORDER_SEARCH_PARAMS, API>) {
   return function useUserOrder(ssrKey = 'useUserOrders'): UseUserOrder<ORDERS, ORDER_SEARCH_PARAMS, API> {
     const orders: Ref<ORDERS> = sharedRef({
-      results: [],
-      total: 0
+      items: [],
     }, `${ssrKey}-orders`);
     const loading: Ref<boolean> = sharedRef(false, `${ssrKey}-loading`);
     const error: Ref<UseUserOrderErrors> = sharedRef({}, `${ssrKey}-error`);
