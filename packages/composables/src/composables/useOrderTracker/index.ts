@@ -1,16 +1,16 @@
 import {
   Context,
-  useUserOrderFactory,
   UseUserOrderFactoryParams
 } from '@vue-storefront/core';
-import { CustomerOrder, FocusTrackedOrdersQueryVariables } from '@vue-storefront/magento-api';
+import { useUserOrderFactory } from '../../factories/useUserOrderFactory';
+import { CustomerOrders, FocusTrackedOrdersQueryVariables } from '@vue-storefront/magento-api';
 
-const factoryParams: UseUserOrderFactoryParams<CustomerOrder, FocusTrackedOrdersQueryVariables> = {
-  searchOrders: async (context: Context, param): Promise<CustomerOrder> => {
+const factoryParams: UseUserOrderFactoryParams<CustomerOrders, FocusTrackedOrdersQueryVariables> = {
+  searchOrders: async (context: Context, param): Promise<CustomerOrders> => {
     const { data } = await context.$magento.api.orderTracker(param);
 
-    return (data?.trackedOrder?.items[0] || {}) as unknown as CustomerOrder;
+    return (data.trackedOrder || {}) as unknown as CustomerOrders;
   },
 };
 
-export default useUserOrderFactory<CustomerOrder, FocusTrackedOrdersQueryVariables>(factoryParams);
+export default useUserOrderFactory<CustomerOrders, FocusTrackedOrdersQueryVariables>(factoryParams);
