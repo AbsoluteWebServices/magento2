@@ -5818,3 +5818,26 @@ input focusEstimateShippingMethodsInput {
     id: String!
     address: focusEstimateShippingMethodsAddressInput!
 }
+
+input focusIDmeVerifyInput {
+    code: String!
+}
+
+type focusIDmeCustomerGroupSpecificData {
+    handle: String!
+    name: String
+    value: String
+}
+
+type focusIDmeCustomerData {
+    uuid: String
+    first_name: String
+    last_name: String
+    email: String
+    zip: String
+    is_verified: Boolean
+    group: String
+    subgroup: String
+    user_errors: [String]
+    group_data: [FocusIDmeCustomerGroupSpecificData]
+}
