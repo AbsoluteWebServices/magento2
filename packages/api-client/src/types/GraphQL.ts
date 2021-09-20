@@ -7597,6 +7597,10 @@ export interface FocusIDmeCustomerGroupSpecificData {
   value?: Maybe<Scalars['String']>;
 }
 
+export interface FocusIDmeCustomerDatInputError {
+  message: Scalars['String']
+}
+
 export interface FocusIDmeCustomerData {
   uuid: Scalars['String'];
   first_name: Scalars['String'];
@@ -7606,7 +7610,7 @@ export interface FocusIDmeCustomerData {
   is_verified: Scalars['Boolean'];
   group: Scalars['String'];
   subgroup: Maybe<Scalars['String']>;
-  user_errors: Array<Maybe<Scalars['String']>>;
+  user_errors: Array<Maybe<FocusIDmeCustomerDatInputError>>;
   group_data: Array<Maybe<FocusIDmeCustomerGroupSpecificData>>;
 }
 

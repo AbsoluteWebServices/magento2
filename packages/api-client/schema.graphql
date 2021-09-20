@@ -2634,6 +2634,7 @@ type Mutation {
     focusSetGroupOnItem(input: focusSetGroupOnItemInput): Cart
     focusUpdateCartGroup(input: focusUpdateCartGroupInput): Cart
     focusEstimateShippingMethods(input: focusEstimateShippingMethodsInput): [AvailableShippingMethod]
+    focusIDmeVerify(input: focusIDmeVerifyInput): focusIDmeCustomerData
 }
 
 type Order {
@@ -5829,6 +5830,10 @@ type focusIDmeCustomerGroupSpecificData {
     value: String
 }
 
+type focusIDmeCustomerDatInputError {
+    message: String
+}
+
 type focusIDmeCustomerData {
     uuid: String
     first_name: String
@@ -5838,6 +5843,6 @@ type focusIDmeCustomerData {
     is_verified: Boolean
     group: String
     subgroup: String
-    user_errors: [String]
+    user_errors: [focusIDmeCustomerDatInputError]
     group_data: [FocusIDmeCustomerGroupSpecificData]
 }
