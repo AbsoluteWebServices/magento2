@@ -4,7 +4,7 @@ import { FocusIDmeCustomerData } from '@vue-storefront/magento-api';
 export interface IDmeGetters {
   getCustomerGroupData(customerData: FocusIDmeCustomerData, handle: string): string;
 
-  getExpiratonDate(customerData: FocusIDmeCustomerData): string;
+  getExpirationDate(customerData: FocusIDmeCustomerData): string;
 
   getExpirationDays(verifiedDate: string, graduationDate: string): number;
 
@@ -20,7 +20,7 @@ export const getCustomerGroupData = (
         .value || ''
     : '';
 
-export const getExpiratonDate = (
+export const getExpirationDate = (
   customerData: FocusIDmeCustomerData,
   locales = 'en-US'
 ): string => {
@@ -59,7 +59,7 @@ export const getVerifiedDate = (locales = 'en-US'): string =>
 
 const idMeGetters: IDmeGetters = {
   getCustomerGroupData,
-  getExpiratonDate,
+  getExpirationDate,
   getExpirationDays,
   getVerifiedDate,
 };
