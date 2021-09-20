@@ -250,6 +250,8 @@ export {
   FilterTypeInput,
   FixedProductTax,
   FixedProductTaxDisplaySettings,
+  FocusIDmeVerifyInput,
+  FocusIDmeCustomerData,
   FocusInventoryFilterInput,
   FocusInventoryQueryVariables,
   FocusInventorySource,
