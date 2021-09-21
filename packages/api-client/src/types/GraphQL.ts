@@ -112,6 +112,26 @@ export interface AppliedCoupon {
   code: Scalars['String'];
 }
 
+export interface GiftCardAccount {
+  code: Scalars['String'];
+  balance: Money;
+  expiration_date: Scalars['String'];
+}
+
+export interface GiftCardAccountInput {
+  gift_card_code: Scalars['String'];
+}
+
+export interface GiftCardAccountInputArgs {
+  input: GiftCardAccountInput;
+}
+
+export type GiftCardAccountQuery = {
+  giftCardAccount: GiftCardAccount;
+}
+
+export type GiftCardAccountQueryFocus = BaseQuery & GiftCardAccountQuery;
+
 export interface AppliedGiftCard {
   applied_balance: Money;
   code: Scalars['String'];
@@ -5371,6 +5391,7 @@ export interface Query {
   getHostedProUrl?: Maybe<HostedProUrl>;
   /** Retrieve payment credentials for transaction. Use this query for Payflow Link and Payments Advanced payment methods. */
   getPayflowLinkToken?: Maybe<PayflowLinkToken>;
+  giftCardAccount?: Maybe<GiftCardAccount>;
   isEmailAvailable?: Maybe<IsEmailAvailableOutput>;
   /** The pickup locations query searches for locations that match the search request requirements. */
   pickupLocations?: Maybe<PickupLocations>;

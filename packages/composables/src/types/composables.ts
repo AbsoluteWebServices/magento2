@@ -197,6 +197,7 @@ export interface UseAddresses<ADDRESS,
 }
 
 export interface UseCartErrors extends UseCartErrorsBase {
+  checkGiftCard: Error;
   applyGiftCard: Error;
   removeGiftCard: Error;
   focusSetGroupOnItem: Error;
@@ -210,7 +211,7 @@ export interface CartCompliance {
   twenty_one_and_over?: boolean;
 }
 
-export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends UseCartBase<CART, CART_ITEM, PRODUCT> {
+export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD, GIFT_CARD_ACCOUNT> extends UseCartBase<CART, CART_ITEM, PRODUCT> {
   compliance: ComputedProperty<CartCompliance>;
   setCompliance: (compliance: CartCompliance) => void;
   addItem: (
@@ -231,6 +232,9 @@ export interface UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends Us
       customQuery?: CustomQuery;
     }
   ) => Promise<void>;
+  checkGiftCard(params: {
+    giftCardCode: string;
+  }): Promise<GIFT_CARD_ACCOUNT>;
   applyGiftCard(params: {
       giftCardCode: string;
       customQuery?: CustomQuery;
