@@ -2,7 +2,7 @@ import { Ref, computed } from 'vue-demi';
 import { CustomQuery, Context, FactoryParams, sharedRef, Logger, configureFactoryParams } from '@vue-storefront/core';
 import { UseCart, UseCartErrors, CartCompliance } from '../types/composables';
 
-export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> extends FactoryParams {
+export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD, GIFT_CARD_ACCOUNT> extends FactoryParams {
   load: (context: Context, params: { customQuery?: any }) => Promise<CART>;
   addItem: (
     context: Context,
@@ -37,6 +37,7 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CAR
     context: Context,
     params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }
   ) => Promise<{ updatedCart: CART }>;
+  checkGiftCard: (context: Context, params: { giftCardCode: string }) => Promise<GIFT_CARD_ACCOUNT>;
   applyGiftCard: (context: Context, params: { currentCart: CART; giftCardCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART }>;
   removeGiftCard: (
     context: Context,
@@ -48,10 +49,10 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CAR
   focusUnsetPickupDate: (context: Context, params: { currentCart: CART }) => Promise<{ updatedCart: CART }>;
 }
 
-export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
-  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>
+export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD, GIFT_CARD_ACCOUNT>(
+  factoryParams: UseCartFactoryParams<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD, GIFT_CARD_ACCOUNT>
 ) => {
-  return function useCart (): UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD> {
+  return function useCart (): UseCart<CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD, GIFT_CARD_ACCOUNT> {
     const loading: Ref<boolean> = sharedRef(false, 'useCart-loading');
     const cart: Ref<CART> = sharedRef(null, 'useCart-cart');
     const error: Ref<UseCartErrors> = sharedRef({
@@ -63,6 +64,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       clear: null,
       applyCoupon: null,
       removeCoupon: null,
+      checkGiftCard: null,
       applyGiftCard: null,
       removeGiftCard: null,
       focusSetGroupOnItem: null,
@@ -266,6 +268,24 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       }
     };
 
+    const checkGiftCard = async ({ giftCardCode }) => {
+      Logger.debug('useCart.checkGiftCard');
+
+      try {
+        loading.value = true;
+        const result = await _factoryParams.checkGiftCard({
+          giftCardCode
+        });
+        error.value.checkGiftCard = null;
+        return result;
+      } catch (err) {
+        error.value.checkGiftCard = err;
+        Logger.error('useCart/checkGiftCard', err);
+      } finally {
+        loading.value = false;
+      }
+    };
+
     const applyGiftCard = async ({ giftCardCode, customQuery }) => {
       Logger.debug('useCart.applyGiftCard');
 
@@ -382,6 +402,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, COUPON, GIFT_CARD>(
       updateItemQty,
       applyCoupon,
       removeCoupon,
+      checkGiftCard,
       applyGiftCard,
       removeGiftCard,
       focusSetGroupOnItem,

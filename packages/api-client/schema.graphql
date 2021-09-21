@@ -3135,6 +3135,7 @@ type Query {
     getHostedProUrl(input: HostedProUrlInput!): HostedProUrl
     "Retrieve payment credentials for transaction. Use this query for Payflow Link and Payments Advanced payment methods."
     getPayflowLinkToken(input: PayflowLinkTokenInput!): PayflowLinkToken
+    giftCardAccount(input: GiftCardAccountInput!): GiftCardAccount
     isEmailAvailable(
         "The new customer email"
         email: String!
@@ -5845,4 +5846,14 @@ type focusIDmeCustomerData {
     subgroup: String
     user_errors: [focusIDmeCustomerDatInputError]
     group_data: [FocusIDmeCustomerGroupSpecificData]
+}
+
+input GiftCardAccountInput {
+  gift_card_code: String!
+}
+
+type GiftCardAccount {
+  code: String!
+  balance: Money!
+  expiration_date: String
 }

@@ -11,6 +11,7 @@ import {
   CartItem,
   Coupon,
   GiftCard,
+  GiftCardAccount,
   Product,
   RemoveItemFromCartInput,
   UpdateCartItemsInput,
@@ -18,7 +19,7 @@ import {
 import { UseCartFactoryParams, useCartFactory } from '../../factories/useCartFactory';
 import { cartGetters } from '../getters';
 
-const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftCard> = {
+const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftCard, GiftCardAccount> = {
   load: async (context: Context) => {
     const apiState = context.$magento.config.state;
     Logger.debug('[Magento Storefront]: Loading Cart');
@@ -357,6 +358,13 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftC
       updatedCoupon: { code: '' },
     };
   },
+  checkGiftCard: async (context: Context, {
+    giftCardCode,
+  }) => {
+    const response = await context.$magento.api.giftCardAccount(giftCardCode);
+
+    return response.data.giftCardAccount;
+  },
   applyGiftCard: async (context: Context, {
     currentCart,
     giftCardCode,
@@ -440,4 +448,4 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, Coupon, GiftC
   },
 };
 
-export default useCartFactory<Cart, CartItem, Product, Coupon, GiftCard>(factoryParams);
+export default useCartFactory<Cart, CartItem, Product, Coupon, GiftCard, GiftCardAccount>(factoryParams);

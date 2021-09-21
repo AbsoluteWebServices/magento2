@@ -46,6 +46,8 @@ import {
   CustomerUpdateInput,
   DeleteCustomerAddressMutation,
   GenerateCustomerTokenMutation,
+  GiftCardAccount as GiftCardAccountInterface,
+  GiftCardAccountQueryFocus,
   GuestAvailablePaymentMethodsQueryFocus,
   GuestAvailableShippingMethodsQueryFocus,
   MergeCartsMutation,
@@ -147,6 +149,7 @@ export type CustomerAddress = CustomerAddressInterface;
 export type CustomerOrder = CustomerOrderInterface;
 export type CustomerUpdateParameters = CustomerCreateInput;
 export type GiftCard = AppliedGiftCard;
+export type GiftCardAccount = GiftCardAccountInterface;
 export type Order = OrderInterface;
 export type Page = CmsPage;
 export type ProductAttributeFilter = ProductAttributeFilterInput;
@@ -215,6 +218,7 @@ export interface MagentoApiMethods {
   getAvailablePaymentMethods(params: { cartId: string }, customQuery?: CustomQuery): Promise<ApolloQueryResult<GuestAvailablePaymentMethodsQueryFocus>>;
   getAvailableShippingMethods(params: { cartId: string }, customQuery?: CustomQuery): Promise<ApolloQueryResult<GuestAvailableShippingMethodsQueryFocus>>;
   getCustomerAddresses(customQuery?: CustomQuery): Promise<ApolloQueryResult<GetCustomerAddressesQueryFocus>>;
+  giftCardAccount(code: string): Promise<ApolloQueryResult<GiftCardAccountQueryFocus>>;
   groupedProductDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<GroupedProductDetailQuery>>;
   mergeCarts(sourceCartId: string, destinationCartId: string): Promise<FetchResult<MergeCartsMutation>>;
   pickupLocations(searchParams: QueryPickupLocationsArgs): Promise<FetchResult<PickupLocationsQueryFocus>>;
