@@ -6,6 +6,8 @@ import { FetchPolicy } from 'apollo-client/core/watchQueryOptions';
 import {
   AddConfigurableProductsToCartInput,
   AddConfigurableProductsToCartMutation,
+  AddProductsToCompareListInput,
+  AddProductsToCompareListMutation,
   AddSimpleProductsToCartInput,
   AddSimpleProductsToCartMutation,
   AppliedCoupon,
@@ -14,6 +16,7 @@ import {
   ApplyCouponToCartMutation,
   ApplyGiftCardToCartInput,
   ApplyGiftCardToCartMutation,
+  AssignCompareListToCustomerMutation,
   AvailableShippingMethod,
   BaseQuery,
   BundleProduct,
@@ -29,20 +32,26 @@ import {
   CategoryTree,
   CmsPage,
   CmsPageQueryFocus,
+  CompareList as CompareListInterface,
+  CompareListQueryFocus,
   ConfigurableProduct,
   CountriesListQueryFocus,
   CountryInformationQueryFocus,
+  CreateCompareListInput,
+  CreateCompareListMutation,
   CustomerAddress as CustomerAddressInterface,
   CustomerAddressInput,
   CustomerAvailablePaymentMethodsQueryFocus,
   CustomerAvailableShippingMethodsQueryFocus,
   CustomerCartQueryFocus,
+  CustomerCompareListQueryFocus,
   CustomerCreateInput,
   CustomerOrder as CustomerOrderInterface,
   CustomerOrdersQueryFocus,
   CustomerOrdersQueryVariables,
   CustomerQueryFocus,
   CustomerUpdateInput,
+  DeleteCompareListMutation,
   DeleteCustomerAddressMutation,
   GenerateCustomerTokenMutation,
   GiftCardAccount as GiftCardAccountInterface,
@@ -101,6 +110,8 @@ import {
   AddProductsToWishlistMutationVariables,
   AddProductsToWishlistMutation,
   UpdateCustomerEmailMutationVariables,
+  RemoveProductsFromCompareListInput,
+  RemoveProductsFromCompareListMutation,
   RemoveProductsFromWishlistMutationVariables,
   RemoveProductsFromWishlistMutation,
   GetCustomerAddressesQueryFocus,
@@ -140,6 +151,7 @@ export type CartItem = CartItemInterface;
 export type Category = CategoryTree | CategorySearchQueryFocus['categoryList'][0];
 export type CategoryFilter = CategoryFilterInput;
 export type CategoryMenu = CategoryTree;
+export type CompareList = CompareListInterface;
 export type Countries = CountriesListQueryFocus['countries'][0];
 export type Coupon = AppliedCoupon;
 export type CustomerAddress = CustomerAddressInterface;
@@ -186,6 +198,8 @@ export interface MagentoApiMethods {
 
   addProductsToCart(input: AddProductsToCartInput): Promise<FetchResult<AddProductsToCartMutation>>;
 
+  addProductsToCompareList(input: AddProductsToCompareListInput): Promise<FetchResult<AddProductsToCompareListMutation>>;
+
   addProductToWishList(input: AddProductsToWishlistMutationVariables): Promise<FetchResult<AddProductsToWishlistMutation>>;
 
   addSimpleProductsToCart(input: AddSimpleProductsToCartInput): Promise<FetchResult<AddSimpleProductsToCartMutation>>;
@@ -193,6 +207,8 @@ export interface MagentoApiMethods {
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
 
   applyGiftCardToCart(input: ApplyGiftCardToCartInput): Promise<FetchResult<ApplyGiftCardToCartMutation>>;
+
+  assignCompareListToCustomer(uid: string): Promise<FetchResult<AssignCompareListToCustomerMutation>>;
 
   cart(cartId: string): Promise<ApolloQueryResult<CartQueryFocus>>;
 
@@ -208,9 +224,13 @@ export interface MagentoApiMethods {
 
   cmsPage(identifier: string): Promise<ApolloQueryResult<CmsPageQueryFocus>>;
 
+  compareList(uid: string): Promise<ApolloQueryResult<CompareListQueryFocus>>;
+
   countries(): Promise<ApolloQueryResult<CountriesListQueryFocus>>;
 
   country(id: string): Promise<ApolloQueryResult<CountryInformationQueryFocus>>;
+
+  createCompareList(input: CreateCompareListInput): Promise<FetchResult<CreateCompareListMutation>>;
 
   createCustomer(input: CustomerCreateInput): Promise<FetchResult<CreateCustomerMutation>>;
 
@@ -223,6 +243,8 @@ export interface MagentoApiMethods {
   customer(): Promise<ApolloQueryResult<CustomerQueryFocus>>;
 
   customerCart(): Promise<ApolloQueryResult<CustomerCartQueryFocus>>;
+
+  customerCompareList(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerCompareListQueryFocus>>;
 
   customerOrders(orderParams: CustomerOrdersQueryVariables): Promise<ApolloQueryResult<CustomerOrdersQueryFocus>>;
 
@@ -247,6 +269,8 @@ export interface MagentoApiMethods {
   }): Promise<FetchResult<MUTATION>>;
 
   customerProductReview(input: CustomerProductReviewParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerProductReviewQueryFocus>>;
+
+  deleteCompareList(uid: string): Promise<FetchResult<DeleteCompareListMutation>>;
 
   deleteCustomerAddress(addressId: number): Promise<ExecutionResult<DeleteCustomerAddressMutation>>;
 
@@ -289,6 +313,8 @@ export interface MagentoApiMethods {
   removeGiftCardFromCart(input: RemoveGiftCardFromCartInput): Promise<FetchResult<RemoveGiftCardFromCartMutation>>;
 
   removeItemFromCart(input: RemoveItemFromCartInput): Promise<FetchResult<RemoveItemFromCartMutation>>;
+
+  removeProductsFromCompareList(input: RemoveProductsFromCompareListInput): Promise<FetchResult<RemoveProductsFromCompareListMutation>>;
 
   removeProductsFromWishlist(input: RemoveProductsFromWishlistMutationVariables): Promise<FetchResult<RemoveProductsFromWishlistMutation>>;
 
