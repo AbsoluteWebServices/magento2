@@ -5,6 +5,8 @@ import { CustomQuery } from '@vue-storefront/core';
 import {
   AddConfigurableProductsToCartInput,
   AddConfigurableProductsToCartMutation,
+  AddProductsToCompareListInput,
+  AddProductsToCompareListMutation,
   AddSimpleProductsToCartInput,
   AddSimpleProductsToCartMutation,
   AppliedCoupon,
@@ -13,6 +15,7 @@ import {
   ApplyCouponToCartMutation,
   ApplyGiftCardToCartInput,
   ApplyGiftCardToCartMutation,
+  AssignCompareListToCustomerMutation,
   AvailableShippingMethod,
   BundleProduct,
   Cart as CartInterface,
@@ -27,16 +30,21 @@ import {
   CategoryTree,
   CmsPage,
   CmsPageQueryFocus,
+  CompareList as CompareListInterface,
+  CompareListQueryFocus,
   ConfigurableProduct,
   ConfigurableProductDetailQueryFocus,
   CountriesListQueryFocus,
   CountryInformationQueryFocus,
+  CreateCompareListInput,
+  CreateCompareListMutation,
   CreateCustomerAddressMutation,
   CustomerAddress as CustomerAddressInterface,
   CustomerAddressInput,
   CustomerAvailablePaymentMethodsQueryFocus,
   CustomerAvailableShippingMethodsQueryFocus,
   CustomerCartQueryFocus,
+  CustomerCompareListQueryFocus,
   CustomerCreateInput,
   CustomerDataFragment as CustomerFragment,
   CustomerOrder as CustomerOrderInterface,
@@ -44,6 +52,7 @@ import {
   CustomerOrdersQueryVariables,
   CustomerQueryFocus,
   CustomerUpdateInput,
+  DeleteCompareListMutation,
   DeleteCustomerAddressMutation,
   GenerateCustomerTokenMutation,
   GiftCardAccount as GiftCardAccountInterface,
@@ -103,6 +112,8 @@ import {
   AddProductsToWishlistMutation,
   WishlistDataFragment,
   UpdateCustomerEmailMutationVariables,
+  RemoveProductsFromCompareListInput,
+  RemoveProductsFromCompareListMutation,
   RemoveProductsFromWishlistMutationVariables,
   RemoveProductsFromWishlistMutation,
   GetCustomerAddressesQueryFocus,
@@ -142,6 +153,7 @@ export type CartItem = CartItemInterface;
 export type Category = CategoryTree;
 export type CategoryFilter = CategoryFilterInput;
 export type CategoryMenu = CategoryTree;
+export type CompareList = CompareListInterface;
 export type Countries = CountriesListQueryFocus['countries'][0];
 export type Coupon = AppliedCoupon;
 export type Customer = CustomerFragment;
@@ -187,11 +199,13 @@ export interface MagentoApiMethods {
   addBundleProductsToCart(input: AddBundleProductsToCartInput): Promise<FetchResult<AddBundleProductsToCartMutation>>;
   addConfigurableProductsToCart(input: AddConfigurableProductsToCartInput): Promise<FetchResult<AddConfigurableProductsToCartMutation>>;
   addProductsToCart(input: AddProductsToCartInput): Promise<FetchResult<AddProductsToCartMutation>>;
+  addProductsToCompareList(input: AddProductsToCompareListInput): Promise<FetchResult<AddProductsToCompareListMutation>>;
   addProductToWishList(input: AddProductsToWishlistMutationVariables): Promise<FetchResult<AddProductsToWishlistMutation>>;
   addSimpleProductsToCart(input: AddSimpleProductsToCartInput): Promise<FetchResult<AddSimpleProductsToCartMutation>>;
   applyCouponToCart(input: ApplyCouponToCartInput): Promise<FetchResult<ApplyCouponToCartMutation>>;
-  bundleProductDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<BundleProductDetailQuery>>;
   applyGiftCardToCart(input: ApplyGiftCardToCartInput): Promise<FetchResult<ApplyGiftCardToCartMutation>>;
+  assignCompareListToCustomer(uid: string): Promise<FetchResult<AssignCompareListToCustomerMutation>>;
+  bundleProductDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<BundleProductDetailQuery>>;
   cart(cartId: string): Promise<ApolloQueryResult<CartQueryFocus>>;
   category(categoryInput?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CategoryQueryFocus>>;
   categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CategoryListQueryFocus>>;
@@ -199,18 +213,22 @@ export interface MagentoApiMethods {
   changeCustomerPassword(currentPassword: string, newPassword: string): Promise<CustomerFragment>;
   cmsBlocks(identifiers: string[]): Promise<ApolloQueryResult<CmsBlockQuery>>;
   cmsPage(identifier: string): Promise<ApolloQueryResult<CmsPageQueryFocus>>;
+  compareList(uid: string): Promise<ApolloQueryResult<CompareListQueryFocus>>;
   configurableProductDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery):
   Promise<ApolloQueryResult<ConfigurableProductDetailQueryFocus>>;
   countries(): Promise<ApolloQueryResult<CountriesListQueryFocus>>;
   country(id: string): Promise<ApolloQueryResult<CountryInformationQueryFocus>>;
+  createCompareList(input: CreateCompareListInput): Promise<FetchResult<CreateCompareListMutation>>;
   createCustomer(input: CustomerCreateInput): Promise<FetchResult<CreateCustomerMutation>>;
   createCustomerAddress(input: CustomerAddressInput): Promise<FetchResult<CreateCustomerAddressMutation>>;
   createEmptyCart(): Promise<FetchResult<CreateEmptyCartMutation>>;
   createProductReview(input: CreateProductReviewInput): Promise<FetchResult<CreateProductReviewMutation>>;
   customer(): Promise<ApolloQueryResult<CustomerQueryFocus>>;
   customerCart(): Promise<ApolloQueryResult<CustomerCartQueryFocus>>;
+  customerCompareList(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerCompareListQueryFocus>>;
   customerOrders(orderParams: CustomerOrdersQueryVariables): Promise<ApolloQueryResult<CustomerOrdersQueryFocus>>;
   customerProductReview(input: CustomerProductReviewParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerProductReviewQueryFocus>>;
+  deleteCompareList(uid: string): Promise<FetchResult<DeleteCompareListMutation>>;
   deleteCustomerAddress(addressId: number): Promise<ExecutionResult<DeleteCustomerAddressMutation>>;
   generateCustomerToken(email: string, password: string): Promise<FetchResult<GenerateCustomerTokenMutation>>;
   getAvailableCustomerPaymentMethods(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerAvailablePaymentMethodsQueryFocus>>;
@@ -232,6 +250,7 @@ export interface MagentoApiMethods {
   removeCouponFromCart(input: RemoveCouponFromCartInput): Promise<FetchResult<RemoveCouponFromCartMutation>>;
   removeGiftCardFromCart(input: RemoveGiftCardFromCartInput): Promise<FetchResult<RemoveGiftCardFromCartMutation>>;
   removeItemFromCart(input: RemoveItemFromCartInput): Promise<FetchResult<RemoveItemFromCartMutation>>;
+  removeProductsFromCompareList(input: RemoveProductsFromCompareListInput): Promise<FetchResult<RemoveProductsFromCompareListMutation>>;
   removeProductsFromWishlist(input: RemoveProductsFromWishlistMutationVariables): Promise<FetchResult<RemoveProductsFromWishlistMutation>>;
   revokeCustomerToken(): Promise<FetchResult<RevokeCustomerTokenMutation>>;
   requestPasswordResetEmail(input: RequestPasswordResetEmailMutationVariables): Promise<FetchResult<RequestPasswordResetEmailMutation>>;
