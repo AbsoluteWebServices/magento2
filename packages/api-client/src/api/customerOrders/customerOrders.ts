@@ -50,6 +50,10 @@ query customerOrders($currentPage: Int = 1, $filter: CustomerOrdersFilterInput =
         payment_methods {
           name
           type
+          card_data {
+            card_type
+            card_last_4
+          }
           additional_data {
             name
             value
@@ -75,6 +79,9 @@ query customerOrders($currentPage: Int = 1, $filter: CustomerOrdersFilterInput =
           ...OrderAddressData
         }
         shipping_method
+        billing_address {
+          ...OrderAddressData
+        }
       }
       page_info {
         current_page
