@@ -139,6 +139,7 @@ import {
   FocusEstimateShippingMethodsMutation,
   FocusIDmeVerifyInput,
   FocusIDmeVerifyMutation,
+  FocusProductAttributeQuery,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
 import { CustomerProductReviewParams } from '../api/customerProductReview';
@@ -274,4 +275,5 @@ export interface MagentoApiMethods {
   focusInventory(filter: FocusInventoryQueryVariables): Promise<ApolloQueryResult<FocusInventoryQuery>>;
   focusEstimateShippingMethods(input: FocusEstimateShippingMethodsInput): Promise<FetchResult<FocusEstimateShippingMethodsMutation>>;
   focusIDmeVerify(input: FocusIDmeVerifyInput): Promise<FetchResult<FocusIDmeVerifyMutation>>;
+  focusProductAttribute(attribute_code: string): Promise<FetchResult<FocusProductAttributeQuery>>;
 }

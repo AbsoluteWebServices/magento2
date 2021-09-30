@@ -7692,3 +7692,18 @@ export interface DeleteCompareListMutation {
 export interface RemoveProductsFromCompareListMutation {
   removeProductsFromCompareList: CompareList;
 }
+
+export interface FocusProductAttributeQueryVariables {
+  attribute_code: string;
+}
+
+export interface ProductAttribute {
+  attribute_code?: Maybe<Scalars['String']>;
+  attribute_id?: Maybe<Scalars['ID']>;
+  label?: Maybe<Scalars['String']>;
+  options?: Maybe<Array<Maybe<AttributeOption>>>;
+}
+
+export type FocusProductAttributeQuery = BaseQuery & {
+  focusProductAttribute: Maybe<Array<Maybe<ProductAttribute>>>;
+}
