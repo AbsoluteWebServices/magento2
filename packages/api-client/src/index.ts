@@ -503,6 +503,7 @@ export {
   RemoveProductsFromWishlistMutationVariables,
   RemoveProductsFromWishlistOutput,
   ReorderItemsOutput,
+  Return,
   Returns,
   RevokeCustomerTokenMutation,
   RevokeCustomerTokenMutationVariables,

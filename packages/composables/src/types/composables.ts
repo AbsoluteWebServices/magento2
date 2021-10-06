@@ -335,6 +335,7 @@ export interface UseCompareList<COMPARE_LIST, PRODUCT> {
 export interface UseCustomerReturnsErrors {
   search: Error;
 }
+
 export interface UseCustomerReturns<CUSTOMER_RETURNS_DATA, API extends PlatformApi = any> extends Composable<API> {
   search: (params: any) => Promise<CUSTOMER_RETURNS_DATA>;
   result: ComputedProperty<CUSTOMER_RETURNS_DATA>;

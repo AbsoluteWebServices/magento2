@@ -8,7 +8,7 @@ import {
 } from '@vue-storefront/core';
 import { PlatformApi } from '@vue-storefront/core/lib/src/types';
 import { UseCustomerReturns, UseCustomerReturnsErrors } from '../types/composables';
-import { Returns } from '@vue-storefront/magento-api';
+import { CustomerReturnsQueryFocus } from '@vue-storefront/magento-api';
 
 export interface UseCustomerReturnsFactory<CUSTOMER_RETURNS_DATA, API extends PlatformApi = any> extends FactoryParams<API> {
   search: (context: Context, params: any) => Promise<CUSTOMER_RETURNS_DATA>;
@@ -20,7 +20,7 @@ export function useCustomerReturnsFactory<CUSTOMER_RETURNS_DATA, API extends Pla
   return function useCustomerReturns(id: string = ''): UseCustomerReturns<CUSTOMER_RETURNS_DATA, API> {
     // @ts-ignore
     const ssrKey = id || 'useCustomerReturns';
-    const result = sharedRef<Returns | null>(null, `${ssrKey}-result`);
+    const result = sharedRef<CustomerReturnsQueryFocus | null>(null, `${ssrKey}-result`);
     const loading = sharedRef(false, `${ssrKey}-loading`);
     const error = sharedRef<UseCustomerReturnsErrors>({
       search: null,
@@ -37,7 +37,7 @@ export function useCustomerReturnsFactory<CUSTOMER_RETURNS_DATA, API extends Pla
 
         const data = await _factoryParams.search(params);
 
-        result.value = data.customer?.returns;
+        result.value = data;
 
         error.value.search = null;
 
