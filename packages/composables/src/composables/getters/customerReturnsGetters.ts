@@ -11,7 +11,7 @@ export interface CustomerReturnsGetters {
 }
 
 export const getDate = (customerReturn: Return): string =>
-  customerReturn?.created_at ? new Date(customerReturn?.created_at).toLocaleDateString() : ''
+  customerReturn?.created_at ? new Date(customerReturn.created_at).toLocaleDateString()) : ''
 
 export const getOrderId = (customerReturn: Return): string =>
   customerReturn?.order?.number;
