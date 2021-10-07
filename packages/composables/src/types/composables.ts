@@ -413,3 +413,17 @@ export interface UseCompareList<COMPARE_LIST, PRODUCT> {
   removeItems: (params: { products: PRODUCT[]; customQuery?: CustomQuery }) => Promise<void>;
   isInCompareList: (params: { product: PRODUCT }) => boolean;
 }
+
+export interface UseCustomerReturnsErrors {
+  loadReturns: Error;
+  loadReturn: Error;
+}
+
+export interface UseCustomerReturns<CUSTOMER_RETURNS_DATA, CUSTOMER_RETURN_DATA, CUSTOMER_RETURNS_PARAMS, CUSTOMER_RETURN_PARAMS> {
+  loadReturns: (params: CUSTOMER_RETURNS_PARAMS) => Promise<void>;
+  loadReturn: (params: CUSTOMER_RETURN_PARAMS) => Promise<void>;
+  customerReturn: ComputedProperty<CUSTOMER_RETURN_DATA>;
+  customerReturns: ComputedProperty<CUSTOMER_RETURNS_DATA>;
+  error: ComputedProperty<UseCustomerReturnsErrors>;
+  loading: ComputedProperty<boolean>;
+}
