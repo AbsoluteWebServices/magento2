@@ -5699,6 +5699,7 @@ export interface Query {
    */
   wishlist?: Maybe<WishlistOutput>;
   focusInventory?: Maybe<FocusProductInventory>;
+  customerReturns?: Maybe<CustomerReturnsQuery>;
 }
 
 
@@ -7846,3 +7847,76 @@ export interface ProductAttribute {
 export type FocusProductAttributeQuery = BaseQuery & {
   focusProductAttribute: Maybe<Array<Maybe<ProductAttribute>>>;
 }
+
+export enum ReturnStatus {
+  Pending = 'PENDING',
+  Authorized = 'AUTHORIZED',
+  PartiallyAuthorized = 'PARTIALLY_AUTHORIZED',
+  Received = 'RECEIVED',
+  PartiallyReceived = 'PARTIALLY_RECEIVED',
+  Approved = 'APPROVED',
+  PartiallyApproved = 'PARTIALLY_APPROVED',
+  Rejected = 'REJECTED',
+  PartiallyRejected = 'PARTIALLY_REJECTED',
+  Denied = 'DENIED',
+  ProcessedAndClosed = 'PROCESSED_AND_CLOSED',
+  Closed = 'CLOSED'
+}
+
+export enum ReturnItemStatus {
+  Pending = 'PENDING',
+  Authorized = 'AUTHORIZED',
+  Received = 'RECEIVED',
+  Approved = 'APPROVED',
+  Rejected = 'REJECTED',
+  Denied = 'DENIED'
+}
+
+export type ReturnCustomAttribute = {
+  uid: Scalars['ID'];
+  label: Scalars['String'];
+  value: Scalars['String'];
+}
+
+export type ReturnItem = {
+  uid: Scalars['ID'];
+  order_item?: Maybe<OrderItemInterface>;
+  custom_attributes?: Maybe<Array<Maybe<ReturnCustomAttribute>>>;
+  request_quantity: Scalars['Float'];
+  quantity: Scalars['Float'];
+  status: ReturnItemStatus;
+}
+
+export type CustomerReturnOrder = {
+  number: Scalars['String'];
+}
+
+export type Return = {
+  uid: Scalars['ID'];
+  number: Scalars['String'];
+  created_at: Scalars['String'];
+  status?: Maybe<ReturnStatus>;
+  order?: Maybe<CustomerReturnOrder>;
+  items?: Maybe<Array<Maybe<ReturnItem>>>;
+}
+
+export type Returns = {
+  items: Array<Maybe<Return>>;
+  page_info?: Maybe<SearchResultPageInfo>;
+  total_count?: Maybe<Scalars['Int']>;
+}
+
+export type CustomerReturnData = {
+  returns?: Maybe<Returns>;
+}
+
+export type CustomerReturnsQuery = {
+  customer?: Maybe<CustomerReturnData>;
+}
+
+export type CustomerReturnsQueryFocus = BaseQuery & CustomerReturnsQuery;
+
+export type CustomerReturnsQueryVariables = Exact<{
+  currentPage?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+}>
