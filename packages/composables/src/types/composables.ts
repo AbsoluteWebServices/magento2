@@ -333,11 +333,11 @@ export interface UseCompareList<COMPARE_LIST, PRODUCT> {
 }
 
 export interface UseCustomerReturnsErrors {
-  search: Error;
+  loadReturns: Error;
 }
 
-export interface UseCustomerReturns<CUSTOMER_RETURNS_DATA, API extends PlatformApi = any> extends Composable<API> {
-  search: (params: any) => Promise<CUSTOMER_RETURNS_DATA>;
+export interface UseCustomerReturns<CUSTOMER_RETURNS_DATA, CUSTOMER_RETURNS_PARAMS> {
+  loadReturns: (params: CUSTOMER_RETURNS_PARAMS) => Promise<void>;
   result: ComputedProperty<CUSTOMER_RETURNS_DATA>;
   error: ComputedProperty<UseCustomerReturnsErrors>;
   loading: ComputedProperty<boolean>;
