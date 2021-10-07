@@ -12,6 +12,7 @@ export { default as useCompareList } from './composables/useCompareList';
 export { default as useConfig } from './composables/useConfig';
 export { default as useContent } from './composables/useContent';
 export { default as useCountrySearch } from './composables/useCountrySearch';
+export { default as useCustomerReturns } from './composables/useCustomerReturns';
 export { default as useEstimateShippingMethods } from './composables/useEstimateShippingMethods';
 export { default as useExternalCheckout } from './composables/useExternalCheckout';
 export { default as useFacet } from './composables/useFacet';
