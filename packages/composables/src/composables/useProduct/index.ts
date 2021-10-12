@@ -104,7 +104,7 @@ ProductsSearchParams> = {
 
         const productDetailsResults = await context
           .$magento
-          .api
+          .getApi
           .productDetail(searchParams as GetProductSearchParams, (customQuery || {}));
 
         if (productDetailsResults.data.cacheTags) {
@@ -138,7 +138,7 @@ ProductsSearchParams> = {
       case ProductsQueryType.Upsell:
         const upsellProductResults = await context
           .$magento
-          .api
+          .getApi
           .relatedProduct(searchParams as GetProductSearchParams, (customQuery || {}));
 
         Logger.debug('[Result]:', { data: upsellProductResults });
@@ -148,7 +148,7 @@ ProductsSearchParams> = {
       case ProductsQueryType.Related:
         const relatedProductResults = await context
           .$magento
-          .api
+          .getApi
           .relatedProduct(searchParams as GetProductSearchParams, (customQuery || {}));
 
         Logger.debug('[Result]:', { data: relatedProductResults });
@@ -159,7 +159,7 @@ ProductsSearchParams> = {
       default:
         const productListResults = await context
           .$magento
-          .api
+          .getApi
           .products(searchParams as GetProductSearchParams, (customQuery || {}));
 
         if (productListResults.data.cacheTags) {
