@@ -1,10 +1,11 @@
 import { Context, Logger } from '@vue-storefront/core';
 import {
+  UseCustomQueryFactoryFactoryParams,
   useCustomQueryFactory,
 } from '../../factories/useCustomQueryFactory';
 import { FetchPolicy } from '../../types';
 
-export default useCustomQueryFactory({
+const factoryParams: UseCustomQueryFactoryFactoryParams<any, any> = {
   query: async (context: Context, {
     query,
     variables,
@@ -27,4 +28,6 @@ export default useCustomQueryFactory({
 
     return result;
   },
-});
+};
+
+export default useCustomQueryFactory<any, any>(factoryParams);
