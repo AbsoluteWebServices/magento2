@@ -15,7 +15,7 @@ const factoryParams: UseUrlResolverFactoryParams<Route> = {
     Logger.debug('[Magento] Find information based on URL', { url });
     const clearUrl = url.replace(/\/[cp|]\//gi, '');
 
-    const { data } = await context.$magento.api.urlResolver(clearUrl);
+    const { data } = await context.$magento.getApi.urlResolver(clearUrl);
 
     if (data.cacheTags) {
       context.cache.addTags(data.cacheTags);

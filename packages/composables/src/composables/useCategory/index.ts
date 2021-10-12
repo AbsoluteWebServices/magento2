@@ -18,7 +18,7 @@ const factoryParams: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (context: Context, params) => {
     Logger.debug('[Magento]: List available categories', { params });
 
-    const { data } = await context.$magento.api.categoryList(params);
+    const { data } = await context.$magento.getApi.categoryList(params);
 
     if (data.cacheTags) {
       context.cache.addTags(data.cacheTags);
