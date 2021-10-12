@@ -4,10 +4,11 @@ import {
   useUserFactory,
   UseUserFactoryParams,
 } from '@vue-storefront/core';
+import { Customer } from '@vue-storefront/magento-api';
 import useCart from '../useCart';
 import { generateUserData } from '../../helpers/userDataGenerator';
 
-const factoryParams: UseUserFactoryParams<any, any, any> = {
+const factoryParams: UseUserFactoryParams<Customer, any, any> = {
   provide() {
     return {
       cart: useCart(),
@@ -25,7 +26,7 @@ const factoryParams: UseUserFactoryParams<any, any, any> = {
 
       Logger.debug('[Result]:', { data });
 
-      return data.customer;
+      return data.customer as Customer;
     } catch {
       // eslint-disable-next-line no-void
       // @ts-ignore
@@ -61,7 +62,7 @@ const factoryParams: UseUserFactoryParams<any, any, any> = {
 
     Logger.debug('[Result]:', { data });
 
-    return data.updateCustomerV2.customer;
+    return data.updateCustomerV2.customer  as Customer;
   },
   register: async (context: Context, registerParams) => {
     const { email, password, ...baseData } = generateUserData(registerParams);
@@ -119,7 +120,15 @@ const factoryParams: UseUserFactoryParams<any, any, any> = {
   changePassword: async (context: Context, {
     currentPassword,
     newPassword,
-  }) => context.$magento.api.changeCustomerPassword(currentPassword, newPassword),
+  }) => {
+    Logger.debug('[Magento] Change user password');
+
+    const { data } = await context.$magento.api.changeCustomerPassword(currentPassword, newPassword);
+
+    Logger.debug('[Result]:', { data });
+
+    return data.changeCustomerPassword as Customer;
+  },
 };
 
-export default useUserFactory<any, any, any>(factoryParams);
+export default useUserFactory<Customer, any, any>(factoryParams);

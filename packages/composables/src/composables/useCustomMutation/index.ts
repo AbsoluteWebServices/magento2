@@ -1,8 +1,11 @@
 import { Context, Logger } from '@vue-storefront/core';
 import { FetchPolicy } from '../../types';
-import { useCustomMutationFactory } from '../../factories/useMutationQueryFactory';
+import {
+  UseCustomMutationFactoryFactoryParams,
+  useCustomMutationFactory
+} from '../../factories/useMutationQueryFactory';
 
-export default useCustomMutationFactory({
+const factoryParams: UseCustomMutationFactoryFactoryParams<any, any> = {
   mutation: async (context: Context, {
     mutation,
     variables,
@@ -25,4 +28,6 @@ export default useCustomMutationFactory({
 
     return result;
   },
-});
+};
+
+export default useCustomMutationFactory<any, any>(factoryParams);
