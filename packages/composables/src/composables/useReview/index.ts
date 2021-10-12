@@ -28,7 +28,7 @@ ProductReviewRatingMetadata> = {
   searchReviews: async (context: Context, params?: ComposableFunctionArgs<GetProductSearchParams>) => {
     Logger.debug('[Magento] search review params input:', JSON.stringify(params, null, 2));
 
-    const { data } = await context.$magento.api.productReview(params as GetProductSearchParams);
+    const { data } = await context.$magento.getApi.productReview(params as GetProductSearchParams);
 
     if (data.cacheTags) {
       context.cache.addTags(data.cacheTags);

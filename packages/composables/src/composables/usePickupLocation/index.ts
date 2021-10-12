@@ -13,7 +13,7 @@ const factoryParams: UsePickupLocationFactory<PickupLocation, QueryPickupLocatio
     };
   },
   search: async (context: Context, params): Promise<PickupLocation[]> => {
-    const { data } = await context.$magento.api.pickupLocations(params);
+    const { data } = await context.$magento.getApi.pickupLocations(params);
 
     if (data?.cacheTags) {
       context.cache.addTags(data.cacheTags);

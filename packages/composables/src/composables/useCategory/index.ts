@@ -36,7 +36,7 @@ const factoryParams: UseCategoryFactoryParams<Category, any> = {
       }
     }
 
-    const { data } = await context.$magento.api.category({ filters });
+    const { data } = await context.$magento.getApi.category({ filters });
 
     if (data.cacheTags) {
       context.cache.addTags(data.cacheTags);

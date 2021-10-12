@@ -28,7 +28,7 @@ const factoryParams: UseInventoryFactory<FocusProductInventoryItem> = {
   },
 
   search: async (context: Context, params = {}): Promise<FocusProductInventoryItem[]> => {
-    const { data } = await context.$magento.api.focusInventory({ filter: constructFilterObject({ ...params }) });
+    const { data } = await context.$magento.getApi.focusInventory({ filter: constructFilterObject({ ...params }) });
 
     if (data.cacheTags) {
       context.cache.addTags(data.cacheTags);

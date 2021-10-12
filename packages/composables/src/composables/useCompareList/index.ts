@@ -43,7 +43,7 @@ const getProductId = (product: Product) => {
 
 const factoryParams: UseCompareListFactoryParams<CompareList, Product> = {
   load: async (context: Context, params) => {
-    const { data } = await context.$magento.api.compareList(params.uid, params.customQuery || {});
+    const { data } = await context.$magento.getApi.compareList(params.uid, params.customQuery || {});
 
     return data.compareList;
   },

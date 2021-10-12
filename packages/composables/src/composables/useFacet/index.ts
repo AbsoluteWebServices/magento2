@@ -103,10 +103,10 @@ const factoryParams = {
     let response;
     switch(params.input.queryType || ProductsQueryType.List) {
       case ProductsQueryType.Filters:
-        response = await context.$magento.api.productsFilters(productSearchParams);
+        response = await context.$magento.getApi.productsFilters(productSearchParams);
         break;
       default:
-        response = await context.$magento.api.products(productSearchParams);
+        response = await context.$magento.getApi.products(productSearchParams);
         break;
     }
     const { data } = response;
