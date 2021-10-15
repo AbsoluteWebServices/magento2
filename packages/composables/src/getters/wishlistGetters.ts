@@ -5,19 +5,17 @@ import {
   AgnosticTotals, AgnosticPagination,
 } from '@vue-storefront/core';
 import {
-  Wishlist, WishlistQuery,
+  Wishlist, Product,
 } from '@vue-storefront/magento-api';
 
-type WishlistProduct = WishlistQuery['customer']['wishlists'][0]['items_v2']['items'][0];
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItems = (wishlist): WishlistProduct[] => wishlist.items_v2.items;
+export const getItems = (wishlist): Product[] => wishlist.items_v2.items;
 
-export const getItemName = (product: WishlistProduct): string => product?.product?.name || '';
+export const getItemName = (product: Product): string => product?.product?.name || '';
 
-export const getItemImage = (product: WishlistProduct): string => product?.product?.thumbnail.url || '';
+export const getItemImage = (product: Product): string => product?.product?.thumbnail.url || '';
 
-export const getItemPrice = (product: WishlistProduct): AgnosticPrice => {
+export const getItemPrice = (product: Product): AgnosticPrice => {
   let regular = 0;
   let special = null;
 
@@ -37,13 +35,13 @@ export const getItemPrice = (product: WishlistProduct): AgnosticPrice => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemQty = (product: WishlistProduct): number => product.quantity;
+export const getItemQty = (product: Product): number => product.quantity;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemAttributes = (product: WishlistProduct, filterByAttributeName?: string[]) => ({ '': '' });
+export const getItemAttributes = (product: Product, filterByAttributeName?: string[]) => ({ '': '' });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemSku = (product: WishlistProduct): string => product?.product?.sku || '';
+export const getItemSku = (product: Product): string => product?.product?.sku || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getTotals = (wishlist): AgnosticTotals => {
@@ -79,7 +77,7 @@ const getPagination = (wishlistData: Wishlist): AgnosticPagination => ({
 });
 
 const getProducts = (wishlistData: Wishlist[] | Wishlist): {
-  product: WishlistProduct;
+  product: Product;
   quantity: number;
   added_at: string;
 }[] => {
@@ -106,15 +104,15 @@ const getProducts = (wishlistData: Wishlist[] | Wishlist): {
     : wishlistData?.items_v2?.items.map((e) => mapper(e));
 };
 
-export interface WishlistGetters extends BaseWishlistGetters<Wishlist, WishlistProduct> {
+export interface WishlistGetters extends BaseWishlistGetters<Wishlist, Product> {
   getShippingPrice(wishlist: Wishlist): number;
 
-  getItemQty(product: WishlistProduct): number;
+  getItemQty(product: Product): number;
 
   getPagination(wishlistData): AgnosticPagination;
 
   getProducts(wishlistData): {
-    product: WishlistProduct;
+    product: Product;
     quantity: number;
     added_at: string;
   }[];
