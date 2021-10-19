@@ -424,3 +424,14 @@ export interface UseCustomerReturns<CUSTOMER_RETURNS_DATA, CUSTOMER_RETURNS_PARA
   error: ComputedProperty<UseCustomerReturnsErrors>;
   loading: ComputedProperty<boolean>;
 }
+
+export interface UseCustomerReturnErrors {
+  loadReturn: Error;
+}
+
+export interface UseCustomerReturn<CUSTOMER_RETURN_DATA, CUSTOMER_RETURN_PARAMS> {
+  loadReturn: (params: CUSTOMER_RETURN_PARAMS) => Promise<void>;
+  result: ComputedProperty<CUSTOMER_RETURN_DATA>;
+  error: ComputedProperty<UseCustomerReturnErrors>;
+  loading: ComputedProperty<boolean>;
+}
