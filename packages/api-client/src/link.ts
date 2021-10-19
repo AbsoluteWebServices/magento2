@@ -1,13 +1,12 @@
-import { createHttpLink } from 'apollo-link-http';
+import {
+  ApolloClient, HttpLink, InMemoryCache, from,
+} from '@apollo/client/core';
 import fetch from 'isomorphic-fetch';
-import ApolloClient from 'apollo-client';
-import { ApolloLink } from 'apollo-link';
-import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import { setContext } from 'apollo-link-context';
-import { onError } from 'apollo-link-error';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
 import { Logger } from '@absolute-web/vsf-core';
 import { Config } from './types/setup';
-import introspectionQueryResultData from './types/fragmentTypes.json';
+import possibleTypes from './types/fragmentTypes.json';
 
 const createErrorHandler = () => onError(({
   graphQLErrors,
@@ -44,7 +43,7 @@ const createMagentoConnection = (settings: Config): ApolloClient<any> => {
   const apiState = settings.state;
   const storeCode = apiState.getStore();
 
-  const httpLink = createHttpLink({
+  const httpLink = new HttpLink({
     uri: settings.api,
     fetch,
     headers: {
@@ -67,13 +66,9 @@ const createMagentoConnection = (settings: Config): ApolloClient<any> => {
     return { headers };
   });
 
-  const link: ApolloLink = ApolloLink.from([authLink, onErrorLink, httpLink]);
+  const link = from([authLink, onErrorLink, httpLink]);
 
-  const fragmentMatcher = new IntrospectionFragmentMatcher({
-    introspectionQueryResultData,
-  });
-
-  const cache = new InMemoryCache({ fragmentMatcher });
+  const cache = new InMemoryCache({ possibleTypes });
 
   return new ApolloClient({
     cache,

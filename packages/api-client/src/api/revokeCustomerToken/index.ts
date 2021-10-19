@@ -1,4 +1,4 @@
-import { FetchResult } from '@apollo/client';
+import { FetchResult } from '@apollo/client/core';
 import revokeCustomerToken from './revokeCustomerToken';
 import { Context } from '../../types/context';
 import { RevokeCustomerTokenMutation } from '../../types/GraphQL';

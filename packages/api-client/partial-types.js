@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-module */
 require('dotenv').config();
 const fetch = require('node-fetch');
 const fs = require('fs');
@@ -24,13 +25,18 @@ fetch(process.env.MAGENTO_GRAPHQL, {
   }),
 })
   .then((result) => result.json())
+  // eslint-disable-next-line promise/always-return
   .then((result) => {
-    // here we're filtering out any type information unrelated to unions or interfaces
-    const filteredData = result.data.__schema.types.filter(
-      (type) => type.possibleTypes !== null,
-    );
-    result.data.__schema.types = filteredData;
-    fs.writeFileSync('./src/types/fragmentTypes.json', JSON.stringify(result.data), (err) => {
+    const possibleTypes = {};
+
+    // eslint-disable-next-line no-underscore-dangle
+    result.data.__schema.types.forEach((supertype) => {
+      if (supertype.possibleTypes) {
+        possibleTypes[supertype.name] = supertype.possibleTypes.map((subtype) => subtype.name);
+      }
+    });
+
+    fs.writeFileSync('./src/types/fragmentTypes.json', JSON.stringify(possibleTypes), (err) => {
       if (err) {
         console.error('Error writing fragmentTypes file', err);
       } else {

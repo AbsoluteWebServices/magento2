@@ -1,4 +1,4 @@
-import { FetchResult } from '@apollo/client';
+import { FetchResult } from '@apollo/client/core';
 import updateCustomerAddress from './updateCustomerAddress';
 import {
   CustomerAddressInput,

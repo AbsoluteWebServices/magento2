@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client/core';
 import { CustomQuery } from '@absolute-web/vsf-core';
 import { GetCustomerAddressesQuery } from '../../types/GraphQL';
 import getCustomerAddressesQuery from './getCustomerAddresses';

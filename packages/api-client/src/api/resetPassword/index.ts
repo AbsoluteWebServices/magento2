@@ -1,4 +1,4 @@
-import { FetchResult } from '@apollo/client';
+import { FetchResult } from '@apollo/client/core';
 import { CustomQuery, Logger } from '@absolute-web/vsf-core';
 import gql from 'graphql-tag';
 import resetPasswordMutation from './resetPassword';

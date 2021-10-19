@@ -4,7 +4,7 @@ import {
 } from '@absolute-web/vsf-core';
 import { ComputedRef, computed } from '@vue/composition-api';
 import { PlatformApi, UseProductErrors } from '@absolute-web/vsf-core/lib/src/types';
-import { FetchPolicy } from 'apollo-client/core/watchQueryOptions';
+import { FetchPolicy } from '@apollo/client/core';
 
 export type CustomQueryParams = { customQuery?: CustomQuery; [ k: string]: any };
 

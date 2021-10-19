@@ -1,8 +1,6 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult, FetchResult, FetchPolicy } from '@apollo/client/core';
 import { ExecutionResult } from 'graphql';
-import { FetchResult } from '@apollo/client';
 import { CustomQuery } from '@absolute-web/vsf-core';
-import { FetchPolicy } from 'apollo-client/core/watchQueryOptions';
 import {
   AddConfigurableProductsToCartInput,
   AddConfigurableProductsToCartMutation,

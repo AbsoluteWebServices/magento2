@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client/core';
 import { CategoryListQuery, CategoryListQueryVariables } from '../../types/GraphQL';
 import categoryList from './categoryList';
 import { Context } from '../../types/context';

@@ -1,4 +1,4 @@
-import { FetchResult } from '@apollo/client';
+import { FetchResult } from '@apollo/client/core';
 import { CreateProductReviewMutation, CreateProductReviewMutationVariables } from '../../types/GraphQL';
 import createProductReview from './createProductReview';
 import { Context } from '../../types/context';

@@ -1,4 +1,4 @@
-import { FetchResult } from '@apollo/client';
+import { FetchResult } from '@apollo/client/core';
 import { CreateEmptyCartMutation } from '../../types/GraphQL';
 import createEmptyCart from './createEmptyCart';
 import { Context } from '../../types/context';
