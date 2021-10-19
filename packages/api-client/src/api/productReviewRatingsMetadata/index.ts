@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { ProductReviewRatingsMetadataQueryFocus } from '../../types/GraphQL';
 import productReviewRatingsMetadata from './productReviewRatingsMetadata';
 import { Context } from '../../types/context';

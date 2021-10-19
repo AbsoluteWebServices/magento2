@@ -10,7 +10,7 @@ import {
 import { ComputedRef } from '@vue/composition-api';
 import { computed } from 'vue-demi';
 import { PlatformApi, UseProductErrors } from '@vue-storefront/core/lib/src/types';
-import { FetchPolicy } from 'apollo-client/core/watchQueryOptions';
+import { FetchPolicy } from '@apollo/client';
 
 export type CustomQueryParams = { customQuery?: CustomQuery; [ k: string]: any };
 

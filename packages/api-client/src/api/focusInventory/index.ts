@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { FocusInventoryQuery, FocusInventoryQueryVariables } from '../../types/GraphQL';
 import focusInventory from './focusInventory';
 import { Context } from '../../types/context';

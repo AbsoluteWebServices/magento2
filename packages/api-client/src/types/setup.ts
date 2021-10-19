@@ -1,4 +1,4 @@
-import ApolloClient, { ApolloClientOptions } from 'apollo-client';
+import { ApolloClient, ApolloClientOptions } from '@apollo/client';
 import { MagentoApiMethods } from './API';
 
 export interface Storage {

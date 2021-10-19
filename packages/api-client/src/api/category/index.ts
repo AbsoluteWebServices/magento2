@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { CategoryQueryFocus, CategorySearchQueryVariables } from '../../types/GraphQL';
 import category from './category';
 import { Context } from '../../types/context';

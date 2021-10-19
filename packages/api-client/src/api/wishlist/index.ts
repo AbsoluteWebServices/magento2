@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { WishlistQueryFocus, WishlistQueryVariables } from '../../types/GraphQL';
 import wishlist from './wishlist';
 import { Context } from '../../types/context';
