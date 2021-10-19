@@ -416,22 +416,14 @@ export interface UseCompareList<COMPARE_LIST, PRODUCT> {
 
 export interface UseCustomerReturnsErrors {
   loadReturns: Error;
-}
-
-export interface UseCustomerReturns<CUSTOMER_RETURNS_DATA, CUSTOMER_RETURNS_PARAMS> {
-  loadReturns: (params: CUSTOMER_RETURNS_PARAMS) => Promise<void>;
-  result: ComputedProperty<CUSTOMER_RETURNS_DATA>;
-  error: ComputedProperty<UseCustomerReturnsErrors>;
-  loading: ComputedProperty<boolean>;
-}
-
-export interface UseCustomerReturnErrors {
   loadReturn: Error;
 }
 
-export interface UseCustomerReturn<CUSTOMER_RETURN_DATA, CUSTOMER_RETURN_PARAMS> {
+export interface UseCustomerReturns<CUSTOMER_RETURNS_DATA, CUSTOMER_RETURN_DATA, CUSTOMER_RETURNS_PARAMS, CUSTOMER_RETURN_PARAMS> {
+  loadReturns: (params: CUSTOMER_RETURNS_PARAMS) => Promise<void>;
   loadReturn: (params: CUSTOMER_RETURN_PARAMS) => Promise<void>;
-  result: ComputedProperty<CUSTOMER_RETURN_DATA>;
-  error: ComputedProperty<UseCustomerReturnErrors>;
+  customerReturn: ComputedProperty<CUSTOMER_RETURN_DATA>;
+  customerReturns: ComputedProperty<CUSTOMER_RETURNS_DATA>;
+  error: ComputedProperty<UseCustomerReturnsErrors>;
   loading: ComputedProperty<boolean>;
 }
