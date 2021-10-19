@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { UrlResolverQueryFocus, UrlResolverQueryVariables } from '../../types/GraphQL';
 import urlResolver from './urlResolver';
 import { Context } from '../../types/context';

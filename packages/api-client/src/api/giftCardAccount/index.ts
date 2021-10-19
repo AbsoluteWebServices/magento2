@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { GiftCardAccountInputArgs, GiftCardAccountQueryFocus } from '../../types/GraphQL';
 import giftCardAccount from './giftCardAccount';
 import { Context } from '../../types/context';

@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { FocusProductAttributeQuery, FocusProductAttributeQueryVariables } from '../../types/GraphQL';
 import focusProductAttribute from './focusProductAttribute';
 import { Context } from '../../types/context';

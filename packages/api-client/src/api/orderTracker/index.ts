@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { FocusTrackedOrdersQuery, FocusTrackedOrdersQueryVariables } from '../../types/GraphQL';
 import trackedOrders from './trackedOrders';
 import { Context } from '../../types/context';

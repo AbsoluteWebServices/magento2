@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { CustomerOrdersQueryFocus, CustomerOrdersQueryVariables } from '../../types/GraphQL';
 import customerOrders from './customerOrders';
 import { Context } from '../../types/context';

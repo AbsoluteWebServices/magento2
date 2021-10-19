@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { CartQueryFocus, CartQueryVariables } from '../../types/GraphQL';
 import cart from './cart';
 import { Context } from '../../types/context';

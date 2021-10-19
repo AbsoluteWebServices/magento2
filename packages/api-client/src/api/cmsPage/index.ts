@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { Logger } from '@vue-storefront/core';
 import { CmsPageQueryVariables, CmsPageQueryFocus } from '../../types/GraphQL';
 import cmsPage from './cmsPage';
