@@ -12,6 +12,10 @@ items {
     product_sku
     product_name
   }
+  custom_attributes {
+    label
+    value
+  }
   request_quantity
   quantity
   sellercloud_resolutions
