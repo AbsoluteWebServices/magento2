@@ -3399,7 +3399,7 @@ type Query {
   urlResolver(url: String!): EntityUrl @deprecated(reason : "Use the 'route' query instead")
   "The wishlist query returns the contents of a customer's wish list"
   wishlist: WishlistOutput @deprecated(reason : "Moved under `Customer` `wishlist`")
-focusInventory(filter: FocusInventoryFilterInput!): focusProductInventory
+  focusInventory(filter: FocusInventoryFilterInput!): focusProductInventory
   customerReturns(currentPage: Int = 1, pageSize: Int = 20): CustomerReturnsQuery
   customerReturn(uid: ID!): CustomerReturnsQuery
 }
