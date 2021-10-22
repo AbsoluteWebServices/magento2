@@ -427,3 +427,14 @@ export interface UseCustomerReturns<CUSTOMER_RETURNS_DATA, CUSTOMER_RETURN_DATA,
   error: ComputedProperty<UseCustomerReturnsErrors>;
   loading: ComputedProperty<boolean>;
 }
+
+export interface UseProductAttributeErrors {
+  load: Error;
+}
+
+export interface UseProductAttribute<PRODUCT_ATTRIBUTE> {
+  load: (code: string) => Promise<void>;
+  result: ComputedProperty<PRODUCT_ATTRIBUTE>;
+  error: ComputedProperty<UseProductAttributeErrors>;
+  loading: ComputedProperty<boolean>;
+}

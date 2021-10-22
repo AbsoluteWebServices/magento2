@@ -7837,7 +7837,7 @@ export interface FocusProductAttributeQueryVariables {
   attribute_code: string;
 }
 
-export interface ProductAttribute {
+export interface FocusProductAttribute {
   attribute_code?: Maybe<Scalars['String']>;
   attribute_id?: Maybe<Scalars['ID']>;
   label?: Maybe<Scalars['String']>;
@@ -7845,7 +7845,7 @@ export interface ProductAttribute {
 }
 
 export type FocusProductAttributeQuery = BaseQuery & {
-  focusProductAttribute: Maybe<Array<Maybe<ProductAttribute>>>;
+  focusProductAttribute: Maybe<FocusProductAttribute>;
 }
 
 export enum ReturnStatus {
