@@ -264,6 +264,7 @@ export {
   FocusInventoryQueryVariables,
   FocusInventorySource,
   FocusItemGroup,
+  FocusProductAttribute,
   FocusProductInventory,
   FocusProductInventoryItem,
   FocusTrackedOrdersQuery,
