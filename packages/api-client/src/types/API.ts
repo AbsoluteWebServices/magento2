@@ -137,7 +137,9 @@ import {
   FocusIDmeVerifyInput,
   FocusIDmeVerifyMutation,
   FocusProductAttributeQuery,
+  CustomerReturnQueryVariables,
   CustomerReturnsQueryVariables,
+  CustomerReturnQueryFocus,
   CustomerReturnsQueryFocus,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
@@ -367,4 +369,5 @@ export interface MagentoApiMethods {
   focusIDmeVerify(input: FocusIDmeVerifyInput): Promise<FetchResult<FocusIDmeVerifyMutation>>;
   focusProductAttribute(attribute_code: string): Promise<FetchResult<FocusProductAttributeQuery>>;
   customerReturns(returnParams: CustomerReturnsQueryVariables): Promise<ApolloQueryResult<CustomerReturnsQueryFocus>>;
+  customerReturn(returnParams: CustomerReturnQueryVariables): Promise<ApolloQueryResult<CustomerReturnQueryFocus>>;
 }

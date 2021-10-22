@@ -7885,11 +7885,39 @@ export type ReturnItem = {
   request_quantity: Scalars['Float'];
   quantity: Scalars['Float'];
   status: ReturnItemStatus;
+  sellercloud_resolutions: Scalars['String'];
 }
 
 export type CustomerReturnOrder = {
   number: Scalars['String'];
 }
+
+export type ReturnCustomer = {
+  email: Scalars['String'];
+  firstname?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+};
+
+export type ReturnComment = {
+  uid: Scalars['ID'];
+  created_at: Scalars['String'];
+  author_name: Scalars['String'];
+  text: Scalars['String'];
+};
+
+export type ReturnShippingAddress = {
+  contact_name?: Maybe<Scalars['String']>;
+  street: Array<Maybe<Scalars['String']>>;
+  city: Scalars['String'];
+  region: Region;
+  postcode: Scalars['String'];
+  country: Country;
+  telephone?: Maybe<Scalars['String']>;
+};
+
+export type ReturnShipping = {
+  address?: Maybe<ReturnShippingAddress>;
+};
 
 export type Return = {
   uid: Scalars['ID'];
@@ -7898,6 +7926,9 @@ export type Return = {
   status?: Maybe<ReturnStatus>;
   order?: Maybe<CustomerReturnOrder>;
   items?: Maybe<Array<Maybe<ReturnItem>>>;
+  customer: ReturnCustomer;
+  shipping?: Maybe<ReturnShipping>;
+  comments?: Maybe<Array<Maybe<ReturnComment>>>;
 }
 
 export type Returns = {
@@ -7906,12 +7937,12 @@ export type Returns = {
   total_count?: Maybe<Scalars['Int']>;
 }
 
-export type CustomerReturnData = {
+export type CustomerReturnsData = {
   returns?: Maybe<Returns>;
 }
 
 export type CustomerReturnsQuery = {
-  customer?: Maybe<CustomerReturnData>;
+  customer?: Maybe<CustomerReturnsData>;
 }
 
 export type CustomerReturnsQueryFocus = BaseQuery & CustomerReturnsQuery;
@@ -7919,4 +7950,18 @@ export type CustomerReturnsQueryFocus = BaseQuery & CustomerReturnsQuery;
 export type CustomerReturnsQueryVariables = Exact<{
   currentPage?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+}>
+
+export type CustomerReturnData = {
+  return?: Maybe<Return>;
+}
+
+export type CustomerReturnQuery = {
+  customer?: Maybe<CustomerReturnData>;
+}
+
+export type CustomerReturnQueryFocus = BaseQuery & CustomerReturnQuery;
+
+export type CustomerReturnQueryVariables = Exact<{
+  uid: Scalars['ID'];
 }>
