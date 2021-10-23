@@ -7988,3 +7988,7 @@ export type CustomerReturnQueryFocus = BaseQuery & CustomerReturnQuery;
 export type CustomerReturnQueryVariables = Exact<{
   uid: Scalars['ID'];
 }>
+
+export type UsedProductsQuery = { products?: { items?: Array<{ uid: string, used_products?: Array<ProductInterface>; }> } };
+
+export type UsedProductsQueryFocus = BaseQuery & UsedProductsQuery;
