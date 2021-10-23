@@ -95,6 +95,7 @@ import {
   UpdateCustomerAddressMutation,
   UpsellProductsQueryFocus,
   UrlResolverQueryFocus,
+  UsedProductsQueryFocus,
   WishlistItemInterface,
   WishlistQueryFocus,
   WishlistQueryVariables,
@@ -355,6 +356,8 @@ export interface MagentoApiMethods {
   upsellProduct(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<UpsellProductsQueryFocus>>;
 
   urlResolver(url: string): Promise<ApolloQueryResult<UrlResolverQueryFocus>>;
+
+  usedProduct(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<UsedProductsQueryFocus>>;
 
   wishlist(queryParams: WishlistQueryVariables): Promise<ApolloQueryResult<WishlistQueryFocus>>;
 
