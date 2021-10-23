@@ -586,6 +586,8 @@ export {
   UrlResolverQueryVariables,
   UrlRewrite,
   UrlRewriteEntityTypeEnum,
+  UsedProductsQuery,
+  UsedProductsQueryFocus,
   VaultTokenInput,
   VirtualCartItem,
   VirtualProduct,
