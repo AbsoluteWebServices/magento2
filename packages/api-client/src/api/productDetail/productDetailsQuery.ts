@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import freeGiftRuleFragment from '../../fragments/freeGiftRuleFragment';
 
 export default gql`
   query productDetails(
@@ -300,6 +301,9 @@ export default gql`
           }
         }
         pdp_data
+        free_gift_data {
+          ${freeGiftRuleFragment}
+        }
       }
       aggregations {
         attribute_code

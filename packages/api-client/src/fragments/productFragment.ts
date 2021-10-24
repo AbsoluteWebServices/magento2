@@ -1,3 +1,5 @@
+import freeGiftRuleFragment from "./freeGiftRuleFragment";
+
 export default `
 __typename
 id
@@ -122,5 +124,8 @@ brand
       }
     }
   }
+}
+free_gift_data {
+  ${freeGiftRuleFragment}
 }
 `;

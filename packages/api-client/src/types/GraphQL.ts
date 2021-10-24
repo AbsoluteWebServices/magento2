@@ -7375,7 +7375,7 @@ export type ProductDetailsQuery = { products?: { items?: Array<{ uid: string, sk
 export type ProductDetailsQueryFocus = BaseQuery & ProductDetailsQuery & {
   products?: Maybe<{
     aggregations?: Maybe<Array<Maybe<{ attribute_code?: Maybe<string>, label?: Maybe<string>, options?: Maybe<Array<Maybe<{ label?: Maybe<string>, value?: Maybe<string> }>>> }>>>,
-    items?: Maybe<Array<Maybe<{ pdp_data?: Maybe<string> }>>>
+    items?: Maybe<Array<Maybe<{ pdp_data?: Maybe<string>; free_gift_data?: Array<FreeGiftRule | null | undefined> | null | undefined; }>>>
   }>
 };
 
@@ -7618,8 +7618,31 @@ export interface ProductInterfaceFocus {
   inventory?: Maybe<FocusProductInventoryItem>;
   itar_compliance?: Maybe<Scalars['Boolean']>;
   required_age_verification?: Maybe<Scalars['Boolean']>;
+  free_gift_data?: Array<FreeGiftRule | null | undefined> | null | undefined;
   [key: string]: any;
 }
+
+export interface FreeGiftRule {
+  rule_id?: string | null | undefined;
+  auto_add?: boolean | null | undefined;
+  notice?: string | null | undefined;
+  max_gift?: number | null | undefined;
+  gifts?: Array<FreeGiftProduct | null | undefined> | null | undefined;
+}
+
+export interface FreeGiftProduct {
+  id?: number | null | undefined;
+  name?: string | null | undefined;
+  gift_price?: string | null | undefined;
+  free_ship?: boolean | null | undefined;
+  added?: boolean | null | undefined;
+  configurable?: boolean | null | undefined;
+  required_option?: boolean | null | undefined;
+  sku?: string | null | undefined;
+  image?: string | null | undefined;
+  final_price?: string | null | undefined;
+}
+
 export interface FreeGiftItem {
   is_free_gift?: boolean | null | undefined;
   rule_id?: number | null | undefined;
