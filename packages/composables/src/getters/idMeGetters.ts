@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { FocusIDmeCustomerData } from '@vue-storefront/magento-api';
+import { FocusIDmeCustomerData } from '@absolute-web/magento-api';
 
 export interface IDmeGetters {
   getCustomerGroupData(customerData: FocusIDmeCustomerData, handle: string): string;

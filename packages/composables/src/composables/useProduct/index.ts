@@ -5,9 +5,9 @@ import {
   UseProduct,
   useProductFactory,
   UseProductFactoryParams,
-} from '@vue-storefront/core';
-import { GetProductSearchParams, ProductsQueryType, Product, Products, Aggregation } from '@vue-storefront/magento-api';
-import { Scalars } from '@vue-storefront/magento-api/lib/types/GraphQL';
+} from '@absolute-web/vsf-core';
+import { GetProductSearchParams, ProductsQueryType, Product, Products, Aggregation } from '@absolute-web/magento-api';
+import { Scalars } from '@absolute-web/magento-api/lib/types/GraphQL';
 import { useCache } from '@absolute-web/vsf-cache';
 
 const pdpDataBlacklist = ['media_gallery', 'description', 'short_description', 'image', 'small_image', 'thumbnail'];

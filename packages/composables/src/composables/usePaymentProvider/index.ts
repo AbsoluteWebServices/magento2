@@ -1,10 +1,10 @@
 import {
   Context,
   Logger,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import {
   SetPaymentMethodOnCartInputs,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 import useCart from '../useCart';
 import { usePaymentProviderFactory, UsePaymentProviderParams } from '../../factories/usePaymentProviderFactory';
 

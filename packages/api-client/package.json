@@ -1,10 +1,10 @@
 {
-  "name": "@vue-storefront/magento-api",
-  "version": "1.0.0-rc.4",
+  "name": "@absolute-web/magento-api",
+  "version": "0.0.1",
   "sideEffects": false,
-  "homepage": "https://github.com/vuestorefront/magento2",
+  "homepage": "https://github.com/absolutewebservices/magento2",
   "bugs": {
-    "url": "https://github.com/vuestorefront/magento2/issues"
+    "url": "https://github.com/absolutewebservices/magento2/issues"
   },
   "license": "MIT",
   "server": "server/index.js",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",
-    "@vue-storefront/core": "~2.4.2",
+    "@absolute-web/vsf-core": "^0.0.1",
     "graphql": "^15.6.0",
     "graphql-tag": "^2.12.5",
     "isomorphic-fetch": "^3.0.0"
@@ -50,6 +50,10 @@
   "publishConfig": {
     "access": "public",
     "registry":"https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/absolutewebservices/magento2.git"
   },
   "engines": {
     "node": ">=14.x"

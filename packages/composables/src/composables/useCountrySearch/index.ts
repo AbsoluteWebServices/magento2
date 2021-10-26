@@ -1,8 +1,8 @@
 import {
   Context, Logger,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { useCache } from '@absolute-web/vsf-cache';
-import { Countries, Country } from '@vue-storefront/magento-api';
+import { Countries, Country } from '@absolute-web/magento-api';
 import { UseCountryFactoryParams, useCountrySearchFactory } from '../../factories/useCountrySearchFactory';
 import { UseCountrySearch } from '../../types/composables';
 

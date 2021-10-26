@@ -1,14 +1,14 @@
 /* istanbul ignore file */
 import {
   AgnosticTotals,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import {
   CompareList,
   ComparableItem,
   ComparableAttribute,
   ProductAttribute,
   Product,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 import productGetters from './productGetters';
 
 export const getItems = (compareList: CompareList): ComparableItem[] => compareList?.items || [];

@@ -1,5 +1,5 @@
 import { FetchResult } from '@apollo/client';
-import { CustomQuery, Logger } from '@vue-storefront/core';
+import { CustomQuery, Logger } from '@absolute-web/vsf-core';
 import gql from 'graphql-tag';
 import resetPasswordMutation from './resetPassword';
 import {

@@ -3,10 +3,10 @@ import {
   WishlistGetters as BaseWishlistGetters,
   AgnosticPrice,
   AgnosticTotals, AgnosticPagination,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import {
   Wishlist, Product,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItems = (wishlist): Product[] => wishlist.items_v2.items;

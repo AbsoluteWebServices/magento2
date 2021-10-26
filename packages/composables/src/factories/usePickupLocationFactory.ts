@@ -5,7 +5,7 @@ import {
   FactoryParams,
   Logger,
   sharedRef,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { UsePickupLocation, UsePickupLocationErrors } from '../types/composables';
 
 export interface UsePickupLocationFactory<PICKUP_LOCATION, PICKUP_LOCATION_SEARCH_PARAMS> extends FactoryParams {

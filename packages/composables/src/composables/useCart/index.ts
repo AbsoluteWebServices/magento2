@@ -3,7 +3,7 @@
 import {
   Context,
   Logger,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import {
   AddConfigurableProductsToCartInput,
   AddProductsToCartInput,
@@ -13,7 +13,7 @@ import {
   Product,
   RemoveItemFromCartInput,
   UpdateCartItemsInput,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 import {
   UseCartFactoryParams,
   useCartFactory,

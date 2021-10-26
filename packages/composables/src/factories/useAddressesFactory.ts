@@ -5,9 +5,9 @@ import {
   FactoryParams,
   Logger,
   sharedRef,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { computed, Ref } from 'vue-demi';
-import { PlatformApi } from '@vue-storefront/core/lib/src/types';
+import { PlatformApi } from '@absolute-web/vsf-core/lib/src/types';
 import { CustomQueryParams, UseAddresses, UseAddressesErrors } from '../types/composables';
 
 export interface UseAddressesParams<ADDRESS,

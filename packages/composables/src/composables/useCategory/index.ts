@@ -2,11 +2,11 @@ import {
   useCategoryFactory,
   Context,
   UseCategoryFactoryParams, Logger,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { useCache } from '@absolute-web/vsf-cache';
 import {
   Category,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 
 const factoryParams: UseCategoryFactoryParams<Category, any> = {
   provide() {

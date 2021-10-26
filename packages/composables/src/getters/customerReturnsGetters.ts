@@ -1,4 +1,4 @@
-import { Return, ReturnItem, ReturnCustomAttribute } from '@vue-storefront/magento-api';
+import { Return, ReturnItem, ReturnCustomAttribute } from '@absolute-web/magento-api';
 
 export interface CustomerReturnsGetters {
   getCustomerEmail(customerReturn: Return): string;

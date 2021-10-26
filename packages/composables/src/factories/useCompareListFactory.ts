@@ -1,5 +1,5 @@
 import { Ref, computed } from 'vue-demi';
-import { CustomQuery, Context, FactoryParams, sharedRef, Logger, configureFactoryParams } from '@vue-storefront/core';
+import { CustomQuery, Context, FactoryParams, sharedRef, Logger, configureFactoryParams } from '@absolute-web/vsf-core';
 import { UseCompareList, UseCompareListErrors } from '../types/composables';
 
 export interface UseCompareListFactoryParams<COMPARE_LIST, PRODUCT> extends FactoryParams {
