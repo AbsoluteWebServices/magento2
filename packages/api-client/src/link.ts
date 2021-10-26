@@ -1,4 +1,4 @@
-import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client/core';
 import fetch from 'isomorphic-fetch';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
@@ -33,8 +33,6 @@ const createErrorHandler = () => onError(({
   }
 
   if (networkError) {
-    console.log('apollo error');
-    console.log(networkError);
     Logger.error(`[Network error]: ${networkError}`);
   }
 });
