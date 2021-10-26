@@ -1,11 +1,11 @@
 import {
   Context,
   Logger,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { useCache } from '@absolute-web/vsf-cache';
 import {
   FocusProductAttribute,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 import {
   useProductAttributeFactory,
   UseProductAttributeFactoryParams,

@@ -4,11 +4,11 @@ import {
   Context, Logger,
   useWishlistFactory,
   UseWishlistFactoryParams,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import {
   Wishlist,
   WishlistQueryVariables,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 import useUser from '../useUser';
 import { findItemOnWishlist } from '../../helpers/findItemOnWishlist';
 

@@ -1,5 +1,5 @@
-import { Context } from '@vue-storefront/core';
-import { Returns, Return, CustomerReturnQueryVariables, CustomerReturnsQueryVariables } from '@vue-storefront/magento-api';
+import { Context } from '@absolute-web/vsf-core';
+import { Returns, Return, CustomerReturnQueryVariables, CustomerReturnsQueryVariables } from '@absolute-web/magento-api';
 import { UseCustomerReturns } from '../../types/composables';
 import { UseCustomerReturnsFactory, useCustomerReturnsFactory } from '../../factories/useCustomerReturnsFactory';
 const factoryParams: UseCustomerReturnsFactory<Returns, Return, CustomerReturnsQueryVariables, CustomerReturnQueryVariables> = {

@@ -1,5 +1,5 @@
 import { Ref, computed } from 'vue-demi';
-import { CustomQuery, UseUserOrder, Context, FactoryParams, UseUserOrderErrors, PlatformApi, sharedRef, Logger, configureFactoryParams } from '@vue-storefront/core';
+import { CustomQuery, UseUserOrder, Context, FactoryParams, UseUserOrderErrors, PlatformApi, sharedRef, Logger, configureFactoryParams } from '@absolute-web/vsf-core';
 
 export interface UseUserOrderFactoryParams<
   ORDERS,

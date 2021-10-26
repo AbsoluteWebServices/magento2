@@ -1,7 +1,7 @@
 import {
   Context,
-} from '@vue-storefront/core';
-import { PickupLocation, QueryPickupLocationsArgs } from '@vue-storefront/magento-api';
+} from '@absolute-web/vsf-core';
+import { PickupLocation, QueryPickupLocationsArgs } from '@absolute-web/magento-api';
 import { useCache } from '@absolute-web/vsf-cache';
 import { UsePickupLocationFactory, usePickupLocationFactory } from '../../factories/usePickupLocationFactory';
 import { UsePickupLocation } from '../../types/composables';

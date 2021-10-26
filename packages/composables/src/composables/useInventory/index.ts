@@ -1,8 +1,8 @@
 import {
   Context,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { useCache } from '@absolute-web/vsf-cache';
-import { FocusProductInventoryItem } from '@vue-storefront/magento-api';
+import { FocusProductInventoryItem } from '@absolute-web/magento-api';
 import { UseInventoryFactory, useInventoryFactory } from '../../factories/useInventoryFactory';
 import { UseInventory } from '../../types/composables';
 

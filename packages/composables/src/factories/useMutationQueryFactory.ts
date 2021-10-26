@@ -4,9 +4,9 @@ import {
   FactoryParams,
   Logger,
   sharedRef,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { computed } from 'vue-demi';
-import { PlatformApi } from '@vue-storefront/core/lib/src/types';
+import { PlatformApi } from '@absolute-web/vsf-core/lib/src/types';
 import { UseCustomMutation } from '../types/composables';
 import { FetchPolicy } from '../types';
 

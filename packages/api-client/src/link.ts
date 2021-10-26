@@ -2,7 +2,7 @@ import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client/core
 import fetch from 'isomorphic-fetch';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { Logger } from '@vue-storefront/core';
+import { Logger } from '@absolute-web/vsf-core';
 import { Config } from './types/setup';
 import possibleTypes from './types/fragmentTypes.json';
 

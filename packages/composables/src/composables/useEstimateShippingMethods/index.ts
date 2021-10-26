@@ -1,7 +1,7 @@
 import {
   Context,
-} from '@vue-storefront/core';
-import { ShippingMethod } from '@vue-storefront/magento-api';
+} from '@absolute-web/vsf-core';
+import { ShippingMethod } from '@absolute-web/magento-api';
 import { UseEstimateShippingMethods } from '../../types/composables';
 import { UseEstimateShippingMethodsFactory, useEstimateShippingMethodsFactory } from '../../factories/useEstimateShippingMethodsFactory';
 

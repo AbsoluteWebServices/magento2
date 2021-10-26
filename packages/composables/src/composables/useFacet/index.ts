@@ -2,9 +2,9 @@ import {
   Context,
   FacetSearchResult, Logger,
   ProductsSearchParams,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { useCache } from '@absolute-web/vsf-cache';
-import { GetProductSearchParams, ProductsQueryType } from '@vue-storefront/magento-api/src/types/API';
+import { GetProductSearchParams, ProductsQueryType } from '@absolute-web/magento-api/src/types/API';
 import { useFacetFactory } from '../../factories/useFacetFactory';
 
 const availableSortingOptions = [

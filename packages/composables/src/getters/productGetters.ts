@@ -4,13 +4,13 @@ import {
   AgnosticMediaGalleryItem,
   AgnosticPrice,
   ProductGetters as ProductGettersBase,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import {
   BundleProduct,
   Category, GroupedProduct,
   Product,
   FocusProductInventoryItem,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 
 import categoryGetters from './categoryGetters';
 import { htmlDecode } from '../helpers/htmlDecoder';

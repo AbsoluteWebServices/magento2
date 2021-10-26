@@ -5,7 +5,7 @@ import {
   FactoryParams,
   Logger,
   sharedRef,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { UseIDmeVerify, UseIDmeVerifyErrors } from '../types/composables';
 
 export interface UseIDmeVerifyFactory<CUSTOMER_DATA> extends FactoryParams {

@@ -1,6 +1,6 @@
 import {
   CustomQuery, Context, FactoryParams, PlatformApi, sharedRef, Logger, configureFactoryParams,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { computed, Ref } from 'vue-demi';
 import { UseCart, UseCartErrors, CartCompliance } from '../types/composables';
 

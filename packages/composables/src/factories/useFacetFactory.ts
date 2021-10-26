@@ -1,5 +1,5 @@
 import { Ref, computed } from 'vue-demi';
-import { sharedRef, Logger, configureFactoryParams, UseFacet, FacetSearchResult, AgnosticFacetSearchParams, Context, FactoryParams, UseFacetErrors } from '@vue-storefront/core';
+import { sharedRef, Logger, configureFactoryParams, UseFacet, FacetSearchResult, AgnosticFacetSearchParams, Context, FactoryParams, UseFacetErrors } from '@absolute-web/vsf-core';
 
 interface UseFacetFactoryParams<SEARCH_DATA> extends FactoryParams {
   search: (context: Context, params?: FacetSearchResult<SEARCH_DATA>) => Promise<SEARCH_DATA>;

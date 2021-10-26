@@ -1,7 +1,7 @@
 import {
     Context,
-  } from '@vue-storefront/core';
-import { FocusIDmeCustomerData } from '@vue-storefront/magento-api';
+  } from '@absolute-web/vsf-core';
+import { FocusIDmeCustomerData } from '@absolute-web/magento-api';
 import { UseIDmeVerify } from '../../types/composables';
 import { UseIDmeVerifyFactory, useIDmeVerifyFactory } from '../../factories/useIDmeVerifyFactory';
 const factoryParams: UseIDmeVerifyFactory<FocusIDmeCustomerData> = {

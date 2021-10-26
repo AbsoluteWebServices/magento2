@@ -1,5 +1,5 @@
 import { ApolloQueryResult } from '@apollo/client';
-import { Logger } from '@vue-storefront/core';
+import { Logger } from '@absolute-web/vsf-core';
 import { CmsPageQueryVariables, CmsPageQueryFocus } from '../../types/GraphQL';
 import cmsPage from './cmsPage';
 import { Context } from '../../types/context';

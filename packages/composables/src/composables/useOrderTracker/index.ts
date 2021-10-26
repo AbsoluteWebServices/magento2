@@ -1,9 +1,9 @@
 import {
   Context,
   UseUserOrderFactoryParams
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { useUserOrderFactory } from '../../factories/useUserOrderFactory';
-import { CustomerOrders, FocusTrackedOrdersQueryVariables } from '@vue-storefront/magento-api';
+import { CustomerOrders, FocusTrackedOrdersQueryVariables } from '@absolute-web/magento-api';
 
 const factoryParams: UseUserOrderFactoryParams<CustomerOrders, FocusTrackedOrdersQueryVariables> = {
   searchOrders: async (context: Context, param): Promise<CustomerOrders> => {

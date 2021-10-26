@@ -3,8 +3,8 @@ import {
   Context,
   Logger,
   UseUserOrderFactoryParams,
-} from '@vue-storefront/core';
-import { CustomerOrders, CustomerOrdersQueryVariables } from '@vue-storefront/magento-api';
+} from '@absolute-web/vsf-core';
+import { CustomerOrders, CustomerOrdersQueryVariables } from '@absolute-web/magento-api';
 import { useUserOrderFactory } from '../../factories/useUserOrderFactory';
 import useUser from '../useUser';
 

@@ -2,11 +2,11 @@
 /* istanbul ignore file */
 import {
   Context,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import {
   CompareList,
   Product,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 import { useCompareListFactory, UseCompareListFactoryParams } from '../../factories/useCompareListFactory';
 
 const compareProduct = (

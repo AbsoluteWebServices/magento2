@@ -7,8 +7,8 @@ import {
   Context,
   ProductsSearchParams,
   sharedRef, UseProductFactoryParams,
-} from '@vue-storefront/core';
-import { PlatformApi } from '@vue-storefront/core/lib/src/types';
+} from '@absolute-web/vsf-core';
+import { PlatformApi } from '@absolute-web/vsf-core/lib/src/types';
 import { UseUpsellProducts, UseUpsellProductsErrors } from '../types/composables';
 
 export interface UseUpsellProductsFactoryParams<
