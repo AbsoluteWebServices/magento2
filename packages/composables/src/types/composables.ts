@@ -7,8 +7,7 @@ import {
   UseCart as UseCartBase,
   UseCartErrors as UseCartErrorsBase,
 } from '@vue-storefront/core';
-import { ComputedRef } from '@vue/composition-api';
-import { computed } from 'vue-demi';
+import { ComputedRef } from 'vue-demi';
 import { PlatformApi, UseProductErrors } from '@vue-storefront/core/lib/src/types';
 import { FetchPolicy } from '@apollo/client';
 
