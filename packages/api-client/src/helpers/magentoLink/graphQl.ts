@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client';
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client/core';
 import fetch from 'isomorphic-fetch';
 import { stripIgnoredCharacters } from 'graphql';
 import { Logger } from '@vue-storefront/core';
