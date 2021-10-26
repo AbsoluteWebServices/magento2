@@ -2,10 +2,10 @@ import {
   useCategoryFactory,
   Context,
   UseCategoryFactoryParams, Logger,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import {
   Category,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 
 const factoryParams: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (context: Context, params) => {

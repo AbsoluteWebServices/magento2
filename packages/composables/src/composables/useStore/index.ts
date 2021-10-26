@@ -1,4 +1,4 @@
-import { Context, Logger, useStoreFactory } from '@vue-storefront/core';
+import { Context, Logger, useStoreFactory } from '@absolute-web/vsf-core';
 
 const useStore = useStoreFactory<any>({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

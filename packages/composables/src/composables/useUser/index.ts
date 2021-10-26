@@ -3,7 +3,7 @@ import {
   Context, Logger,
   useUserFactory,
   UseUserFactoryParams,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import useCart from '../useCart';
 import { generateUserData } from '../../helpers/userDataGenerator';
 

@@ -2,11 +2,11 @@ import {
   Context,
   CustomQuery, Logger,
   ProductsSearchParams,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import {
   GetProductSearchParams,
   UpsellProductsQuery,
-} from '@vue-storefront/magento-api';
+} from '@absolute-web/magento-api';
 import {
   useUpsellProductsFactory,
   UseUpsellProductsFactoryParams,

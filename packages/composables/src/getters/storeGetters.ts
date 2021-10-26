@@ -1,4 +1,4 @@
-import { AgnosticStore, UseStoreGetters } from '@vue-storefront/core';
+import { AgnosticStore, UseStoreGetters } from '@absolute-web/vsf-core';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getItems(stores: any, criteria: any = {}): AgnosticStore[] {

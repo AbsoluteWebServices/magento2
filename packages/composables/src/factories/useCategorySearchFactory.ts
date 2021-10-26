@@ -4,9 +4,9 @@ import {
   Context,
   FactoryParams,
   Logger,
+  PlatformApi,
   sharedRef,
-} from '@vue-storefront/core';
-import { PlatformApi } from '@vue-storefront/core/lib/src/types';
+} from '@absolute-web/vsf-core';
 import { UseCategorySearch, UseCategorySearchErrors } from '../types/composables';
 
 export interface UseCategorySearchFactory<CATEGORY, API extends PlatformApi = any> extends FactoryParams<API> {

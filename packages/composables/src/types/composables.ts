@@ -1,9 +1,9 @@
 import {
   Composable,
   ComposableFunctionArgs, ComputedProperty, Context, CustomQuery,
-} from '@vue-storefront/core';
+} from '@absolute-web/vsf-core';
 import { ComputedRef, computed } from '@vue/composition-api';
-import { PlatformApi, UseProductErrors } from '@vue-storefront/core/lib/src/types';
+import { PlatformApi, UseProductErrors } from '@absolute-web/vsf-core/lib/src/types';
 import { FetchPolicy } from 'apollo-client/core/watchQueryOptions';
 
 export type CustomQueryParams = { customQuery?: CustomQuery; [ k: string]: any };

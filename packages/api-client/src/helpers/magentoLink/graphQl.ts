@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch';
 import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import { Logger } from '@vue-storefront/core';
+import { Logger } from '@absolute-web/vsf-core';
 import { onError } from 'apollo-link-error';
 import { RetryLink } from 'apollo-link-retry';
 import { setContext } from 'apollo-link-context';

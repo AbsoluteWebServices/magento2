@@ -4,9 +4,9 @@ import {
   configureFactoryParams,
   FactoryParams,
   Logger,
+  PlatformApi,
   sharedRef,
-} from '@vue-storefront/core';
-import { PlatformApi } from '@vue-storefront/core/lib/src/types';
+} from '@absolute-web/vsf-core';
 import { UseGuestUser, UseGuestUserErrors } from '../types/composables';
 
 export interface UseGuestUserFactoryParams<GUEST_USER,

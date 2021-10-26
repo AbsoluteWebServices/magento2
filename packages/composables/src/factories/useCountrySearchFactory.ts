@@ -4,8 +4,8 @@ import {
   sharedRef,
   Logger,
   configureFactoryParams, FactoryParams,
-} from '@vue-storefront/core';
-import { PlatformApi } from '@vue-storefront/core/lib/src/types';
+  PlatformApi,
+} from '@absolute-web/vsf-core';
 import { UseCountrySearch, UseCountrySearchErrors } from '../types/composables';
 
 export interface UseCountryFactoryParams<COUNTRIES, COUNTRY, API extends PlatformApi = any> extends FactoryParams<API>{

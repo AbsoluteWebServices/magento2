@@ -4,8 +4,8 @@ import {
   sharedRef,
   Logger,
   configureFactoryParams, FactoryParams,
-} from '@vue-storefront/core';
-import { PlatformApi } from '@vue-storefront/core/lib/src/types';
+  PlatformApi,
+} from '@absolute-web/vsf-core';
 import { UseConfig } from '../types/composables';
 
 export interface UseConfigFactoryParams<CONFIG, API extends PlatformApi = any> extends FactoryParams<API>{
