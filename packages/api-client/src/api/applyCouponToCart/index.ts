@@ -15,4 +15,5 @@ export default async (
   .mutate<ApplyCouponToCartMutation, ApplyCouponToCartMutationVariables>({
   mutation: applyCouponToCart,
   variables: { input },
+  errorPolicy: 'all',
 });

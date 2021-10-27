@@ -2,13 +2,13 @@ import {
   Composable,
   ComposableFunctionArgs,
   ComputedProperty,
-  Context,
   CustomQuery,
+  PlatformApi,
   UseCart as UseCartBase,
   UseCartErrors as UseCartErrorsBase,
+  UseUserErrors as UseUserErrorsBase,
 } from '@absolute-web/vsf-core';
 import { ComputedRef } from 'vue-demi';
-import { PlatformApi, UseProductErrors } from '@absolute-web/vsf-core/lib/src/types';
 import { FetchPolicy } from '@apollo/client';
 
 export type CustomQueryParams = { customQuery?: CustomQuery; [ k: string]: any };
@@ -448,4 +448,8 @@ export interface UseProductAttribute<PRODUCT_ATTRIBUTE> {
   result: ComputedProperty<PRODUCT_ATTRIBUTE>;
   error: ComputedProperty<UseProductAttributeErrors>;
   loading: ComputedProperty<boolean>;
+}
+
+export interface UseUserErrors extends UseUserErrorsBase {
+  cart: Error;
 }

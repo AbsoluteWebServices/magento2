@@ -1,11 +1,12 @@
 import {
   CustomQuery, Context, FactoryParams, PlatformApi, sharedRef, Logger, configureFactoryParams,
 } from '@absolute-web/vsf-core';
+import { GraphQLError } from 'graphql';
 import { computed, Ref } from 'vue-demi';
 import { UseCart, UseCartErrors, CartCompliance } from '../types/composables';
 
 export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extends PlatformApi = any> extends FactoryParams<API> {
-  load: (context: Context, params: { customQuery?: any; realCart?: boolean; }) => Promise<CART>;
+  load: (context: Context, params: { customQuery?: any; realCart?: boolean; }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   addItem: (
     context: Context,
     params: {
@@ -15,7 +16,7 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUN
       enteredOptions?: any;
       customQuery?: CustomQuery;
     }
-  ) => Promise<CART>;
+  ) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   addItems: (
     context: Context,
     params: {
@@ -27,28 +28,28 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUN
       }[];
       customQuery?: CustomQuery;
     }
-  ) => Promise<CART>;
-  removeItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; customQuery?: CustomQuery }) => Promise<CART>;
+  ) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  removeItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   updateItemQty: (
     context: Context,
     params: { currentCart: CART; product: CART_ITEM; quantity: number; customQuery?: CustomQuery }
-  ) => Promise<CART>;
-  clear: (context: Context, params: { currentCart: CART }) => Promise<CART>;
-  applyCoupon: (context: Context, params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART }>;
+  ) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  clear: (context: Context, params: { currentCart: CART }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  applyCoupon: (context: Context, params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   removeCoupon: (
     context: Context,
     params: { currentCart: CART; couponCode: string; customQuery?: CustomQuery }
-  ) => Promise<{ updatedCart: CART }>;
+  ) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   checkGiftCard: (context: Context, params: { giftCardCode: string }) => Promise<GIFT_CARD_ACCOUNT>;
-  applyGiftCard: (context: Context, params: { currentCart: CART; giftCardCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART }>;
+  applyGiftCard: (context: Context, params: { currentCart: CART; giftCardCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   removeGiftCard: (
     context: Context,
     params: { currentCart: CART; giftCardCode: string; customQuery?: CustomQuery }
-  ) => Promise<{ updatedCart: CART }>;
+  ) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
-  focusSetGroupOnItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; groupType: string; }) => Promise<{ updatedCart: CART }>;
-  focusUpdateCartGroup: (context: Context, params: { currentCart: CART; groupType: string; data: any }) => Promise<{ updatedCart: CART }>;
-  focusUnsetPickupDate: (context: Context, params: { currentCart: CART }) => Promise<{ updatedCart: CART }>;
+  focusSetGroupOnItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; groupType: string; }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  focusUpdateCartGroup: (context: Context, params: { currentCart: CART; groupType: string; data: any }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  focusUnsetPickupDate: (context: Context, params: { currentCart: CART }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
 }
 
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extends PlatformApi = any>(
@@ -90,7 +91,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
   );
 
   const setCart = (newCart: CART) => {
-    cart.value = newCart;
+    cart.value = null;
+    let items = (newCart as any)?.items;
+    if (items?.length) {
+      items = items.filter((item) => item);
+    }
+    cart.value = newCart ? {
+      ...newCart,
+      ...(items ? { items } : {}),
+    } : newCart;
     Logger.debug('useCartFactory.setCart', newCart);
   };
 
@@ -98,7 +107,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     compliance.value = {
       ...compliance.value,
       ...value,
-    }
+    };
   };
 
   const addItem = async ({
@@ -115,14 +124,17 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const updatedCart = await _factoryParams.addItem({
+      error.value.addItem = null;
+      const { updatedCart, errors } = await _factoryParams.addItem({
         currentCart: cart.value,
         product,
         quantity,
         enteredOptions,
         customQuery,
       });
-      error.value.addItem = null;
+      if (errors) {
+        error.value.addItem = errors;
+      }
       cart.value = updatedCart;
     } catch (err) {
       error.value.addItem = err;
@@ -137,12 +149,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const updatedCart = await _factoryParams.addItems({
+      error.value.addItems = null;
+      const { updatedCart, errors } = await _factoryParams.addItems({
         currentCart: cart.value,
         products,
-        customQuery
+        customQuery,
       });
-      error.value.addItems = null;
+      if (errors) {
+        error.value.addItems = errors;
+      }
       cart.value = updatedCart;
     } catch (err) {
       error.value.addItems = err;
@@ -160,12 +175,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const updatedCart = await _factoryParams.removeItem({
+      error.value.removeItem = null;
+      const { updatedCart, errors } = await _factoryParams.removeItem({
         currentCart: cart.value,
         product,
         customQuery,
       });
-      error.value.removeItem = null;
+      if (errors) {
+        error.value.removeItem = errors;
+      }
       cart.value = updatedCart;
     } catch (err) {
       error.value.removeItem = err;
@@ -188,13 +206,16 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     if (quantity && quantity > 0) {
       try {
         loading.value = true;
-        const updatedCart = await _factoryParams.updateItemQty({
+        error.value.updateItemQty = null;
+        const { updatedCart, errors } = await _factoryParams.updateItemQty({
           currentCart: cart.value,
           product,
           quantity,
           customQuery,
         });
-        error.value.updateItemQty = null;
+        if (errors) {
+          error.value.updateItemQty = errors;
+        }
         cart.value = updatedCart;
       } catch (err) {
         error.value.updateItemQty = err;
@@ -220,8 +241,12 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
     try {
       loading.value = true;
-      cart.value = await _factoryParams.load({ customQuery });
       error.value.load = null;
+      const { updatedCart, errors } = await _factoryParams.load({ customQuery });
+      if (errors) {
+        error.value.load = errors;
+      }
+      cart.value = updatedCart;
     } catch (err) {
       error.value.load = err;
       Logger.error('useCart/load', err);
@@ -235,8 +260,11 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const updatedCart = await _factoryParams.clear({ currentCart: cart.value });
       error.value.clear = null;
+      const { updatedCart, errors } = await _factoryParams.clear({ currentCart: cart.value });
+      if (errors) {
+        error.value.clear = errors;
+      }
       cart.value = updatedCart;
     } catch (err) {
       error.value.clear = err;
@@ -259,12 +287,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const { updatedCart } = await _factoryParams.applyCoupon({
+      error.value.applyCoupon = null;
+      const { updatedCart, errors } = await _factoryParams.applyCoupon({
         currentCart: cart.value,
         couponCode,
         customQuery,
       });
-      error.value.applyCoupon = null;
+      if (errors) {
+        error.value.applyCoupon = errors;
+      }
       cart.value = updatedCart;
     } catch (err) {
       error.value.applyCoupon = err;
@@ -282,12 +313,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const { updatedCart } = await _factoryParams.removeCoupon({
+      error.value.removeCoupon = null;
+      const { updatedCart, errors } = await _factoryParams.removeCoupon({
         currentCart: cart.value,
         couponCode,
         customQuery,
       });
-      error.value.removeCoupon = null;
+      if (errors) {
+        error.value.removeCoupon = errors;
+      }
       cart.value = updatedCart;
       loading.value = false;
     } catch (err) {
@@ -304,7 +338,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     try {
       loading.value = true;
       const result = await _factoryParams.checkGiftCard({
-        giftCardCode
+        giftCardCode,
       });
       error.value.checkGiftCard = null;
       return result;
@@ -321,12 +355,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const { updatedCart } = await _factoryParams.applyGiftCard({
+      error.value.applyGiftCard = null;
+      const { updatedCart, errors } = await _factoryParams.applyGiftCard({
         currentCart: cart.value,
         giftCardCode,
-        customQuery
+        customQuery,
       });
-      error.value.applyGiftCard = null;
+      if (errors) {
+        error.value.applyGiftCard = errors;
+      }
       cart.value = updatedCart;
     } catch (err) {
       error.value.applyGiftCard = err;
@@ -341,14 +378,16 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const { updatedCart } = await _factoryParams.removeGiftCard({
+      error.value.removeGiftCard = null;
+      const { updatedCart, errors } = await _factoryParams.removeGiftCard({
         currentCart: cart.value,
         giftCardCode,
-        customQuery
+        customQuery,
       });
-      error.value.removeGiftCard = null;
+      if (errors) {
+        error.value.removeGiftCard = errors;
+      }
       cart.value = updatedCart;
-      loading.value = false;
     } catch (err) {
       error.value.removeGiftCard = err;
       Logger.error('useCart/removeGiftCard', err);
@@ -362,14 +401,16 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const { updatedCart } = await _factoryParams.focusSetGroupOnItem({
+      error.value.focusSetGroupOnItem = null;
+      const { updatedCart, errors } = await _factoryParams.focusSetGroupOnItem({
         currentCart: cart.value,
         product,
         groupType,
       });
-      error.value.focusSetGroupOnItem = null;
+      if (errors) {
+        error.value.focusSetGroupOnItem = errors;
+      }
       cart.value = updatedCart;
-      loading.value = false;
     } catch (err) {
       error.value.focusSetGroupOnItem = err;
       Logger.error('useCart/focusSetGroupOnItem', err);
@@ -383,14 +424,16 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const { updatedCart } = await _factoryParams.focusUpdateCartGroup({
+      error.value.focusUpdateCartGroup = null;
+      const { updatedCart, errors } = await _factoryParams.focusUpdateCartGroup({
         currentCart: cart.value,
         groupType,
         data,
       });
-      error.value.focusUpdateCartGroup = null;
+      if (errors) {
+        error.value.focusUpdateCartGroup = errors;
+      }
       cart.value = updatedCart;
-      loading.value = false;
     } catch (err) {
       error.value.focusUpdateCartGroup = err;
       Logger.error('useCart/focusUpdateCartGroup', err);
@@ -404,12 +447,14 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
 
     try {
       loading.value = true;
-      const { updatedCart } = await _factoryParams.focusUnsetPickupDate({
+      error.value.focusUnsetPickupDate = null;
+      const { updatedCart, errors } = await _factoryParams.focusUnsetPickupDate({
         currentCart: cart.value,
       });
-      error.value.focusUnsetPickupDate = null;
+      if (errors) {
+        error.value.focusUnsetPickupDate = errors;
+      }
       cart.value = updatedCart;
-      loading.value = false;
     } catch (err) {
       error.value.focusUnsetPickupDate = err;
       Logger.error('useCart/focusUnsetPickupDate', err);

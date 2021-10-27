@@ -7,4 +7,5 @@ export default async ({ client }: Context): Promise<ApolloQueryResult<CustomerCa
   .query<CustomerCartQueryFocus>({
   query: customerCart,
   fetchPolicy: 'no-cache',
+  errorPolicy: 'all',
 });
