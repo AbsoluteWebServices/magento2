@@ -16,4 +16,5 @@ UpdateCartItemsMutation,
 UpdateCartItemsMutationVariables>({
   mutation: updateCartItems,
   variables: { input },
+  errorPolicy: 'all',
 });

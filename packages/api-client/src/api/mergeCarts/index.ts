@@ -14,4 +14,5 @@ export default async (
     sourceCartId,
     destinationCartId,
   },
+  errorPolicy: 'all',
 });

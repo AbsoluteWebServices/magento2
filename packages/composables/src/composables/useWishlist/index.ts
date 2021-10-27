@@ -34,7 +34,7 @@ const factoryParams: UseWishlistFactoryParams<any, any, any> = {
       return data.customer.wishlists;
     }
 
-    return [];
+    return null;
   },
   addItem: async (context, params) => {
     const {
@@ -122,7 +122,7 @@ const factoryParams: UseWishlistFactoryParams<any, any, any> = {
 
     return data.removeProductsFromWishlist.wishlist;
   },
-  clear: async ({ currentWishlist }) => ({}),
+  clear: async ({ currentWishlist }) => (null),
   isInWishlist: (context, params) => {
     const {
       currentWishlist,

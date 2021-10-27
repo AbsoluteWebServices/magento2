@@ -1,11 +1,10 @@
 /* istanbul ignore file */
 import {
   Context, Logger,
-  useUserFactory,
-  UseUserFactoryParams,
 } from '@absolute-web/vsf-core';
 import useCart from '../useCart';
 import { generateUserData } from '../../helpers/userDataGenerator';
+import { UseUserFactoryParams, useUserFactory } from '../../factories/useUserFactory';
 
 const factoryParams: UseUserFactoryParams<any, any, any> = {
   provide() {
@@ -41,7 +40,7 @@ const factoryParams: UseUserFactoryParams<any, any, any> = {
 
     apiState.setCustomerToken(null);
     apiState.setCartId(null);
-    // context.cart.setCart(null);
+    context.cart.setCart(null);
   },
   updateUser: async (context: Context, params) => {
     Logger.debug('[Magento] Update user information', { params });
@@ -104,20 +103,39 @@ const factoryParams: UseUserFactoryParams<any, any, any> = {
     const currentCartId = apiState.getCartId();
     const cart = await context.$magento.api.customerCart();
     const newCartId = cart.data.customerCart.id;
+    let cartErrors;
 
-    if (newCartId && currentCartId && currentCartId !== newCartId) {
-      const { data: dataMergeCart } = await context.$magento.api.mergeCarts(currentCartId, newCartId);
+    if (cart.errors?.length) {
+      cartErrors = cart.errors;
+    }
 
-      context.cart.setCart(dataMergeCart.mergeCarts);
+    if (newCartId) {
+      if (currentCartId && currentCartId !== newCartId) {
+        const { data: dataMergeCart, errors: errorsMergeCart } = await context.$magento.api.mergeCarts(currentCartId, newCartId);
 
-      apiState.setCartId(dataMergeCart.mergeCarts.id);
-    } else {
-      context.cart.setCart(cart.data.customerCart);
+        if (errorsMergeCart?.length) {
+          cartErrors = cartErrors ? [
+            ...cartErrors,
+            ...errorsMergeCart,
+          ] : errorsMergeCart;
+        }
+
+        context.cart.setCart(dataMergeCart.mergeCarts);
+
+        apiState.setCartId(dataMergeCart.mergeCarts.id);
+      } else {
+        context.cart.setCart(cart.data.customerCart);
+
+        apiState.setCartId(newCartId);
+      }
     }
 
     await context.$magento.api.wishlist({});
 
-    return factoryParams.load(context);
+    return {
+      userData: await factoryParams.load(context),
+      errors: cartErrors,
+    };
   },
   changePassword: async (context: Context, {
     currentPassword,
