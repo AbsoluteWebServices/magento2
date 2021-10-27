@@ -11,4 +11,5 @@ export default async (
   query: cart,
   variables: { cartId },
   fetchPolicy: 'no-cache',
+  errorPolicy: 'all',
 });

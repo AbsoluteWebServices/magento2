@@ -1,6 +1,6 @@
 {
   "name": "@absolute-web/magento-api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "sideEffects": false,
   "homepage": "https://github.com/absolutewebservices/magento2",
   "bugs": {
@@ -25,10 +25,12 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",
-    "@absolute-web/vsf-core": "^0.0.1",
     "graphql": "^15.6.0",
     "graphql-tag": "^2.12.5",
     "isomorphic-fetch": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@absolute-web/vsf-core": "~0.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",

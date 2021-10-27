@@ -14,4 +14,5 @@ export default async (
   .mutate<AddSimpleProductsToCartMutation, AddSimpleProductsToCartMutationVariables>({
   mutation: addSimpleProductsToCart,
   variables: { input },
+  errorPolicy: 'all',
 });

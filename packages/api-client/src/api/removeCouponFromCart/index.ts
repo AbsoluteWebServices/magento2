@@ -14,4 +14,5 @@ export default async (
   .mutate<RemoveCouponFromCartMutation, RemoveCouponFromCartMutationVariables>({
   mutation: removeCouponFromCart,
   variables: { input },
+  errorPolicy: 'all',
 });

@@ -1,12 +1,11 @@
 /* istanbul ignore file */
 import {
   Context, Logger,
-  useUserFactory,
-  UseUserFactoryParams,
 } from '@absolute-web/vsf-core';
 import { Customer } from '@absolute-web/magento-api';
 import useCart from '../useCart';
 import { generateUserData } from '../../helpers/userDataGenerator';
+import { UseUserFactoryParams, useUserFactory } from '../../factories/useUserFactory';
 
 const factoryParams: UseUserFactoryParams<Customer, any, any> = {
   provide() {
@@ -42,6 +41,7 @@ const factoryParams: UseUserFactoryParams<Customer, any, any> = {
 
     apiState.setCustomerToken(null);
     apiState.setCartId(null);
+    context.cart.setCart(null);
   },
   updateUser: async (context: Context, params) => {
     Logger.debug('[Magento] Update user information', { params });
@@ -62,7 +62,7 @@ const factoryParams: UseUserFactoryParams<Customer, any, any> = {
 
     Logger.debug('[Result]:', { data });
 
-    return data.updateCustomerV2.customer  as Customer;
+    return data.updateCustomerV2.customer as Customer;
   },
   register: async (context: Context, registerParams) => {
     const { email, password, ...baseData } = generateUserData(registerParams);
@@ -104,18 +104,37 @@ const factoryParams: UseUserFactoryParams<Customer, any, any> = {
     const currentCartId = apiState.getCartId();
     const cart = await context.$magento.api.customerCart();
     const newCartId = cart.data.customerCart.id;
+    let cartErrors;
 
-    if (newCartId && currentCartId && currentCartId !== newCartId) {
-      const { data: dataMergeCart } = await context.$magento.api.mergeCarts(currentCartId, newCartId);
-
-      context.cart.setCart(dataMergeCart.mergeCarts);
-
-      apiState.setCartId(dataMergeCart.mergeCarts.id);
+    if (cart.errors?.length) {
+      cartErrors = cart.errors;
     }
 
-    await context.$magento.api.wishlist({});
+    if (newCartId) {
+      if (currentCartId && currentCartId !== newCartId) {
+        const mergeCart = await context.$magento.api.mergeCarts(currentCartId, newCartId);
 
-    return factoryParams.load(context);
+        if (mergeCart.errors?.length) {
+          cartErrors = cartErrors ? [
+            ...cartErrors,
+            ...mergeCart.errors,
+          ] : mergeCart.errors;
+        }
+
+        context.cart.setCart(mergeCart.data.mergeCarts);
+
+        apiState.setCartId(mergeCart.data.mergeCarts.id);
+      } else {
+        context.cart.setCart(cart.data.customerCart);
+
+        apiState.setCartId(newCartId);
+      }
+    }
+
+    return {
+      userData: await factoryParams.load(context),
+      errors: cartErrors,
+    };
   },
   changePassword: async (context: Context, {
     currentPassword,
