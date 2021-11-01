@@ -3,6 +3,12 @@ import freeGiftRuleFragment from './freeGiftRuleFragment';
 
 export default `
 ${baseProductFragment}
+media_gallery {
+  url
+  position
+  disabled
+  label
+}
 ...on ConfigurableProduct {
   configurable_options {
     attribute_code
