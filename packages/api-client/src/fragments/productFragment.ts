@@ -10,6 +10,12 @@ name
 stock_status
 only_x_left_in_stock
 rating_summary
+media_gallery {
+  url
+  position
+  disabled
+  label
+}
 thumbnail {
   url
   position
