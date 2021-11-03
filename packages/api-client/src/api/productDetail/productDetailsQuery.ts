@@ -112,6 +112,16 @@ export default gql`
           position
           disabled
           label
+          ... on ProductVideo {
+            video_content {
+              media_type
+              video_provider
+              video_url
+              video_title
+              video_description
+              video_metadata
+            }
+          }
         }
         thumbnail {
           url
@@ -208,6 +218,16 @@ export default gql`
               label
               position
               url
+              ... on ProductVideo {
+                video_content {
+                  media_type
+                  video_provider
+                  video_url
+                  video_title
+                  video_description
+                  video_metadata
+                }
+              }
             }
             variant {
               uid
