@@ -18,10 +18,15 @@ const factoryParams: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (context: Context, params) => {
     Logger.debug('[Magento]: List available categories', { params });
 
+    const {
+      preview,
+      ...searchParams
+    } = params;
+
     const filters = {};
 
-    Object.keys(params).forEach((key) => {
-      const value = params[key];
+    Object.keys(searchParams).forEach((key) => {
+      const value = searchParams[key];
 
       if (key === 'name') {
         filters[key] = { match: value };
@@ -32,7 +37,7 @@ const factoryParams: UseCategoryFactoryParams<Category, any> = {
       }
     });
 
-    const { data } = await context.$magento.getApi.category({ filters });
+    const { data } = await context.$magento.getApi.category({ filters }, preview);
 
     if (data.cacheTags) {
       context.cache.addTags(data.cacheTags);
