@@ -1,13 +1,15 @@
 import gql from 'graphql-tag';
 import { ApolloQueryResult } from '@apollo/client';
-import { CustomQuery, Logger } from '@absolute-web/vsf-core';
+import { CustomQuery } from '@absolute-web/vsf-core';
 import {
   ProductAttributeFilterInput,
   ProductAttributeSortInput,
   ProductDetailsQueryFocus,
   ProductDetailsQueryVariables,
+  StagingPreviewParams,
 } from '../../types/GraphQL';
 import detailQuery from './productDetailsQuery';
+import previewDetailQuery from './productDetailsQueryPreview';
 import { Context } from '../../types/context';
 import { GetProductSearchParams } from '../../types/API';
 
@@ -23,6 +25,7 @@ export default async (
   context: Context,
   searchParams?: GetProductSearchParams,
   customQuery?: CustomQuery,
+  preview?: StagingPreviewParams,
 ): Promise<ApolloQueryResult<ProductDetailsQueryFocus>> => {
   const defaultParams = {
     pageSize: 20,
@@ -44,7 +47,7 @@ export default async (
   const { products } = context.extendQuery(
     customQuery, {
       products: {
-        query: detailQuery,
+        query: preview ? previewDetailQuery : detailQuery,
         variables: defaultParams,
       },
     },
@@ -52,28 +55,21 @@ export default async (
 
   const query = customQuery ? gql`${products.query}` : products.query;
 
-  try {
-    const result = await context.client.query<ProductDetailsQueryFocus, ProductDetailsQueryVariables>({
-      query,
-      variables: products.variables,
-      fetchPolicy: 'no-cache',
-    });
+  const result = await context.client.query<ProductDetailsQueryFocus, ProductDetailsQueryVariables>({
+    query,
+    variables: products.variables,
+    fetchPolicy: 'no-cache',
+    ...(preview ? {
+      context: {
+        headers: {
+          Authorization: `Bearer ${preview.accessToken}`,
+          'Preview-Version': preview.version,
+        },
+      },
+    } : {}),
+  });
 
-    if (result.data.products.items.length === 0) throw new Error('No products found');
+  if (result.data.products.items.length === 0) throw new Error('No products found');
 
-    return result;
-  } catch (error) {
-    // For error in data we don't throw 500, because it's not server error
-    if (error.graphQLErrors) {
-      Logger.debug(error);
-
-      return {
-        ...error,
-        errors: error.graphQLErrors,
-        data: null,
-      };
-    }
-    Logger.error(error);
-    throw error.networkError?.result || error;
-  }
+  return result;
 };

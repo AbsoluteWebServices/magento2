@@ -7998,3 +7998,8 @@ export type FocusCartItemStockError = {
   error_code: string;
   message: string;
 }
+
+export interface StagingPreviewParams {
+  version: string;
+  accessToken: string;
+}

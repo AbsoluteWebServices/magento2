@@ -103,6 +103,7 @@ import {
   CreateEmptyCartMutation,
   CreateProductReviewMutation,
   CustomerProductReviewQueryFocus,
+  StagingPreviewParams,
   SubscribeEmailToNewsletterMutationVariables,
   SubscribeEmailToNewsletterMutation,
   UpdateCustomerMutation,
@@ -217,7 +218,7 @@ export interface MagentoApiMethods {
 
   cart(cartId: string): Promise<ApolloQueryResult<CartQueryFocus>>;
 
-  category(categoryInput?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CategoryQueryFocus>>;
+  category(categoryInput?: CategorySearchQueryVariables, preview?: StagingPreviewParams): Promise<ApolloQueryResult<CategoryQueryFocus>>;
 
   categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CategoryListQueryFocus>>;
 
@@ -301,7 +302,7 @@ export interface MagentoApiMethods {
 
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
 
-  productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductDetailsQueryFocus>>;
+  productDetail(searchParams: GetProductSearchParams, customQuery?: CustomQuery, preview?: StagingPreviewParams): Promise<ApolloQueryResult<ProductDetailsQueryFocus>>;
 
   productsFilters(searchParams: GetProductSearchParams, customQuery?: CustomQuery): Promise<ApolloQueryResult<ProductsFiltersQueryFocus>>;
 

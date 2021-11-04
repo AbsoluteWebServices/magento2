@@ -6,7 +6,9 @@ import {
   useProductFactory,
   UseProductFactoryParams,
 } from '@absolute-web/vsf-core';
-import { GetProductSearchParams, ProductsQueryType, Product, Products, Aggregation } from '@absolute-web/magento-api';
+import {
+  GetProductSearchParams, ProductsQueryType, Product, Products, Aggregation, StagingPreviewParams,
+} from '@absolute-web/magento-api';
 import { Scalars } from '@absolute-web/magento-api/lib/types/GraphQL';
 import { useCache } from '@absolute-web/vsf-cache';
 
@@ -28,7 +30,7 @@ const extractPdpData = (productDetails: Product) => {
   }
 
   return productData;
-}
+};
 
 const deleteEmptyFields = (productDetails: Product) => {
   for (const key in productDetails) {
@@ -36,7 +38,7 @@ const deleteEmptyFields = (productDetails: Product) => {
       delete productDetails[key];
     }
   }
-}
+};
 
 const extractCustomAttributes = (productDetails: Product, aggregations: Aggregation[]) => {
   const result = {};
@@ -46,21 +48,20 @@ const extractCustomAttributes = (productDetails: Product, aggregations: Aggregat
       !Object.prototype.hasOwnProperty.call(productDetails, aggregation.attribute_code)
       || productDetails[aggregation.attribute_code] === null
       || !Object.prototype.hasOwnProperty.call(aggregation, 'options')
-      || !aggregation.options.length) {
+      || aggregation.options.length === 0) {
       continue;
     }
 
     const key = aggregation.attribute_code;
 
     const attributeOption = aggregation.options.find(
-      (option) =>
-        Number.parseInt(option.value, 10) === productDetails[key] ||
-        option.label === productDetails[key]
+      (option) => Number.parseInt(option.value, 10) === productDetails[key]
+        || option.label === productDetails[key],
     );
 
     if (
-      attributeOption &&
-      Object.prototype.hasOwnProperty.call(attributeOption, 'label')
+      attributeOption
+      && Object.prototype.hasOwnProperty.call(attributeOption, 'label')
     ) {
       result[key] = {
         code: key,
@@ -72,7 +73,7 @@ const extractCustomAttributes = (productDetails: Product, aggregations: Aggregat
   }
 
   return result;
-}
+};
 
 const factoryParams: UseProductFactoryParams<Products,
 ProductsSearchParams> = {
@@ -84,13 +85,15 @@ ProductsSearchParams> = {
   productsSearch: async (context: Context, params: GetProductSearchParams & {
     queryType: ProductsQueryType;
     customQuery?: CustomQuery;
-    configurations?: Scalars['ID']
+    configurations?: Scalars['ID'];
+    preview?: StagingPreviewParams;
   }) => {
     Logger.debug('[Magento]: Load product based on ', { params });
 
     const {
       queryType,
       customQuery,
+      preview,
       ...searchParams
     } = params;
 
@@ -100,7 +103,7 @@ ProductsSearchParams> = {
         const productDetailsResults = await context
           .$magento
           .getApi
-          .productDetail(searchParams as GetProductSearchParams, (customQuery || {}));
+          .productDetail(searchParams as GetProductSearchParams, (customQuery || {}), preview);
 
         if (productDetailsResults.data.cacheTags) {
           context.cache.addTags(productDetailsResults.data.cacheTags);
@@ -108,7 +111,7 @@ ProductsSearchParams> = {
 
         Logger.debug('[Result]:', { data: productDetailsResults });
 
-        if (!productDetailsResults.data.products.items.length) {
+        if (productDetailsResults.data.products.items.length === 0) {
           return productDetailsResults.data.products as unknown as Products;
         }
 
@@ -157,7 +160,7 @@ ProductsSearchParams> = {
           .getApi
           .products(searchParams as GetProductSearchParams, (customQuery || {}));
 
-        productListResults.data.products.items = productListResults.data.products.items.map(product => ({
+        productListResults.data.products.items = productListResults.data.products.items.map((product) => ({
           ...product,
           ...extractCustomAttributes(product as unknown as Product, productListResults.data.products.aggregations as unknown as Aggregation[]),
         }));
