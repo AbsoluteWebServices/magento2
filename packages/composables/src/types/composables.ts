@@ -455,3 +455,14 @@ export interface UseProductAttribute<PRODUCT_ATTRIBUTE> {
 export interface UseUserErrors extends UseUserErrorsBase {
   cart: Error;
 }
+
+export interface UsePaypalExpressErrors {
+  createToken: Error;
+}
+
+export interface UsePaypalExpress<OUTPUT, PARAMS, API extends PlatformApi = any> extends Composable<API> {
+  createToken: (params: PARAMS) => Promise<OUTPUT>;
+  result: ComputedProperty<OUTPUT>;
+  error: ComputedProperty<UsePaypalExpressErrors>;
+  loading: ComputedProperty<boolean>;
+}
