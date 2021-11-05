@@ -8003,3 +8003,7 @@ export interface StagingPreviewParams {
   version: string;
   accessToken: string;
 }
+
+export type PaypalExpressTokenMutation = {
+  createPaypalExpressToken: PaypalExpressTokenOutput;
+}
