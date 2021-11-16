@@ -48,13 +48,9 @@ export default async (
     },
   );
 
-  try {
-    return await context.client.query<UpsellProductsQueryFocus, UpsellProductsQueryVariables>({
-      query: gql`${products.query}`,
-      variables: products.variables,
-      fetchPolicy: 'no-cache',
-    });
-  } catch (error) {
-    throw error.graphQLErrors?.[0].message || error.networkError?.result || error;
-  }
+  return context.client.query<UpsellProductsQueryFocus, UpsellProductsQueryVariables>({
+    query: gql`${products.query}`,
+    variables: products.variables,
+    fetchPolicy: 'no-cache',
+  });
 };

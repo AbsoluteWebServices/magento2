@@ -27,14 +27,10 @@ export default async (
       },
     });
 
-  try {
-    return await context.client.query<GuestAvailableShippingMethodsQueryFocus,
-    GuestAvailableShippingMethodsQueryVariables>({
-      query: gql`${shippingMethods.query}`,
-      variables: shippingMethods.variables,
-      fetchPolicy: 'no-cache',
-    });
-  } catch (error) {
-    throw error.graphQLErrors?.[0].message || error.networkError?.result || error;
-  }
+  return context.client.query<GuestAvailableShippingMethodsQueryFocus,
+  GuestAvailableShippingMethodsQueryVariables>({
+    query: gql`${shippingMethods.query}`,
+    variables: shippingMethods.variables,
+    fetchPolicy: 'no-cache',
+  });
 };
