@@ -150,6 +150,8 @@ import {
   CustomerReturnsQueryVariables,
   CustomerReturnQueryFocus,
   CustomerReturnsQueryFocus,
+  FocusGuestRequestReturnInput,
+  FocusGuestRequestReturnMutation,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
 import { CustomerProductReviewParams } from '../api/customerProductReview';
@@ -405,4 +407,5 @@ export interface MagentoApiMethods {
   focusProductAttribute(attribute_code: string): Promise<FetchResult<FocusProductAttributeQuery>>;
   customerReturns(returnParams: CustomerReturnsQueryVariables): Promise<ApolloQueryResult<CustomerReturnsQueryFocus>>;
   customerReturn(returnParams: CustomerReturnQueryVariables): Promise<ApolloQueryResult<CustomerReturnQueryFocus>>;
+  focusGuestRequestReturn(input: FocusGuestRequestReturnInput): Promise<FetchResult<FocusGuestRequestReturnMutation>>;
 }

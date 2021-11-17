@@ -2661,6 +2661,8 @@ export interface CustomerOrder {
   status: Scalars['String'];
   /** Contains details about the calculated totals for this order */
   total?: Maybe<OrderTotal>;
+  /** Show whether RMA creation is possible for this order */
+  focus_can_create_rma?: Maybe<Scalars['Boolean']>;
 }
 
 /** The collection of orders that match the conditions defined in the filter */
@@ -4152,6 +4154,7 @@ export interface Mutation {
   focusSetGroupOnItem?: Maybe<FocusSetGroupOnItemMutation>;
   focusUpdateCartGroup?: Maybe<FocusUpdateCartGroupMutation>;
   focusIDmeVerify?: Maybe<FocusIDmeVerifyMutation>;
+  focusGuestRequestReturn?: Maybe<FocusGuestRequestReturnMutation>;
 }
 
 
@@ -8011,4 +8014,49 @@ export interface StagingPreviewParams {
 
 export type PaypalExpressTokenMutation = {
   createPaypalExpressToken: PaypalExpressTokenOutput;
+}
+
+export type FocusRmaAccessParamsInput = {
+  email?: Maybe<Scalars['String']>;
+  zip_code?: Maybe<Scalars['String']>;
+};
+
+export type SelectedCustomAttributeInput = {
+  attribute_code: Scalars['String'];
+  value: Scalars['ID'];
+};
+
+export type EnteredCustomAttributeInput = {
+  attribute_code: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type RequestReturnItemInput = {
+  order_item_uid: Scalars['ID'];
+  quantity_to_return: Scalars['Float'];
+  selected_custom_attributes?: Maybe<Array<SelectedCustomAttributeInput>>;
+  entered_custom_attributes?: Maybe<Array<EnteredCustomAttributeInput>>;
+  reason: Scalars['ID'];
+  focus_generate_label?: Maybe<Scalars['Boolean']>;
+};
+
+export type RequestReturnInput = {
+  order_uid: Scalars['ID'];
+  contact_email?: Maybe<Scalars['String']>;
+  items: Array<RequestReturnItemInput>;
+  comment_text?: Maybe<Scalars['String']>;
+  focus_generate_label?: Maybe<Scalars['Boolean']>;
+};
+
+export type FocusGuestRequestReturnInput = {
+  access_params: FocusRmaAccessParamsInput;
+  request: RequestReturnInput;
+};
+
+export interface FocusGuestRequestReturnMutation {
+  focusGuestRequestReturn: Return;
+}
+
+export interface FocusGuestRequestReturnMutationVariables {
+  input: FocusGuestRequestReturnInput;
 }

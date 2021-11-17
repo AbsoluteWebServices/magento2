@@ -24,6 +24,9 @@ export default gql`
             ${pageInfoFragment}
           }
         }
+        page_info {
+          ${pageInfoFragment}
+        }
     }
   }
 `;
