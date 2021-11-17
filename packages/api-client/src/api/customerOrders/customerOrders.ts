@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import PageInfoFragment from '../../fragments/pageInfoFragment';
 
 export default gql`
   query customerOrders($currentPage: Int = 1, $filter: CustomerOrdersFilterInput = {}, $pageSize: Int = 20) {
@@ -256,9 +257,7 @@ export default gql`
           }
         }
         page_info {
-          current_page
-          page_size
-          total_pages
+          ${PageInfoFragment}
         }
         total_count
       }

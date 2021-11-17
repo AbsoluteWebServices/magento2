@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import productFragment from '../../fragments/productFragment';
+import PageInfoFragment from '../../fragments/pageInfoFragment';
 
 export default gql`
   mutation removeProductsFromWishlist($id: ID!, $items: [ID!]!) {
@@ -19,9 +20,7 @@ export default gql`
             }
           }
           page_info {
-            current_page
-            page_size
-            total_pages
+            ${PageInfoFragment}
           }
         }
       }
