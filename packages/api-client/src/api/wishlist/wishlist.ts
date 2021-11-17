@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import PageInfoFragment from '../../fragments/pageInfoFragment';
 
 export default gql`
   query wishlist($currentPage: Int = 1, $pageSize: Int = 20) {
@@ -130,9 +131,7 @@ export default gql`
             }
           }
           page_info {
-            current_page
-            page_size
-            total_pages
+            ${PageInfoFragment}
           }
         }
       }

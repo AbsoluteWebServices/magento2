@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import productFragment from '../../fragments/productFragment';
+import PageInfoFragment from '../../fragments/pageInfoFragment';
 
 export default gql`
   query productsList($search: String = "", $filter: ProductAttributeFilterInput, $pageSize: Int = 20, $currentPage: Int = 1, $sort: ProductAttributeSortInput) {
@@ -17,9 +18,7 @@ export default gql`
         ${productFragment}
       }
       page_info {
-        current_page
-        page_size
-        total_pages
+        ${PageInfoFragment}
       }
       total_count
     }
