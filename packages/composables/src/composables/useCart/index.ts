@@ -59,6 +59,10 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       const { data, errors } = await context.$magento.api.cart(id);
       Logger.debug('[Result]:', { data, errors });
 
+      if (!data?.cart && errors?.length) {
+        throw errors[0];
+      }
+
       return {
         updatedCart: filterNullCartItems(data.cart as unknown as Cart),
         errors,
@@ -84,6 +88,12 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     if (customerToken) {
       try {
         const { data, errors } = await context.$magento.api.customerCart();
+        Logger.debug('[Result]:', { data, errors });
+
+        if (!data?.customerCart && errors?.length) {
+          throw errors[0];
+        }
+
         apiState.setCartId(data.customerCart.id);
 
         return {
