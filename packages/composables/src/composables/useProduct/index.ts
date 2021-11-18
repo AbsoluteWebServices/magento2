@@ -160,10 +160,14 @@ ProductsSearchParams> = {
           .getApi
           .products(searchParams as GetProductSearchParams, (customQuery || {}));
 
-        productListResults.data.products.items = productListResults.data.products.items.map((product) => ({
-          ...product,
-          ...extractCustomAttributes(product as unknown as Product, productListResults.data.products.aggregations as unknown as Aggregation[]),
-        }));
+        const listAggregations = (productListResults.data.products.aggregations || []) as unknown as Aggregation[];
+
+        if (listAggregations.length > 0) {
+          productListResults.data.products.items = productListResults.data.products.items.map((product) => ({
+            ...product,
+            ...extractCustomAttributes(product as unknown as Product, listAggregations),
+          }));
+        }
 
         if (productListResults.data.cacheTags) {
           context.cache.addTags(productListResults.data.cacheTags);
