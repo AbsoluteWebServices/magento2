@@ -137,7 +137,7 @@ ProductsSearchParams> = {
         const upsellProductResults = await context
           .$magento
           .getApi
-          .relatedProduct(searchParams as GetProductSearchParams, (customQuery || {}));
+          .upsellProduct(searchParams as GetProductSearchParams, (customQuery || {}));
 
         Logger.debug('[Result]:', { data: upsellProductResults });
 
