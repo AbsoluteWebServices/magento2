@@ -16,7 +16,7 @@ export interface UseGuestRequestReturnFactory<REQUEST_RETURN_DATA, REQUEST_RETUR
 export const useGuestRequestReturnFactory = <REQUEST_RETURN_DATA, REQUEST_RETURN_PARAMS>(
   factoryParams: UseGuestRequestReturnFactory<REQUEST_RETURN_DATA, REQUEST_RETURN_PARAMS>
 ) => {
-  return function useCustomerReturns(
+  return function useGuestRequestReturn(
     id: string = ''
   ): UseGuestRequestReturn<REQUEST_RETURN_DATA, REQUEST_RETURN_PARAMS> {
     // @ts-ignore
