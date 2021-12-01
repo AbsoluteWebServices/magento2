@@ -253,6 +253,7 @@ query trackedOrders($orderId: String = "", $email: String = "", $zipCode: String
             suffix
             telephone
           }
+          focus_can_create_rma
         }
     }
 }`;
