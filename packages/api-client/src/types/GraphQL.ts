@@ -7636,6 +7636,7 @@ export interface FreeGiftProduct {
   id?: number | null | undefined;
   name?: string | null | undefined;
   gift_price?: string | null | undefined;
+  focus_gift_price?: Money | null | undefined;
   free_ship?: boolean | null | undefined;
   added?: boolean | null | undefined;
   configurable?: boolean | null | undefined;
@@ -7643,6 +7644,7 @@ export interface FreeGiftProduct {
   sku?: string | null | undefined;
   image?: string | null | undefined;
   final_price?: string | null | undefined;
+  focus_final_price?: Money | null | undefined;
 }
 
 export interface FreeGiftItem {

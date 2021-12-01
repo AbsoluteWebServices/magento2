@@ -6,13 +6,19 @@ max_gift
 gifts {
   id
   name
-  gift_price
+  focus_gift_price {
+    value
+    currency
+  }
   free_ship
   added
   configurable
   required_option
   sku
   image
-  final_price
+  focus_final_price {
+    value
+    currency
+  }
 }
 `;
