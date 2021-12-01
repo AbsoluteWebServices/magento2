@@ -1755,6 +1755,8 @@ type CustomerOrder {
   status: String!
   "Contains details about the calculated totals for this order"
   total: OrderTotal
+  "Show whether RMA creation is possible for this order"
+  focus_can_create_rma: Boolean
 }
 
 "The collection of orders that match the conditions defined in the filter"
@@ -2843,7 +2845,7 @@ type Mutation {
   focusEstimateShippingMethods(input: focusEstimateShippingMethodsInput): [AvailableShippingMethod]
   focusIDmeVerify(input: focusIDmeVerifyInput): focusIDmeCustomerData
   "Initiates a buyers  request to return an item for replacement or refund"
-  focusGuestRequestReturn(input: focusGuestRequestReturnInput!): FocusGuestReturnOutput
+  focusGuestRequestReturn(input: FocusGuestRequestReturnInput!): FocusGuestReturnOutput
 }
 
 "Contains details about the requested order"
@@ -6341,7 +6343,7 @@ type CustomerReturnData {
   return: Return
 }
 
-type focusGuestRequestReturnInput {
+type FocusGuestRequestReturnInput {
   "Params to verify that the guest have access to the RMA document"
   access_params: FocusRmaAccessParamsInput!
   request: RequestReturnInput!
