@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import pageInfoFragment from '../../fragments/pageInfoFragment';
 
 export default gql`
   query customerProductReview($pageSize: Int = 10, $currentPage: Int = 1) {
@@ -20,9 +21,7 @@ export default gql`
             }
           }
           page_info {
-            current_page
-            page_size
-            total_pages
+            ${pageInfoFragment}
           }
         }
     }
