@@ -258,6 +258,8 @@ export {
   FilterTypeInput,
   FixedProductTax,
   FixedProductTaxDisplaySettings,
+  FocusCatalogRuleDiscountTypeEnum,
+  FocusCatalogRulePriceData,
   FocusGuestRequestReturnInput,
   FocusGuestRequestReturnMutation,
   FocusGuestRequestReturnMutationVariables,
