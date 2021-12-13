@@ -2,14 +2,14 @@ import {
   Composable,
   ComposableFunctionArgs,
   ComputedProperty,
-  Context,
   CustomQuery,
+  ForgotPasswordResult,
   UseCart as UseCartBase,
   UseCartErrors as UseCartErrorsBase,
   UseUserErrors as UseUserErrorsBase,
 } from '@absolute-web/vsf-core';
-import { ComputedRef, computed } from '@vue/composition-api';
-import { PlatformApi, UseProductErrors } from '@absolute-web/vsf-core/lib/src/types';
+import { ComputedRef } from '@vue/composition-api';
+import { PlatformApi } from '@absolute-web/vsf-core/lib/src/types';
 import { FetchPolicy } from '@apollo/client/core';
 
 export type CustomQueryParams = { customQuery?: CustomQuery; [ k: string]: any };
@@ -203,7 +203,7 @@ export interface UseForgotPasswordErrors {
 }
 
 export interface UseForgotPassword<RESULT> {
-  result: ComputedProperty<RESULT>;
+  result: ComputedProperty<ForgotPasswordResult<RESULT>>;
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseForgotPasswordErrors>;
   setNew(params: ComposableFunctionArgs<{ tokenValue: string, newPassword: string, email: string }>): Promise<void>;
@@ -247,7 +247,7 @@ export interface UseUsedProductsErrors {
 }
 
 export interface UseCustomQuery<QUERY, QUERY_VARIABLES, QUERY_RETURN, API extends PlatformApi = any> extends Composable<API> {
-  setQueryString: (newQueryString: string) => void;
+  setQueryString: (newQueryString: QUERY) => void;
   queryString: ComputedProperty<QUERY>;
   query: ({
     variables,
@@ -259,16 +259,16 @@ export interface UseCustomQuery<QUERY, QUERY_VARIABLES, QUERY_RETURN, API extend
   }) => Promise<QUERY_RETURN>;
   result: ComputedProperty<QUERY_RETURN>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<UseUpsellProductsErrors>;
+  error: ComputedProperty<UseCustomQueryErrors>;
   [x: string]: any;
 }
 
-export interface UseUpsellProductsErrors {
+export interface UseCustomQueryErrors {
   query: Error;
 }
 
 export interface UseCustomMutation<MUTATION, MUTATION_VARIABLES, MUTATION_RETURN, API extends PlatformApi = any> extends Composable<API> {
-  setMutationString: (newMutationString: string) => void;
+  setMutationString: (newMutationString: MUTATION) => void;
   mutationString: ComputedProperty<MUTATION>;
   mutation: ({
     variables,
@@ -280,12 +280,12 @@ export interface UseCustomMutation<MUTATION, MUTATION_VARIABLES, MUTATION_RETURN
   }) => Promise<MUTATION_RETURN>;
   result: ComputedProperty<MUTATION_RETURN>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<UseUpsellProductsErrors>;
+  error: ComputedProperty<UseCustomMutationErrors>;
   [x: string]: any;
 }
 
-export interface UseUpsellProductsErrors {
-  query: Error;
+export interface UseCustomMutationErrors {
+  mutation: Error;
 }
 
 export interface UseCartErrors extends UseCartErrorsBase {

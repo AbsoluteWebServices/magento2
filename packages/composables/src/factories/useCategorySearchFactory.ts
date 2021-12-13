@@ -19,7 +19,7 @@ export function useCategorySearchFactory<CATEGORY, API extends PlatformApi = any
   return function useCategorySearch(id: string = ''): UseCategorySearch<CATEGORY, API> {
     const ssrKey = id || 'useCategorySearch';
     // @ts-ignore
-    const result = sharedRef<CATEGORY>([], `${ssrKey}-result`);
+    const result = sharedRef<CATEGORY[]>([], `${ssrKey}-result`);
     const loading = sharedRef(false, `${ssrKey}-loading`);
     const error = sharedRef<UseCategorySearchErrors>({
       search: null,

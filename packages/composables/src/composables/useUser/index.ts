@@ -2,11 +2,12 @@
 import {
   Context, Logger,
 } from '@absolute-web/vsf-core';
+import { Customer } from '@absolute-web/magento-api';
 import useCart from '../useCart';
 import { generateUserData } from '../../helpers/userDataGenerator';
 import { UseUserFactoryParams, useUserFactory } from '../../factories/useUserFactory';
 
-const factoryParams: UseUserFactoryParams<any, any, any> = {
+const factoryParams: UseUserFactoryParams<Customer, any, any> = {
   provide() {
     return {
       cart: useCart(),
@@ -24,7 +25,7 @@ const factoryParams: UseUserFactoryParams<any, any, any> = {
 
       Logger.debug('[Result]:', { data });
 
-      return data.customer;
+      return data.customer as unknown as Customer;
     } catch {
       // eslint-disable-next-line no-void
       // @ts-ignore
@@ -61,7 +62,7 @@ const factoryParams: UseUserFactoryParams<any, any, any> = {
 
     Logger.debug('[Result]:', { data });
 
-    return data.updateCustomerV2.customer;
+    return data.updateCustomerV2.customer as unknown as Customer;
   },
   register: async (context: Context, registerParams) => {
     const { email, password, ...baseData } = generateUserData(registerParams);
@@ -149,8 +150,8 @@ const factoryParams: UseUserFactoryParams<any, any, any> = {
       throw new Error(errors.map((e) => e.message).join(','));
     }
 
-    return data?.changeCustomerPassword;
+    return data?.changeCustomerPassword as unknown as Customer;
   },
 };
 
-export default useUserFactory<any, any, any>(factoryParams);
+export default useUserFactory<Customer, any, any>(factoryParams);

@@ -75,9 +75,9 @@ API> {
 
     try {
       loading.value = true;
-      const addressesInfo = await _factoryParams.save(saveParams);
+      await _factoryParams.save(saveParams);
       error.value.save = null;
-      addresses.value = addressesInfo;
+      await load();
     } catch (err) {
       error.value.save = err;
       Logger.error('useAddresses/save', err);
@@ -92,11 +92,11 @@ API> {
     try {
       loading.value = true;
 
-      const addressesInfo = await _factoryParams.update(updateParams);
+      await _factoryParams.update(updateParams);
 
       error.value.update = null;
 
-      addresses.value = addressesInfo;
+      await load();
     } catch (err) {
       error.value.update = err;
 
@@ -115,6 +115,8 @@ API> {
       await _factoryParams.remove(removeParams);
 
       error.value.remove = null;
+
+      await load();
     } catch (err) {
       error.value.remove = err;
 

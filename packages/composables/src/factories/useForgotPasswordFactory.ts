@@ -1,6 +1,7 @@
 import { Ref, computed } from '@vue/composition-api';
 import {
   configureFactoryParams,
+  ForgotPasswordResult,
   Context,
   CustomQuery,
   FactoryParams,
@@ -20,15 +21,25 @@ interface ResetPasswordParams {
 }
 
 export interface UseForgotPasswordFactoryParams<RESULT> extends FactoryParams {
-  resetPassword: (context: Context, params: ResetPasswordParams & { currentResult: RESULT, customQuery?: CustomQuery }) => Promise<RESULT>;
-  setNewPassword: (context: Context, params: SetNewPasswordParams & { currentResult: RESULT, customQuery?: CustomQuery }) => Promise<RESULT>;
+  resetPassword: (
+    context: Context,
+    params: ResetPasswordParams & {
+      currentResult: ForgotPasswordResult<RESULT>,
+      customQuery?: CustomQuery
+    }) => Promise<ForgotPasswordResult<RESULT>>;
+  setNewPassword: (
+    context: Context,
+    params: SetNewPasswordParams & {
+      currentResult: ForgotPasswordResult<RESULT>,
+      customQuery?: CustomQuery
+    }) => Promise<ForgotPasswordResult<RESULT>>;
 }
 
 export function useForgotPasswordFactory<RESULT>(
   factoryParams: UseForgotPasswordFactoryParams<RESULT>,
 ) {
   return function useForgotPassword(): UseForgotPassword<RESULT> {
-    const result: Ref<RESULT> = sharedRef({
+    const result: Ref<ForgotPasswordResult<RESULT>> = sharedRef({
       resetPasswordResult: null,
       setNewPasswordResult: null,
     }, 'useForgotPassword-result');

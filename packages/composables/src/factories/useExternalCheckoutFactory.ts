@@ -19,7 +19,7 @@ export const useExternalCheckoutFactory = <API extends PlatformApi = any>(
   function useExternalCheckout(ssrKey = 'useExternalCheckout'): UseExternalCheckout<API> {
     const loading = sharedRef(false, `${ssrKey}-loading`);
     const error = sharedRef({
-      search: null,
+      initializeCheckout: null,
     }, `${ssrKey}-error`);
     // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
     const _factoryParams = configureFactoryParams(factoryParams);
@@ -32,7 +32,7 @@ export const useExternalCheckoutFactory = <API extends PlatformApi = any>(
       try {
         return _factoryParams.initializeCheckout(baseUrl);
       } catch (err) {
-        error.value.search = err;
+        error.value.initializeCheckout = err;
 
         Logger.error(`useExternalCheckout/${ssrKey}/initializeCheckout`, err);
       } finally {
