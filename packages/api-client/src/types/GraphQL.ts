@@ -2393,6 +2393,8 @@ export interface Customer {
   wishlist_v2?: Maybe<Wishlist>;
   /** An array of wishlists. In Magento Open Source, customers are limited to one wish list. The number of wish lists is configurable for Magento Commerce */
   wishlists: Array<Maybe<Wishlist>>;
+  /** IDme Customer Data */
+  idme_data?: Maybe<FocusIDmeCustomerData>;
 }
 
 
