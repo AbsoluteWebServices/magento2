@@ -1638,6 +1638,8 @@ type Customer {
         "Specifies the maximum number of results to return at once. This attribute is optional."
         pageSize: Int = 20
     ): [Wishlist]!
+    "IDme Customer Data"
+    idme_data: focusIDmeCustomerData
 }
 
 "CustomerAddress contains detailed information about a customer's billing and shipping addresses"
