@@ -67,7 +67,5 @@ export default async (
     } : {}),
   });
 
-  if (result.data.products.items.length === 0) throw new Error('No products found');
-
   return result;
 };
