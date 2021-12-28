@@ -253,7 +253,10 @@ export default gql`
               suffix
               telephone
             }
-            focus_can_create_rma
+            focus_can_create_rma {
+              result
+              reason
+            }
           }
       }
   }

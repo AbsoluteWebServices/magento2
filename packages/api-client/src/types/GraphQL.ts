@@ -2663,7 +2663,7 @@ export interface CustomerOrder {
   /** Contains details about the calculated totals for this order */
   total?: Maybe<OrderTotal>;
   /** Show whether RMA creation is possible for this order */
-  focus_can_create_rma?: Maybe<Scalars['Boolean']>;
+  focus_can_create_rma?: Maybe<FocusCanCreateRma>;
 }
 
 /** The collection of orders that match the conditions defined in the filter */
@@ -7897,6 +7897,11 @@ export type ReturnShippingAddress = {
 
 export type ReturnShipping = {
   address?: Maybe<ReturnShippingAddress>;
+};
+
+export type FocusCanCreateRma = {
+  result: Scalars['Boolean'];
+  reason?: Maybe<Scalars['String']>;
 };
 
 export type Return = {

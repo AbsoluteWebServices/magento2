@@ -1758,7 +1758,7 @@ type CustomerOrder {
     "Contains details about the calculated totals for this order"
     total: OrderTotal
     "Show whether RMA creation is possible for this order"
-    focus_can_create_rma: Boolean
+    focus_can_create_rma: FocusCanCreateRma
 }
 
 "The collection of orders that match the conditions defined in the filter"
@@ -6306,6 +6306,11 @@ type ReturnShippingAddress {
 
 type ReturnShipping {
     address: ReturnShippingAddress
+}
+
+type FocusCanCreateRma {
+    result: Boolean!
+    reason: String
 }
 
 type Return {
