@@ -11,6 +11,10 @@ export interface CustomerReturnsGetters {
 
   getProductSku(returnProduct: ReturnItem): string;
 
+  getProductPrice(returnProduct: ReturnItem): number;
+
+  getProductPriceCurrency(returnProduct: ReturnItem): string;
+
   getProductRequestQty(returnProduct: ReturnItem): number;
 
   getProductQty(returnProduct: ReturnItem): number;
@@ -34,6 +38,14 @@ export const getProductName = (returnProduct: ReturnItem): string => (returnProd
 
 export const getProductSku = (returnProduct: ReturnItem): string => (returnProduct?.order_item?.product_sku ? returnProduct?.order_item?.product_sku : '');
 
+export const getProductPrice = (returnProduct: ReturnItem): number => (
+  returnProduct?.order_item?.product_sale_price?.value ? returnProduct?.order_item?.product_sale_price?.value : 0
+);
+
+export const getProductPriceCurrency = (returnProduct: ReturnItem): string => (
+  returnProduct?.order_item?.product_sale_price?.currency ? returnProduct?.order_item?.product_sale_price?.currency : ''
+);
+
 export const getProductRequestQty = (returnProduct: ReturnItem): number => (returnProduct?.request_quantity ? returnProduct?.request_quantity : 0);
 
 export const getProductQty = (returnProduct: ReturnItem): number => (returnProduct?.quantity ? returnProduct?.quantity : 0);
@@ -54,6 +66,8 @@ const customerReturnsGetters: CustomerReturnsGetters = {
   getOrderId,
   getProductName,
   getProductSku,
+  getProductPrice,
+  getProductPriceCurrency,
   getProductRequestQty,
   getProductQty,
   getProductReturnReason,

@@ -7904,6 +7904,12 @@ export type FocusCanCreateRma = {
   reason?: Maybe<Scalars['String']>;
 };
 
+export type FocusRmaShippingLabel = {
+  skus: Array<Scalars['String']>;
+  download_url: Scalars['String'];
+  label_uid: Scalars['String'];
+};
+
 export type Return = {
   uid: Scalars['ID'];
   number: Scalars['String'];
@@ -7914,6 +7920,7 @@ export type Return = {
   customer: ReturnCustomer;
   shipping?: Maybe<ReturnShipping>;
   comments?: Maybe<Array<Maybe<ReturnComment>>>;
+  labels?: Maybe<Array<Maybe<FocusRmaShippingLabel>>>;
 };
 
 export type Returns = {

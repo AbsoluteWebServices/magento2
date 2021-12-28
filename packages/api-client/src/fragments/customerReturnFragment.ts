@@ -11,6 +11,10 @@ items {
   order_item {
     product_sku
     product_name
+    product_sale_price {
+      currency
+      value
+    }
   }
   custom_attributes {
     label
@@ -49,5 +53,10 @@ comments {
   created_at
   author_name
   text
+}
+labels {
+  skus
+  download_path
+  label_uid
 }
 `;

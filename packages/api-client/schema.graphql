@@ -6313,6 +6313,12 @@ type FocusCanCreateRma {
     reason: String
 }
 
+type FocusRmaShippingLabel {
+    skus: [String!]!
+    download_url: String!
+    label_uid: String!
+}
+
 type Return {
     uid: ID!
     number: String!
@@ -6323,6 +6329,7 @@ type Return {
     customer: ReturnCustomer!
     shipping: ReturnShipping
     comments: [ReturnComment]
+    labels: [FocusRmaShippingLabel]
 }
 
 type Returns {
