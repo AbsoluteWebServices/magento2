@@ -56,7 +56,7 @@ comments {
 }
 labels {
   skus
-  download_path
+  download_url
   label_uid
 }
 `;
