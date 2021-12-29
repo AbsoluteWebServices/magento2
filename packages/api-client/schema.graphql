@@ -6275,6 +6275,7 @@ type ReturnItem {
   request_quantity: Float!
   quantity: Float!
   status: ReturnItemStatus!
+  reason: Int
 }
 
 type CustomerReturnOrder {

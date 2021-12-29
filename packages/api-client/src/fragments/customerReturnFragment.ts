@@ -20,6 +20,7 @@ items {
     label
     value
   }
+  reason
   request_quantity
   quantity
   sellercloud_resolutions

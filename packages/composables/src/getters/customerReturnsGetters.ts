@@ -21,6 +21,8 @@ export interface CustomerReturnsGetters {
 
   getProductReturnReason(returnProduct: ReturnItem): string;
 
+  getProductReturnReasonId(returnProduct: ReturnItem): number;
+
   getReturnId(customerReturn: Return): string;
 
   getReturnUid(customerReturn: Return): string;
@@ -54,6 +56,10 @@ export const getProductReturnReason = (returnProduct: ReturnItem): string => (re
   ? returnProduct?.custom_attributes.find((attribute: ReturnCustomAttribute) => attribute.label === 'Reason to Return').value || ''
   : '');
 
+export const getProductReturnReasonId = (returnProduct: ReturnItem): number => (
+  returnProduct.reason ? returnProduct.reason : null
+);
+
 export const getReturnId = (customerReturn: Return): string => (customerReturn?.number ? customerReturn?.number : '');
 
 export const getReturnUid = (customerReturn: Return): string => (customerReturn?.uid ? customerReturn?.uid : '');
@@ -71,6 +77,7 @@ const customerReturnsGetters: CustomerReturnsGetters = {
   getProductRequestQty,
   getProductQty,
   getProductReturnReason,
+  getProductReturnReasonId,
   getReturnId,
   getReturnUid,
   getStatus,

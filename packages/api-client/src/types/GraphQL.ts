@@ -7866,6 +7866,7 @@ export type ReturnItem = {
   quantity: Scalars['Float'];
   status: ReturnItemStatus;
   sellercloud_resolutions: Scalars['String'];
+  reason?: Maybe<Scalars['Int']>;
 };
 
 export type CustomerReturnOrder = {
