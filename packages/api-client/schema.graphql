@@ -208,6 +208,16 @@ interface OrderItemInterface {
     selected_options: [OrderItemOption]
     "The status of the order item"
     status: String
+    "Item Price With Tax And Discount"
+    focus_price_with_tax_and_discount: Money!
+    "List Of Children Items"
+    focus_child_items: [FocusReturnChildItem]!
+    "Parent Item Uid"
+    focus_parent_item_uid: String
+    "Type of this item (bundle, free_gift, etc)"
+    focus_child_type: String
+    "Can this item be added to RMA without parent item or not"
+    focus_can_add_to_rma_without_parent: Boolean!
 }
 
 "PhysicalProductInterface contains attributes specific to tangible products."

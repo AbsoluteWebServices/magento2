@@ -4558,6 +4558,16 @@ export interface OrderItemInterface {
   selected_options?: Maybe<Array<Maybe<OrderItemOption>>>;
   /** The status of the order item */
   status?: Maybe<Scalars['String']>;
+  /** Item Price With Tax And Discount */
+  focus_price_with_tax_and_discount: Money;
+  /** List Of Children Items */
+  focus_child_items: Array<Maybe<FocusReturnChildItem>>;
+  /** Parent Item Uid */
+  focus_parent_item_uid?: Maybe<Scalars['String']>;
+  /** Type of this item (bundle, free_gift, etc) */
+  focus_child_type?: Maybe<Scalars['String']>;
+  /** Can this item be added to RMA without parent item or not */
+  focus_can_add_to_rma_without_parent: Scalars['Boolean'];
 }
 
 /** Represents order item options like selected or entered */
@@ -6562,6 +6572,8 @@ export interface StoreConfig {
   weight_unit?: Maybe<Scalars['String']>;
   /** Welcome Text */
   welcome?: Maybe<Scalars['String']>;
+  /** RMA contact phone number */
+  focus_rma_phone_number?: Maybe<Scalars['String']>;
 }
 
 export interface StorefrontProperties {
@@ -8018,6 +8030,11 @@ export interface FocusGuestRequestReturnMutation {
 
 export interface FocusGuestRequestReturnMutationVariables {
   input: FocusGuestRequestReturnInput;
+};
+
+export interface FocusReturnChildItem = {
+  item_uid: Scalars['String'];
+  item_type: Scalars['String'];
 };
 
 export enum FocusCatalogRuleDiscountTypeEnum {
