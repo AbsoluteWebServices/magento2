@@ -17,6 +17,7 @@ type Variables = {
   search?: string;
   filter?: ProductAttributeFilterInput;
   sort?: ProductAttributeSortInput;
+  withAggregations?: boolean;
 };
 
 export default async (
@@ -40,6 +41,8 @@ export default async (
   if (defaultParams.filter) variables.filter = defaultParams.filter;
 
   if (defaultParams.sort) variables.sort = defaultParams.sort;
+
+  if (defaultParams.withAggregations) variables.withAggregations = defaultParams.withAggregations;
 
   const { products } = context.extendQuery(
     customQuery,
