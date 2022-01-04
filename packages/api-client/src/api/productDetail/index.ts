@@ -54,7 +54,7 @@ export default async (
     },
   });
 
-  return context.client.query<CachedQuery<ProductDetailsQuery>, ProductDetailsQueryVariables>({
+  const result = await context.client.query<CachedQuery<ProductDetailsQuery>, ProductDetailsQueryVariables>({
     query: productDetail.query,
     variables: productDetail.variables,
     ...(preview ? {
@@ -66,4 +66,10 @@ export default async (
       },
     } : {}),
   });
+
+  if (!result.data.products?.items?.length) {
+    result.data.cacheTags = 'empty';
+  }
+
+  return result;
 };
