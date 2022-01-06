@@ -8032,7 +8032,7 @@ export interface FocusGuestRequestReturnMutationVariables {
   input: FocusGuestRequestReturnInput;
 };
 
-export interface FocusReturnChildItem {
+export type FocusReturnChildItem = {
   item_uid: Scalars['String'];
   item_type: Scalars['String'];
 };
