@@ -265,6 +265,7 @@ export {
   FocusProductInventory,
   FocusProductInventoryItem,
   FocusRmaAccessParamsInput,
+  FocusReturnChildItem,
   FocusRmaShippingLabel,
   FocusTrackedOrdersQuery,
   FocusTrackedOrdersQueryVariables,
