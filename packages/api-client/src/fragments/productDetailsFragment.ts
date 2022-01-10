@@ -1,9 +1,20 @@
 import baseProductFragment from './baseProductFragment';
 import freeGiftRuleFragment from './freeGiftRuleFragment';
+import productFragment from './productFragment';
 
 export default `
 ${baseProductFragment}
 pdp_data
+kit_components {
+  main
+  qty
+  product {
+    ${productFragment}
+    description {
+      html
+    }
+  }
+}
 free_gift_data {
   ${freeGiftRuleFragment}
 }
