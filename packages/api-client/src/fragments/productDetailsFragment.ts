@@ -1,9 +1,21 @@
 import baseProductFragment from './baseProductFragment';
 import freeGiftRuleFragment from './freeGiftRuleFragment';
+import productFragment from './productFragment';
 
 export default `
 ${baseProductFragment}
 pdp_data
+kit_components {
+  main
+  qty
+  product {
+    ${productFragment}
+    description {
+      html
+    }
+    in_box
+  }
+}
 free_gift_data {
   ${freeGiftRuleFragment}
 }
@@ -40,50 +52,6 @@ meta_keyword
 meta_title
 description {
   html
-}
-... on BundleProduct {
-  items {
-    position
-    required
-    sku
-    title
-    type
-    uid
-    options {
-      can_change_quantity
-      is_default
-      position
-      uid
-      quantity
-      product {
-        uid
-        sku
-        name
-        price_range {
-          maximum_price {
-            final_price {
-              currency
-              value
-            }
-            regular_price {
-              currency
-              value
-            }
-          }
-          minimum_price {
-            final_price {
-              currency
-              value
-            }
-            regular_price {
-              currency
-              value
-            }
-          }
-        }
-      }
-    }
-  }
 }
 focus_parent_configurable {
   product {
@@ -175,47 +143,6 @@ focus_parent_configurable {
     }
   }
 }
-... on GroupedProduct {
-  items {
-    position
-    qty
-    product {
-      uid
-      sku
-      name
-      stock_status
-      only_x_left_in_stock
-      price_range {
-        maximum_price {
-          final_price {
-            currency
-            value
-          }
-          regular_price {
-            currency
-            value
-          }
-        }
-        minimum_price {
-          final_price {
-            currency
-            value
-          }
-          regular_price {
-            currency
-            value
-          }
-        }
-      }
-      thumbnail {
-        url
-        position
-        disabled
-        label
-      }
-    }
-  }
-}
 ... on DownloadableProduct {
   downloadable_product_samples {
     sample_url
@@ -226,16 +153,6 @@ focus_parent_configurable {
     price
     title
     uid
-  }
-}
-... on VirtualProduct {
-  gift_message_available
-  product_links {
-    link_type
-    linked_product_sku
-    linked_product_type
-    position
-    sku
   }
 }
 `;
