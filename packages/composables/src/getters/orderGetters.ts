@@ -26,8 +26,6 @@ export const getItemPrice = (item: any): number => item?.product_sale_price?.val
 
 export const getFormattedPrice = (price: number) => String(price);
 
-export const getItemPriceWithTaxAndDiscount = (item: any): number => item?.focus_price_with_tax_and_discount?.value || 0;
-
 const getPagination = (orders: any): AgnosticPagination => ({
   currentPage: orders?.page_info?.current_page || 1,
   totalPages: orders?.page_info?.total_pages || 1,
@@ -49,7 +47,6 @@ const orderGetters = {
   getItemQty,
   getItemPrice,
   getFormattedPrice,
-  getItemPriceWithTaxAndDiscount,
   getPagination,
 };
 
