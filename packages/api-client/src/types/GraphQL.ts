@@ -7580,6 +7580,11 @@ export type CachedQuery<QUERY> = {
   cacheTags?: string | null | undefined;
 } & QUERY;
 
+export type FocusProductKitComponent = {
+  main: boolean;
+  qty: number;
+  product: Maybe<ProductInterface>;
+};
 export interface ProductInterfaceFocus {
   manufacturer_sku?: string | null | undefined;
   pdp_data?: string | null | undefined;
@@ -7588,6 +7593,7 @@ export interface ProductInterfaceFocus {
   free_gift_data?: Array<FreeGiftRule | null | undefined> | null | undefined;
   inventory?: Maybe<FocusProductInventoryItem>;
   focus_parent_configurable?: Maybe<{ product?: Maybe<ConfigurableProduct> }>;
+  kit_components?: Maybe<Array<Maybe<FocusProductKitComponent>>>;
   [key: string]: any;
 };
 
