@@ -13,6 +13,7 @@ kit_components {
     description {
       html
     }
+    in_box
   }
 }
 free_gift_data {
