@@ -13,15 +13,19 @@ export interface FocusRmaGetters {
 
 }
 
-export const getCanAddToRmaWithoutParent = (item: OrderItemInterface): boolean => item?.focus_can_add_to_rma_without_parent || true;
+export const getCanAddToRmaWithoutParent = (item: OrderItemInterface): boolean => (
+  item?.focus_can_add_to_rma_without_parent ? item?.focus_can_add_to_rma_without_parent : true
+);
 
-export const getChildItems = (item: OrderItemInterface): FocusReturnChildItem[] => item?.focus_child_items || [];
+export const getChildItems = (item: OrderItemInterface): FocusReturnChildItem[] => (item?.focus_child_items ? item?.focus_child_items : []);
 
-export const getChildType = (item: OrderItemInterface): string => item?.focus_child_type || null;
+export const getChildType = (item: OrderItemInterface): string => (item?.focus_child_type ? item?.focus_child_type : null);
 
-export const getItemPriceWithTaxAndDiscount = (item: OrderItemInterface): number => item?.focus_price_with_tax_and_discount?.value || 0;
+export const getItemPriceWithTaxAndDiscount = (item: OrderItemInterface): number => (
+  item?.focus_price_with_tax_and_discount?.value ? item?.focus_price_with_tax_and_discount?.value : 0
+);
 
-export const getParentItemUid = (item: OrderItemInterface): string => item?.focus_parent_item_uid || null;
+export const getParentItemUid = (item: OrderItemInterface): string => (item?.focus_parent_item_uid ? item?.focus_parent_item_uid : null);
 
 const focusRmaGetters: FocusRmaGetters = {
   getCanAddToRmaWithoutParent,
