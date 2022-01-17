@@ -154,6 +154,9 @@ import {
   CustomerReturnsQuery,
   FocusGuestRequestReturnInput,
   FocusGuestRequestReturnMutation,
+  FocusProductKitComponent,
+  FocusProductAttr,
+  FocusProductAttributeGroup,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
 import { CustomerProductReviewParams } from '../api/customerProductReview';
@@ -187,6 +190,10 @@ export type Route = UrlResolverQuery['urlResolver'];
 export type ShippingMethod = AvailableShippingMethod;
 export type StoreConfig = StoreConfigQuery['storeConfig'];
 export type WishlistProduct = WishlistItemInterface;
+export type ProductKitComponent = FocusProductKitComponent;
+export type ProductAttr = FocusProductAttr;
+export type ProductAttributeGroup = FocusProductAttributeGroup;
+
 
 export const enum ProductsQueryType {
   List = 'LIST',
