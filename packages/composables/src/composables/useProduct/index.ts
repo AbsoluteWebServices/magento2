@@ -82,6 +82,29 @@ const extractCustomAttributes = (productDetails: Product, aggregations: Aggregat
   return result;
 };
 
+const getProductDetails = (details: Product[], aggregations: Aggregation[]): Products => {
+  const productDetails = [];
+
+  details.forEach((product: Product) => {
+    product = {
+      ...product,
+      ...extractPdpData(product),
+      pdp_data: undefined,
+    };
+
+    product = {
+      ...product,
+      ...extractCustomAttributes(product, aggregations),
+    };
+
+    product = deleteEmptyFields(product);
+
+    productDetails.push(product);
+  })
+
+  return { items: productDetails } as Products;
+};
+
 const factoryParams: UseProductFactoryParams<Products,
 ProductsSearchParams> = {
   provide() {
@@ -93,12 +116,14 @@ ProductsSearchParams> = {
     queryType: ProductsQueryType;
     configurations?: Scalars['ID'];
     preview?: StagingPreviewParams;
+    isDetailList?: Scalars['Boolean'];
   }>) => {
     Logger.debug('[Magento]: Load product based on ', { params });
 
     const {
       queryType,
       preview,
+      isDetailList,
       ...searchParams
     } = {
       ...params,
@@ -124,23 +149,12 @@ ProductsSearchParams> = {
           return productDetailsResults.data.products as unknown as Products;
         }
 
-        let productDetails = productDetailsResults.data.products.items[0] as unknown as Product;
+        const productDetails = (isDetailList
+          ? productDetailsResults.data.products.items
+          : [productDetailsResults.data.products.items[0]]) as unknown as Product[];
         const aggregations = productDetailsResults.data.products.aggregations as unknown as Aggregation[];
 
-        productDetails = {
-          ...productDetails,
-          ...extractPdpData(productDetails),
-          pdp_data: undefined,
-        };
-
-        productDetails = {
-          ...productDetails,
-          ...extractCustomAttributes(productDetails, aggregations),
-        };
-
-        productDetails = deleteEmptyFields(productDetails);
-
-        return { items: [productDetails] } as Products;
+        return getProductDetails(productDetails, aggregations);
 
       case ProductsQueryType.List:
       default:
