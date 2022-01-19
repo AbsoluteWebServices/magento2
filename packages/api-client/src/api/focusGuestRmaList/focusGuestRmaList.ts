@@ -4,7 +4,9 @@ import CustomerReturnFragment from '../../fragments/customerReturnFragment';
 export default gql`
   query focusGuestRmaList($input: FocusGuestRmaListInput!) {
     focusGuestRmaList(input: $input) {
-      ${CustomerReturnFragment}
+      items {
+        ${CustomerReturnFragment}
+      }
     }
   }
 `;
