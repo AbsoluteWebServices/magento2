@@ -9,15 +9,15 @@ import {
 import { PlatformApi } from '@absolute-web/vsf-core/lib/src/types';
 import { UseGuestRmaList, UseGuestRmaListErrors } from '../types/composables';
 
-export interface UseGuestRmaFactoryParams<GUEST_RMA_LIST_DATA,
+export interface UseGuestRmaListFactoryParams<GUEST_RMA_LIST_DATA,
   GUEST_RMA_LIST_PARAMS,
   API extends PlatformApi = any,
 > extends FactoryParams<API> {
   load: (context: Context, params: GUEST_RMA_LIST_PARAMS) => Promise<GUEST_RMA_LIST_DATA>;
 }
 
-export const useGuestRmaFactory = <GUEST_RMA_LIST_DATA, GUEST_RMA_LIST_PARAMS, API extends PlatformApi = any>(
-  factoryParams: UseGuestRmaFactoryParams<GUEST_RMA_LIST_DATA, GUEST_RMA_LIST_PARAMS, API>,
+export const useGuestRmaListFactory = <GUEST_RMA_LIST_DATA, GUEST_RMA_LIST_PARAMS, API extends PlatformApi = any>(
+  factoryParams: UseGuestRmaListFactoryParams<GUEST_RMA_LIST_DATA, GUEST_RMA_LIST_PARAMS, API>,
 ) => function useGuestRmaList(
   id: string = '',
 ): UseGuestRmaList<GUEST_RMA_LIST_DATA, GUEST_RMA_LIST_PARAMS, API> {

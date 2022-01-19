@@ -1,9 +1,9 @@
 import { Context } from '@absolute-web/vsf-core';
 import { Returns, FocusGuestRmaListInput } from '@absolute-web/magento-api';
-import { UseGuestRma } from '../../types/composables';
-import { UseGuestRmaFactoryParams, useGuestRmaFactory } from '../../factories/useGuestRmaFactory';
+import { UseGuestRmaList } from '../../types/composables';
+import { UseGuestRmaListFactoryParams, useGuestRmaListFactory } from '../../factories/useGuestRmaListFactory';
 
-const factoryParams: UseGuestRmaFactoryParams<Returns, FocusGuestRmaListInput> = {
+const factoryParams: UseGuestRmaListFactoryParams<Returns, FocusGuestRmaListInput> = {
   load: async (context: Context, params: FocusGuestRmaListInput): Promise<Returns> => {
     const { data } = await context.$magento.api.focusGuestRmaList(params);
 
@@ -11,9 +11,9 @@ const factoryParams: UseGuestRmaFactoryParams<Returns, FocusGuestRmaListInput> =
   },
 };
 
-const useGuestRma: (cacheId?: string) => UseGuestRma<
+const useGuestRmaList: (cacheId?: string) => UseGuestRmaList<
 Returns,
 FocusGuestRmaListInput
-> = useGuestRmaFactory<Returns, FocusGuestRmaListInput>(factoryParams);
+> = useGuestRmaListFactory<Returns, FocusGuestRmaListInput>(factoryParams);
 
-export default useGuestRma;
+export default useGuestRmaList;
