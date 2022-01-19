@@ -157,6 +157,10 @@ import {
   FocusProductKitComponent,
   FocusProductAttr,
   FocusProductAttributeGroup,
+  FocusGuestRmaInput,
+  FocusGuestRmaOutput,
+  FocusGuestRmaListInput,
+  Returns,
 } from './GraphQL';
 import { SetPaymentMethodOnCartInputs } from '../api/setPaymentMethodOnCart';
 import { CustomerProductReviewParams } from '../api/customerProductReview';
@@ -193,7 +197,6 @@ export type WishlistProduct = WishlistItemInterface;
 export type ProductKitComponent = FocusProductKitComponent;
 export type ProductAttr = FocusProductAttr;
 export type ProductAttributeGroup = FocusProductAttributeGroup;
-
 
 export const enum ProductsQueryType {
   List = 'LIST',
@@ -543,4 +546,6 @@ export interface MagentoApiMethods {
   customerReturns(returnParams: CustomerReturnsQueryVariables): Promise<ApolloQueryResult<CustomerReturnsQuery>>;
   customerReturn(returnParams: CustomerReturnQueryVariables): Promise<ApolloQueryResult<CustomerReturnQuery>>;
   focusGuestRequestReturn(input: FocusGuestRequestReturnInput): Promise<FetchResult<FocusGuestRequestReturnMutation>>;
+  focusGuestRma(returnParams: FocusGuestRmaInput): Promise<ApolloQueryResult<FocusGuestRmaOutput>>;
+  focusGuestRmaList(returnParams: FocusGuestRmaListInput): Promise<ApolloQueryResult<Returns>>;
 }
