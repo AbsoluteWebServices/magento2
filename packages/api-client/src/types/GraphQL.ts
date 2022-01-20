@@ -5713,6 +5713,8 @@ export interface Query {
   wishlist?: Maybe<WishlistOutput>;
   focusInventory?: Maybe<FocusProductInventory>;
   customerReturns?: Maybe<CustomerReturnsQuery>;
+  focusGuestRma?: Maybe<FocusGuestRmaQuery>;
+  focusGuestRmaList?: Maybe<FocusGuestRmaListQuery>;
 }
 
 
@@ -8071,4 +8073,40 @@ export interface FocusCatalogRulePriceData {
   description?: string;
   discount_type: FocusCatalogRuleDiscountTypeEnum;
   amount: Money;
+};
+
+export type FocusGuestRmaOutput = {
+  return?: Maybe<Return>;
+};
+
+export type FocusGuestRmaListPagination = {
+  PageSize?: InputMaybe<Scalars['Int']>;
+  PageNumber?: InputMaybe<Scalars['Int']>;
+};
+
+export type FocusGuestRmaInput = {
+  access_params: FocusRmaAccessParamsInput;
+  rma_uid: Scalars['String'];
+};
+
+export type FocusGuestRmaArgs = {
+  input: FocusGuestRmaInput;
+};
+
+export type FocusGuestRmaQuery = {
+  focusGuestRma: FocusGuestRmaOutput;
+};
+
+export type FocusGuestRmaListInput = {
+  access_params: FocusRmaAccessParamsInput;
+  order_increment_uid: Scalars['String'];
+  pagination?: InputMaybe<FocusGuestRmaListPagination>;
+};
+
+export type FocusGuestRmaListArgs = {
+  input: FocusGuestRmaListInput;
+};
+
+export type FocusGuestRmaListQuery = {
+  focusGuestRmaList: Returns;
 };
