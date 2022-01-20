@@ -10,11 +10,10 @@ export interface FocusRmaGetters {
   getItemPriceWithTaxAndDiscount(item: OrderItemInterface): number;
 
   getParentItemUid(item: OrderItemInterface): string;
-
 }
 
 export const getCanAddToRmaWithoutParent = (item: OrderItemInterface): boolean => (
-  item?.focus_can_add_to_rma_without_parent ? item?.focus_can_add_to_rma_without_parent : true
+  item?.focus_can_add_to_rma_without_parent === undefined ? true : item?.focus_can_add_to_rma_without_parent
 );
 
 export const getChildItems = (item: OrderItemInterface): FocusReturnChildItem[] => (item?.focus_child_items ? item?.focus_child_items : []);
