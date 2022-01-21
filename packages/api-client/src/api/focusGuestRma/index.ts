@@ -1,14 +1,14 @@
 import { ApolloQueryResult } from '@apollo/client/core';
-import { FocusGuestRmaOutput, FocusGuestRmaInput } from '../../types/GraphQL';
+import { FocusGuestRmaQuery, FocusGuestRmaInput, FocusGuestRmaArgs } from '../../types/GraphQL';
 import focusGuestRma from './focusGuestRma';
 import { Context } from '../../types/context';
 
 export default async (
   { client }: Context,
-  returnParams: FocusGuestRmaInput,
-): Promise<ApolloQueryResult<FocusGuestRmaOutput>> => client
-  .query<FocusGuestRmaOutput, FocusGuestRmaInput>({
+  input: FocusGuestRmaInput,
+): Promise<ApolloQueryResult<FocusGuestRmaQuery>> => client
+  .query<FocusGuestRmaQuery, FocusGuestRmaArgs>({
   query: focusGuestRma,
-  variables: returnParams,
+  variables: { input },
   fetchPolicy: 'no-cache',
 });

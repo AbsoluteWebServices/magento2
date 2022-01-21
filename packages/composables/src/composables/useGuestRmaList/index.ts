@@ -7,7 +7,7 @@ const factoryParams: UseGuestRmaListFactoryParams<Returns, FocusGuestRmaListInpu
   load: async (context: Context, params: FocusGuestRmaListInput): Promise<Returns> => {
     const { data } = await context.$magento.api.focusGuestRmaList(params);
 
-    return data;
+    return data?.focusGuestRmaList;
   },
 };
 

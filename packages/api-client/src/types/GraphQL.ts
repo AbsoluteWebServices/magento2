@@ -5713,8 +5713,8 @@ export interface Query {
   wishlist?: Maybe<WishlistOutput>;
   focusInventory?: Maybe<FocusProductInventory>;
   customerReturns?: Maybe<CustomerReturnsQuery>;
-  focusGuestRma?: Maybe<FocusGuestRmaOutput>;
-  focusGuestRmaList?: Maybe<Returns>;
+  focusGuestRma?: Maybe<FocusGuestRmaQuery>;
+  focusGuestRmaList?: Maybe<FocusGuestRmaListQuery>;
 }
 
 
@@ -8089,8 +8089,24 @@ export type FocusGuestRmaInput = {
   rma_uid: Scalars['String'];
 };
 
+export type FocusGuestRmaArgs = {
+  input: FocusGuestRmaInput;
+};
+
+export type FocusGuestRmaQuery = {
+  focusGuestRma: FocusGuestRmaOutput;
+};
+
 export type FocusGuestRmaListInput = {
   access_params: FocusRmaAccessParamsInput;
   order_increment_uid: Scalars['String'];
   pagination?: InputMaybe<FocusGuestRmaListPagination>;
+};
+
+export type FocusGuestRmaListArgs = {
+  input: FocusGuestRmaListInput;
+};
+
+export type FocusGuestRmaListQuery = {
+  focusGuestRmaList: Returns;
 };
