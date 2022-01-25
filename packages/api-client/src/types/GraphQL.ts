@@ -8094,7 +8094,7 @@ export type FocusGuestRmaArgs = {
 };
 
 export type FocusGuestRmaQuery = {
-  focusGuestRma: FocusGuestRmaOutput;
+  focusGuestRma: Return;
 };
 
 export type FocusGuestRmaListInput = {
