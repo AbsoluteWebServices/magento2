@@ -169,5 +169,6 @@ export default {
   'Default Shipping Address': 'Default Shipping Address',
   'Default Billing Address': 'Default Billing Address',
   'You are not authorized, please log in': 'You are not authorized, please log in',
-  'Out of stock': 'Out of stock'
+  'Out of stock': 'Out of stock',
+  'You have submitted no reviews': 'You have submitted no reviews',
 };
