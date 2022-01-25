@@ -298,7 +298,7 @@ export default defineComponent({
 
 .summary {
   &__terms {
-    margin: var(--spacer-base) 0 0 0;
+    margin: var(--spacer-base) 0 0 var(--spacer-sm);
   }
 
   &__total {
@@ -344,7 +344,7 @@ export default defineComponent({
   }
 
   &__property-total {
-    margin: var(--spacer-xl) 0 0 0;
+    margin: var(--spacer-xl) 0 var(--spacer-sm) 0;
   }
 }
 
