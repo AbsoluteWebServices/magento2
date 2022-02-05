@@ -5,15 +5,19 @@ import {
   UseShippingParams,
 } from '@absolute-web/vsf-core';
 import {
+  ShippingCartAddress,
+  ShippingAddressInput,
   SetShippingAddressesOnCartInput,
 } from '@absolute-web/magento-api';
 import useCart from '../useCart';
 import useGetShippingMethods from '../useGetShippingMethods';
+import useShippingProvider from '../useShippingProvider';
 
-const factoryParams: UseShippingParams<any, any> = {
+const factoryParams: UseShippingParams<ShippingCartAddress, ShippingAddressInput> = {
   provide() {
     return {
       useGetShippingMethods: useGetShippingMethods(),
+      useShippingProvider: useShippingProvider(),
       cart: useCart(),
     };
   },
@@ -29,44 +33,15 @@ const factoryParams: UseShippingParams<any, any> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  save: async (context: Context, params) => {
+  save: async (context: Context, { params }) => {
     Logger.debug('[Magento] save user shipping address', { params });
 
     const { id } = context.cart.cart.value;
 
-    const {
-      apartment,
-      neighborhood,
-      extra,
-      customerAddressId,
-      ...address
-    } = params.shippingDetails;
-
-    const street = [address.street];
-
-    if (apartment) street.push(apartment);
-
-    if (neighborhood) street.push(neighborhood);
-
-    if (extra) street.push(extra);
-
-    const shippingData = customerAddressId
-      ? ({
-        customer_address_id: customerAddressId,
-      })
-      : ({
-        address: {
-          ...address,
-          street,
-        },
-      });
-
     const shippingAddressInput: SetShippingAddressesOnCartInput = {
       cart_id: id,
       shipping_addresses: [
-        {
-          ...shippingData,
-        },
+        params
       ],
     };
 
@@ -77,11 +52,21 @@ const factoryParams: UseShippingParams<any, any> = {
 
     Logger.debug('[Result]:', { data });
 
-    context.useGetShippingMethods.setState(data
+    const shippingMethods = data
       .setShippingAddressesOnCart
       .cart
       .shipping_addresses[0]
-      .available_shipping_methods);
+      .available_shipping_methods;
+
+    context.useGetShippingMethods.setMethods(shippingMethods);
+
+    const selectedMethod = context.useShippingProvider.state.value;
+
+    if (selectedMethod?.method_code) {
+      const updatedMethod = shippingMethods.find(({ method_code }) => method_code === selectedMethod.method_code);
+
+      context.useShippingProvider.setState(updatedMethod);
+    }
 
     // workaround to save shipping address and totals to the cart,
     // so in case load() will be called shipping address will be populated correctly
@@ -103,4 +88,4 @@ const factoryParams: UseShippingParams<any, any> = {
   },
 };
 
-export default useShippingFactory<any, any>(factoryParams);
+export default useShippingFactory<ShippingCartAddress, ShippingAddressInput>(factoryParams);
