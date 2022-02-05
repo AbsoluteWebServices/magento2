@@ -5,11 +5,13 @@ import {
   UseShippingProviderParams,
 } from '@absolute-web/vsf-core';
 import {
-  SetShippingMethodsOnCartInput, ShippingMethodInput,
+  SelectedShippingMethod,
+  SetShippingMethodsOnCartInput,
+  ShippingMethodInput,
 } from '@absolute-web/magento-api';
 import useCart from '../useCart';
 
-const factoryParams: UseShippingProviderParams<any, ShippingMethodInput> = {
+const factoryParams: UseShippingProviderParams<SelectedShippingMethod, ShippingMethodInput> = {
   provide() {
     return {
       cart: useCart(),
@@ -57,11 +59,11 @@ const factoryParams: UseShippingProviderParams<any, ShippingMethodInput> = {
     // end workaround
 
     context.cart.setCart({
-      ...cart,
+      ...context.cart.cart.value,
       shipping_addresses: shippingAddresses,
       prices: {
-        ...prices,
-        ...cart.prices,
+        ...(prices || {}),
+        ...(cart.prices || {}),
       },
     });
 
@@ -71,4 +73,4 @@ const factoryParams: UseShippingProviderParams<any, ShippingMethodInput> = {
   },
 };
 
-export default useShippingProviderFactory<any, ShippingMethodInput>(factoryParams);
+export default useShippingProviderFactory<SelectedShippingMethod, ShippingMethodInput>(factoryParams);
