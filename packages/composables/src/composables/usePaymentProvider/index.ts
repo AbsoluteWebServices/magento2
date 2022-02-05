@@ -4,12 +4,13 @@ import {
 } from '@absolute-web/vsf-core';
 import {
   PaymentMethodInput,
+  SelectedPaymentMethod,
   SetPaymentMethodOnCartInputs,
 } from '@absolute-web/magento-api';
 import useCart from '../useCart';
 import { usePaymentProviderFactory, UsePaymentProviderParams } from '../../factories/usePaymentProviderFactory';
 
-const factoryParams: UsePaymentProviderParams<any, PaymentMethodInput> = {
+const factoryParams: UsePaymentProviderParams<SelectedPaymentMethod, PaymentMethodInput> = {
   provide() {
     return {
       cart: useCart(),
@@ -17,17 +18,15 @@ const factoryParams: UsePaymentProviderParams<any, PaymentMethodInput> = {
   },
   load: async (context: Context, { customQuery }) => {
     Logger.debug('[Magento] loadPaymentProvider', { customQuery });
-    const cartId = context.cart.cart.value.id;
-    const { data } = await context
-      .$magento
-      .api
-      .getAvailablePaymentMethods({ cartId });
 
-    Logger.debug('[Result]:', { data });
+    if (!context.cart.cart?.value?.selected_payment_method) {
+      await context.cart.load({ customQuery });
+    }
 
-    return data
+    return context
       .cart
-      .available_payment_methods;
+      .cart
+      .value?.selected_payment_method;
   },
 
   save: async (context: Context, params) => {
@@ -47,11 +46,16 @@ const factoryParams: UsePaymentProviderParams<any, PaymentMethodInput> = {
 
     Logger.debug('[Result]:', { data });
 
-    return data
-      .setPaymentMethodOnCart
-      .cart
-      .available_payment_methods;
+    const { cart } = data
+      .setPaymentMethodOnCart;
+
+    context.cart.setCart({
+      ...context.cart.cart.value,
+      selected_payment_method: cart.selected_payment_method,
+    });
+
+    return cart.selected_payment_method;
   },
 };
 
-export default usePaymentProviderFactory<any, PaymentMethodInput>(factoryParams);
+export default usePaymentProviderFactory<SelectedPaymentMethod, PaymentMethodInput>(factoryParams);

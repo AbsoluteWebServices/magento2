@@ -5,12 +5,14 @@ import {
   UseBillingParams,
 } from '@absolute-web/vsf-core';
 import {
+  BillingCartAddress,
+  BillingAddressInput,
   SetBillingAddressOnCartInput,
 } from '@absolute-web/magento-api';
 import useCart from '../useCart';
 import useShippingProvider from '../useShippingProvider';
 
-const factoryParams: UseBillingParams<any, any> = {
+const factoryParams: UseBillingParams<BillingCartAddress, BillingAddressInput> = {
   provide() {
     return {
       useShippingProvider: useShippingProvider(),
@@ -29,42 +31,13 @@ const factoryParams: UseBillingParams<any, any> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  save: async (context: Context, params) => {
+  save: async (context: Context, { params }) => {
     Logger.debug('[Magento] setBillingAddress');
     const { id } = context.cart.cart.value;
 
-    const {
-      apartment,
-      neighborhood,
-      extra,
-      sameAsShipping,
-      customerAddressId,
-      ...address
-    } = params.billingDetails;
-
-    const street = [address.street];
-
-    if (apartment) street.push(apartment);
-
-    if (neighborhood) street.push(neighborhood);
-
-    if (extra) street.push(extra);
-
-    const billingData = customerAddressId
-      ? ({
-        customer_address_id: customerAddressId,
-      })
-      : ({
-        address: {
-          ...address,
-          street,
-        },
-        same_as_shipping: sameAsShipping,
-      });
-
     const setBillingAddressOnCartInput: SetBillingAddressOnCartInput = {
       cart_id: id,
-      billing_address: billingData,
+      billing_address: params,
     };
 
     const { data } = await context.$magento.api.setBillingAddressOnCart(
@@ -104,4 +77,4 @@ const factoryParams: UseBillingParams<any, any> = {
   },
 };
 
-export default useBillingFactory<any, any>(factoryParams);
+export default useBillingFactory<BillingCartAddress, BillingAddressInput>(factoryParams);
