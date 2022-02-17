@@ -51,7 +51,7 @@ import {
   CustomerCreateInput,
   CustomerOrder as CustomerOrderInterface,
   CustomerOrdersQuery,
-  CustomerQuery,
+  CustomerQueryFocus,
   CustomerUpdateInput,
   DeleteCompareListMutation,
   DeleteCustomerAddressMutation,
@@ -93,7 +93,7 @@ import {
   SetShippingMethodsOnCartInput,
   SetShippingMethodsOnCartMutationFocus,
   ShippingCartAddress,
-  StoreConfigQuery,
+  StoreConfigQueryFocus,
   UpdateCartItemsInput,
   UpdateCartItemsMutation,
   UpdateCustomerAddressMutation,
@@ -192,7 +192,7 @@ export type ProductReviews = ProductReviewQuery['products']['items'][0];
 export type ReviewMetadata = ProductReviewRatingsMetadataQuery['productReviewRatingsMetadata']['items'][0];
 export type Route = UrlResolverQuery['urlResolver'];
 export type ShippingMethod = AvailableShippingMethod;
-export type StoreConfig = StoreConfigQuery['storeConfig'];
+export type StoreConfig = StoreConfigQueryFocus['storeConfig'];
 export type WishlistProduct = WishlistItemInterface;
 export type ProductKitComponent = FocusProductKitComponent;
 export type ProductAttr = FocusProductAttr;
@@ -341,7 +341,7 @@ export interface MagentoApiMethods {
 
   currency(customQuery?: CustomQuery): Promise<FetchResult<CurrencyQuery>>
 
-  customer(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerQuery>>;
+  customer(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerQueryFocus>>;
 
   customerCart(customQuery?: CustomQuery): Promise<ApolloQueryResult<CustomerCartQuery>>;
 
@@ -498,7 +498,7 @@ export interface MagentoApiMethods {
     customQuery?: CustomQuery
   ): Promise<FetchResult<SetShippingMethodsOnCartMutationFocus>>;
 
-  storeConfig(customQuery?: CustomQuery): Promise<ApolloQueryResult<StoreConfigQuery>>;
+  storeConfig(customQuery?: CustomQuery): Promise<ApolloQueryResult<StoreConfigQueryFocus>>;
 
   subscribeEmailToNewsletter(
     input: SubscribeEmailToNewsletterMutationVariables,

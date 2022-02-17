@@ -9,6 +9,7 @@ export default gql`
         base_currency_code,
         catalog_default_sort_by,
         category_fixed_product_tax_display_setting,
+        category_url_suffix,
         cms_home_page,
         cms_no_cookies,
         cms_no_route,
@@ -36,6 +37,7 @@ export default gql`
         no_route,
         product_fixed_product_tax_display_setting,
         product_reviews_enabled,
+        product_url_suffix,
         required_character_classes_number,
         root_category_uid,
         sales_fixed_product_tax_display_setting,
@@ -55,5 +57,6 @@ export default gql`
         welcome,
         focus_rma_phone_number,
     }
+    cacheId @client
   }
 `;
