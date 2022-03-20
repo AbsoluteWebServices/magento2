@@ -6,7 +6,7 @@ const factoryParams: UseGuestRequestReturnFactory<Return, FocusGuestRequestRetur
   requestReturn: async (context: Context, params: FocusGuestRequestReturnInput): Promise<Return> => {
     const { data } = await context.$magento.api.focusGuestRequestReturn(params);
 
-    return data?.focusGuestRequestReturn;
+    return data?.focusGuestRequestReturn.return;
   },
 };
 
