@@ -8055,8 +8055,12 @@ export type FocusGuestRequestReturnInput = {
   request: RequestReturnInput;
 };
 
+export type FocusGuestReturnOutput = {
+  return?: Maybe<Return>;
+};
+
 export interface FocusGuestRequestReturnMutation {
-  focusGuestRequestReturn: Return;
+  focusGuestRequestReturn: FocusGuestReturnOutput;
 };
 
 export interface FocusGuestRequestReturnMutationVariables {
