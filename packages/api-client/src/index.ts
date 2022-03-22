@@ -185,6 +185,7 @@ export {
   CustomerOrdersArgs,
   CustomerOrdersFilterInput,
   CustomerOrdersQuery,
+  CustomerOrdersQueryFocus,
   CustomerOrdersQueryVariables,
   CustomerOutput,
   CustomerPaymentTokens,
