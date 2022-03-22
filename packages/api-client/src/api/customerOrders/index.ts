@@ -2,7 +2,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { CustomQuery } from '@absolute-web/vsf-core';
 import {
   CustomerOrdersFilterInput,
-  CustomerOrdersQuery,
+  CustomerOrdersQueryFocus,
   CustomerOrdersQueryVariables,
 } from '../../types/GraphQL';
 import customerOrdersQuery from './customerOrders';
@@ -19,7 +19,7 @@ export default async (
   context: Context,
   searchParams: GetOrdersSearchParams,
   customQuery: CustomQuery = { customerOrders: 'customerOrders' },
-): Promise<ApolloQueryResult<CustomerOrdersQuery>> => {
+): Promise<ApolloQueryResult<CustomerOrdersQueryFocus>> => {
   const defaultParams = {
     pageSize: 10,
     currentPage: 1,
@@ -42,7 +42,7 @@ export default async (
 
   try {
     return await context.client
-      .query<CustomerOrdersQuery, CustomerOrdersQueryVariables>({
+      .query<CustomerOrdersQueryFocus, CustomerOrdersQueryVariables>({
       query: customerOrders.query,
       variables: customerOrders.variables,
     });
