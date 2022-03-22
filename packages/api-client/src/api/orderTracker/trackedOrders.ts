@@ -268,6 +268,7 @@ export default gql`
               result
               reason
             }
+            focus_shipping_additional_data
           }
       }
   }

@@ -50,7 +50,7 @@ import {
   CustomerCompareListQuery,
   CustomerCreateInput,
   CustomerOrder as CustomerOrderInterface,
-  CustomerOrdersQuery,
+  CustomerOrdersQueryFocus,
   CustomerQueryFocus,
   CustomerUpdateInput,
   DeleteCompareListMutation,
@@ -352,7 +352,7 @@ export interface MagentoApiMethods {
   customerOrders(
     searchParams: GetOrdersSearchParams,
     customQuery?: CustomQuery,
-  ): Promise<ApolloQueryResult<CustomerOrdersQuery>>;
+  ): Promise<ApolloQueryResult<CustomerOrdersQueryFocus>>;
 
   customQuery<QUERY = any, QUERY_VARIABLES = any>(params: {
     query: QUERY,

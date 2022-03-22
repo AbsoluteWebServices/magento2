@@ -1770,6 +1770,7 @@ type CustomerOrder {
     total: OrderTotal
     "Show whether RMA creation is possible for this order"
     focus_can_create_rma: FocusCanCreateRma
+    focus_shipping_additional_data: String
 }
 
 "The collection of orders that match the conditions defined in the filter"
