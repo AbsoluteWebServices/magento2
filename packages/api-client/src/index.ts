@@ -253,6 +253,8 @@ export {
   FixedProductTaxDisplaySettings,
   FocusCatalogRuleDiscountTypeEnum,
   FocusCatalogRulePriceData,
+  FocusDeliveryTime,
+  FocusDeliveryTimeForAddressInput,
   FocusGuestRequestReturnInput,
   FocusGuestRequestReturnMutation,
   FocusGuestRequestReturnMutationVariables,
