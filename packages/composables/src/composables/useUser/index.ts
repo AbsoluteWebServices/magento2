@@ -35,7 +35,10 @@ CustomerCreateInput & { email: string; password: string }
       Logger.debug('[Result]:', { data });
 
       return data.customer as unknown as Customer;
-    } catch {
+    } catch (err) {
+      if (err.message.includes('Failed to fetch')) {
+        throw err;
+      }
       // eslint-disable-next-line no-void
       // @ts-ignore
       await factoryParams.logOut(context);
