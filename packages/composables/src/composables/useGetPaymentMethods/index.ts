@@ -16,7 +16,10 @@ const factoryParams: UseGetPaymentMethodsFactory<AvailablePaymentMethod> = {
         Logger.debug('[Result]:', { data: customerData });
 
         return customerData.customerCart.available_payment_methods;
-      } catch {
+      } catch (err) {
+        if (err.message.includes('Failed to fetch')) {
+          throw err;
+        }
         apiState.setCustomerToken();
       }
     }
@@ -29,7 +32,10 @@ const factoryParams: UseGetPaymentMethodsFactory<AvailablePaymentMethod> = {
       Logger.debug('[Result]:', { data });
 
       return data.cart.available_payment_methods;
-    } catch {
+    } catch (err) {
+      if (err.message.includes('Failed to fetch')) {
+        throw err;
+      }
       apiState.setCartId();
     }
   },

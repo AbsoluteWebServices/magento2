@@ -98,7 +98,10 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
           updatedCart: filterNullCartItems(data.customerCart as unknown as Cart),
           errors,
         };
-      } catch {
+      } catch (err) {
+        if (err.message.includes('Failed to fetch')) {
+          throw err;
+        }
         apiState.setCustomerToken();
       }
     }
@@ -107,7 +110,10 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       // If it's not existing customer check if cart id is set and try to load it
       const cartId = apiState.getCartId();
       return await getCart(virtual, cartId);
-    } catch {
+    } catch (err) {
+      if (err.message.includes('Failed to fetch')) {
+        throw err;
+      }
       apiState.setCartId();
       return await getCart(virtual);
     }
@@ -364,7 +370,10 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
 
     try {
       return await tryAddToCart(cartInput);
-    } catch {
+    } catch (err) {
+      if (err.message.includes('Failed to fetch')) {
+        throw err;
+      }
       apiState.setCartId();
       await factoryParams.load(context, {
         realCart: true,
