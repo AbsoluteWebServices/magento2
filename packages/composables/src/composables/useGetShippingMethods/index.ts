@@ -16,7 +16,10 @@ const factoryParams: UseGetShippingMethodsFactory<ShippingMethod> = {
         Logger.debug('[Result]:', { data: customerData });
 
         return customerData.customerCart.shipping_addresses.length > 0 ? customerData.customerCart.shipping_addresses[0].available_shipping_methods : [];
-      } catch {
+      } catch (err) {
+        if (err.message.includes('Failed to fetch')) {
+          throw err;
+        }
         apiState.setCustomerToken();
       }
     }
@@ -29,7 +32,10 @@ const factoryParams: UseGetShippingMethodsFactory<ShippingMethod> = {
       Logger.debug('[Result]:', { data });
 
       return data.cart.shipping_addresses.length > 0 ? data.cart.shipping_addresses[0].available_shipping_methods : [];
-    } catch {
+    } catch (err) {
+      if (err.message.includes('Failed to fetch')) {
+        throw err;
+      }
       apiState.setCartId();
     }
   },
