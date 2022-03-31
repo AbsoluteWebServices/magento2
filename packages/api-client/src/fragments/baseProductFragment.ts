@@ -6,8 +6,6 @@ sku
 manufacturer_sku
 name
 brand
-stock_status
-only_x_left_in_stock
 categories {
   id
   uid
@@ -80,4 +78,5 @@ short_description {
 }
 options_container
 special_to_date
+non_saleable
 `;
