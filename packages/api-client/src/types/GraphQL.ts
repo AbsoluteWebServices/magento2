@@ -7630,6 +7630,7 @@ export interface ProductInterfaceFocus {
   focus_parent_configurable?: Maybe<{ product?: Maybe<ConfigurableProduct> }>;
   kit_components?: Maybe<Array<Maybe<FocusProductKitComponent>>>;
   focus_attribute_groups: Array<FocusProductAttributeGroup>;
+  non_saleable?: Maybe<Scalars['Boolean']>;
   [key: string]: any;
 };
 
