@@ -16,9 +16,13 @@ export const getItems = (order: any): any[] => order?.items || [];
 
 export const getItemId = (item: any): string => (item?.id ? item?.id : '');
 
+export const getItemsEligibleForReturn = (order: any): any[] => order?.items.filter((item: any) => item.eligible_for_return) || [];
+
 export const getItemSku = (item: any): string => item?.product_sku || 0;
 
 export const getItemName = (item: any): string => item?.product_name || 0;
+
+export const getItemShippedQty = (item: any): number => item?.quantity_shipped || 0;
 
 export const getItemQty = (item: any): number => item?.quantity_ordered || 0;
 
@@ -42,8 +46,10 @@ const orderGetters = {
   getPrice,
   getItems,
   getItemId,
+  getItemsEligibleForReturn,
   getItemSku,
   getItemName,
+  getItemShippedQty,
   getItemQty,
   getItemPrice,
   getFormattedPrice,

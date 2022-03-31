@@ -203,6 +203,7 @@ export default gql`
               focus_parent_item_uid
               focus_child_type
               focus_can_add_to_rma_without_parent
+              eligible_for_return
             }
             payment_methods {
               name
