@@ -4570,6 +4570,8 @@ export interface OrderItemInterface {
   focus_child_type?: Maybe<Scalars['String']>;
   /** Can this item be added to RMA without parent item or not */
   focus_can_add_to_rma_without_parent: Scalars['Boolean'];
+  /** Is RMA available for this product */
+  eligible_for_return: Scalars['Boolean'];
 }
 
 /** Represents order item options like selected or entered */
