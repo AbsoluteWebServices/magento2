@@ -60,7 +60,8 @@ const factoryParams: UseShippingParams<ShippingCartAddress, ShippingAddressInput
       .setShippingAddressesOnCart
       .cart
       .shipping_addresses[0]
-      .available_shipping_methods;
+      .available_shipping_methods
+      .filter((method) => method.available);
 
     context.useGetShippingMethods.setMethods(shippingMethods);
 
