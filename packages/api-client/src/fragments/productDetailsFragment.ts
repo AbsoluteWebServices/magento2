@@ -4,6 +4,7 @@ import freeGiftRuleFragment from './freeGiftRuleFragment';
 export default `
 ${baseProductFragment}
 pdp_data
+product_files_json
 kit_components {
   main
   qty
