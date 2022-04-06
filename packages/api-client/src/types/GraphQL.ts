@@ -7638,6 +7638,7 @@ export interface ProductInterfaceFocus {
   kit_components?: Maybe<Array<Maybe<FocusProductKitComponent>>>;
   focus_attribute_groups: Array<FocusProductAttributeGroup>;
   non_saleable?: Maybe<Scalars['Boolean']>;
+  coming_soon?: Maybe<Scalars['String']>;
   product_files_json?: Maybe<Scalars['String']>;
   [key: string]: any;
 };
