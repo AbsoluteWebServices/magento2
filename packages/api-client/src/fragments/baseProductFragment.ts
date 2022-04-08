@@ -81,4 +81,6 @@ options_container
 special_to_date
 non_saleable
 coming_soon
+badges
+model_discontinued
 `;
