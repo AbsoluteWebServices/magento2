@@ -5,6 +5,7 @@ export default `
 ${baseProductFragment}
 pdp_data
 product_files_json
+replaced_by
 kit_components {
   main
   qty
