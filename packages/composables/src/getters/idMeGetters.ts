@@ -23,11 +23,17 @@ export const getExpirationDate = (
   customerData: FocusIDmeCustomerData,
   locales = 'en-US',
 ): string => {
-  const graduationDate = customerData?.group_data && customerData?.group_data.length
+  let graduationDate = customerData?.group_data && customerData?.group_data.length
     ? customerData.group_data.find(
       (group) => group.handle === 'student_anticipated_graduation_date',
     ).value || null
     : null;
+
+  if (/\d{2}\/\d{4}/.test(graduationDate)) {
+    const [month, year] = graduationDate.split('/');
+    graduationDate = `${year}-${month}-01`;
+  }
+
   return graduationDate
     ? new Intl.DateTimeFormat(locales, {
       weekday: 'long',
