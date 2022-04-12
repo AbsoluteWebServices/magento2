@@ -48,6 +48,8 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUN
   focusSetGroupOnItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; groupType: string; }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   focusUpdateCartGroup: (context: Context, params: { currentCart: CART; groupType: string; data: any }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   focusUnsetPickupDate: (context: Context, params: { currentCart: CART }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  getCartToken: (context: Context) => string;
+  setCartToken: (context: Context, token: string) => void;
 }
 
 export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extends PlatformApi = any>(
@@ -71,6 +73,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     focusUpdateCartGroup: null,
     focusUnsetPickupDate: null,
   }, 'useCart-error');
+  const token = sharedRef<string>(null, 'useCart-token');
 
   const compliance: Ref<CartCompliance> = sharedRef({
     itar: false,
@@ -101,6 +104,20 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     Logger.debug('useCartFactory.setCart', newCart);
   };
 
+  const updateToken = () => {
+    const _token = _factoryParams.getCartToken();
+    if (!token.value !== !_token) {
+      token.value = _token;
+    }
+  };
+
+  const setToken = (_token: string) => {
+    if (!token.value !== !_token) {
+      token.value = _token;
+      _factoryParams.setCartToken(_token);
+    }
+  };
+
   const setCompliance = (value: CartCompliance) => {
     compliance.value = {
       ...compliance.value,
@@ -123,6 +140,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
         error.value.addItems = errors;
       }
       cart.value = updatedCart;
+      updateToken();
     } catch (err) {
       error.value.addItems = err;
       Logger.error('useCart/addItems', err);
@@ -131,6 +149,9 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
+  /**
+   * @deprecated
+   */
   const addItem = async ({
     product,
     quantity,
@@ -205,6 +226,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
           error.value.updateItemQty = errors;
         }
         cart.value = updatedCart;
+        updateToken();
       } catch (err) {
         error.value.updateItemQty = err;
         Logger.error('useCart/updateItemQty', err);
@@ -235,6 +257,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
         error.value.load = errors;
       }
       cart.value = updatedCart;
+      updateToken();
     } catch (err) {
       error.value.load = err;
       Logger.error('useCart/load', err);
@@ -254,6 +277,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
         error.value.clear = errors;
       }
       cart.value = updatedCart;
+      updateToken();
     } catch (err) {
       error.value.clear = err;
       Logger.error('useCart/clear', err);
@@ -475,5 +499,8 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     focusUnsetPickupDate,
     loading: computed(() => loading.value),
     error: computed(() => error.value),
+    token: computed(() => token.value),
+    updateToken,
+    setToken,
   };
 };
