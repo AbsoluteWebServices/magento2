@@ -1,4 +1,4 @@
-import { Ref, computed } from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 import {
   ComposableFunctionArgs,
   Context,
@@ -24,16 +24,19 @@ export interface UseUserFactoryParams<
   register: (
     context: Context,
     params: ComposableFunctionArgs<REGISTER_USER_PARAMS>
-  ) => Promise<{ userData: USER, errors?: readonly GraphQLError[] }>;
+  ) => Promise<void>;
   logIn: (
     context: Context,
     params: ComposableFunctionArgs<{ username: string; password: string }>
-  ) => Promise<{ userData: USER, errors?: readonly GraphQLError[] }>;
+  ) => Promise<void>;
   changePassword: (
     context: Context,
     params: ComposableFunctionArgs<{ currentUser: USER; currentPassword: string; newPassword: string }>
   ) => Promise<USER>;
   getContext: (context: Context) => string;
+  getCustomerToken: (context: Context) => string;
+  setCustomerToken: (context: Context, token: string) => void;
+  mergeCustomerCart: (context: Context, params: ComposableFunctionArgs<{}>) => Promise<{ errors?: readonly GraphQLError[] }>;
 }
 
 export const useUserFactory = <
@@ -54,11 +57,12 @@ export const useUserFactory = <
     cart: null,
   });
 
-  const user: Ref<USER> = sharedRef(null, 'useUser-user');
-  const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
+  const user = sharedRef<USER>(null, 'useUser-user');
+  const loading = sharedRef<boolean>(false, 'useUser-loading');
   const isAuthenticated = computed(() => Boolean(user.value));
-  const error: Ref<UseUserErrors> = sharedRef(errorsFactory(), 'useUser-error');
+  const error = sharedRef<UseUserErrors>(errorsFactory(), 'useUser-error');
   const context = sharedRef<string>(null, 'useUser-context');
+  const token = sharedRef<string>(null, 'useUser-token');
 
   // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle
   const _factoryParams = configureFactoryParams(
@@ -75,6 +79,20 @@ export const useUserFactory = <
 
   const resetErrorValue = () => {
     error.value = errorsFactory();
+  };
+
+  const updateToken = () => {
+    const _token = _factoryParams.getCustomerToken();
+    if (!token.value !== !_token) {
+      token.value = _token;
+    }
+  };
+
+  const setToken = (_token: string) => {
+    if (!token.value !== !_token) {
+      token.value = _token;
+      _factoryParams.setCustomerToken(_token);
+    }
   };
 
   const updateContext = () => {
@@ -108,11 +126,8 @@ export const useUserFactory = <
     try {
       loading.value = true;
       error.value.register = null;
-      const { userData, errors } = await _factoryParams.register({ ...providedUser, customQuery });
-      if (errors) {
-        error.value.cart = errors;
-      }
-      user.value = userData;
+      await _factoryParams.register({ ...providedUser, customQuery });
+      updateToken();
       updateContext();
     } catch (err) {
       error.value.register = err;
@@ -129,11 +144,8 @@ export const useUserFactory = <
     try {
       loading.value = true;
       error.value.login = null;
-      const { userData, errors } = await _factoryParams.logIn({ ...providedUser, customQuery });
-      if (errors) {
-        error.value.cart = errors;
-      }
-      user.value = userData;
+      await _factoryParams.logIn({ ...providedUser, customQuery });
+      updateToken();
       updateContext();
     } catch (err) {
       error.value.login = err;
@@ -151,6 +163,7 @@ export const useUserFactory = <
       await _factoryParams.logOut({ currentUser: user.value });
       error.value.logout = null;
       user.value = null;
+      updateToken();
       updateContext();
     } catch (err) {
       error.value.logout = err;
@@ -180,6 +193,28 @@ export const useUserFactory = <
     }
   };
 
+  const mergeCart = async ({ customQuery } = { customQuery: undefined }) => {
+    Logger.debug('useUserFactory.loadCart');
+    resetErrorValue();
+
+    try {
+      loading.value = true;
+      error.value.cart = null;
+      const cartErrors = await _factoryParams.mergeCustomerCart({ customQuery });
+
+      if (cartErrors?.length) {
+        error.value.cart = cartErrors;
+      }
+
+      updateContext();
+    } catch (err) {
+      error.value.cart = err;
+      Logger.error('useUser/cart', err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const load = async ({ customQuery } = { customQuery: undefined }) => {
     Logger.debug('useUserFactory.load');
     resetErrorValue();
@@ -188,6 +223,7 @@ export const useUserFactory = <
       loading.value = true;
       user.value = await _factoryParams.load({ customQuery });
       error.value.load = null;
+      updateToken();
       updateContext();
     } catch (err) {
       error.value.load = err;
@@ -212,5 +248,9 @@ export const useUserFactory = <
     error: computed(() => error.value),
     context: computed(() => context.value),
     updateContext,
+    token: computed(() => token.value),
+    updateToken,
+    setToken,
+    mergeCart,
   };
 };

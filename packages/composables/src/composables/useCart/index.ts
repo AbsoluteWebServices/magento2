@@ -31,6 +31,12 @@ const filterNullCartItems = (cart: Cart) => {
 };
 
 const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccount> = {
+  getCartToken(context: Context) {
+    return context.$magento.config.state.getCartId();
+  },
+  setCartToken(context: Context, token: string) {
+    return context.$magento.config.state.setCartId(token);
+  },
   load: async (context: Context, params: ComposableFunctionArgs<{
     realCart?: boolean;
   }>) => {

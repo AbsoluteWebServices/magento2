@@ -407,6 +407,9 @@ export interface UseCart<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extend
     currentCart: CART
   }) => Promise<void>;
   error: ComputedProperty<UseCartErrors>;
+  token: ComputedProperty<string>;
+  updateToken: () => void;
+  setToken: (token: string) => void;
 }
 
 export interface UsePickupLocationErrors {
@@ -518,6 +521,10 @@ export interface UseUserErrors extends UseUserErrorsBase {
 export interface UseUser<USER, UPDATE_USER_PARAMS, API extends PlatformApi = any> extends UseUserBase<USER, UPDATE_USER_PARAMS, API> {
   context: ComputedProperty<string>;
   updateContext: () => void;
+  token: ComputedProperty<string>;
+  updateToken: () => void;
+  setToken: (token: string) => void;
+  mergeCart: (params?: ComposableFunctionArgs<{}>) => Promise<void>;
 }
 
 export interface UsePaypalExpressErrors {

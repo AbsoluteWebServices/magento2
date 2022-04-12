@@ -20,6 +20,12 @@ CustomerCreateInput & { email: string; password: string }
   getContext(context: Context) {
     return context.$magento.config.state.getContext();
   },
+  getCustomerToken(context: Context) {
+    return context.$magento.config.state.getCustomerToken();
+  },
+  setCustomerToken(context: Context, token: string) {
+    return context.$magento.config.state.setCustomerToken(token);
+  },
   load: async (context: Context, params) => {
     Logger.debug('[Magento] Load user information');
     const apiState = context.$magento.config.state;
@@ -59,6 +65,7 @@ CustomerCreateInput & { email: string; password: string }
     apiState.setCustomerToken(null);
     apiState.setCartId(null);
     context.cart.setCart(null);
+    context.cart.updateToken();
   },
   updateUser: async (context: Context, params) => {
     Logger.debug('[Magento] Update user information', { params });
@@ -101,6 +108,53 @@ CustomerCreateInput & { email: string; password: string }
 
     return factoryParams.logIn(context, { username: email, password });
   },
+  mergeCustomerCart: async (context: Context, params) => {
+    // merge existing cart with customer cart
+    const apiState = context.$magento.config.state;
+
+    if (!apiState.getCustomerToken()) {
+      return null;
+    }
+
+    const currentCartId = apiState.getCartId();
+    const cart = await context.$magento.api.customerCart();
+    const newCartId = cart.data.customerCart.id;
+    let errors;
+
+    if (cart.errors?.length) {
+      errors = cart.errors;
+    }
+
+    if (newCartId) {
+      if (currentCartId && currentCartId !== newCartId) {
+        const { data: dataMergeCart, errors: errorsMergeCart } = await context.$magento.api.mergeCarts(
+          {
+            sourceCartId: currentCartId,
+            destinationCartId: newCartId,
+          },
+          params?.customQuery || {},
+        );
+
+        if (errorsMergeCart?.length) {
+          errors = errors ? [
+            ...errors,
+            ...errorsMergeCart,
+          ] : errorsMergeCart;
+        }
+
+        context.cart.setCart(dataMergeCart.mergeCarts);
+
+        apiState.setCartId(dataMergeCart.mergeCarts.id);
+      } else {
+        context.cart.setCart(cart.data.customerCart);
+
+        apiState.setCartId(newCartId);
+      }
+      context.cart.updateToken();
+    }
+
+    return errors;
+  },
   logIn: async (context: Context, params) => {
     Logger.debug('[Magento] Authenticate user');
     const apiState = context.$magento.config.state;
@@ -123,50 +177,6 @@ CustomerCreateInput & { email: string; password: string }
       throw new Error('Customer sign-in error');
     }
     apiState.setCustomerToken(data.generateCustomerToken.token);
-
-    // merge existing cart with customer cart
-    const currentCartId = apiState.getCartId();
-    const cart = await context.$magento.api.customerCart();
-    const newCartId = cart.data.customerCart.id;
-    let cartErrors;
-
-    if (cart.errors?.length) {
-      cartErrors = cart.errors;
-    }
-
-    if (newCartId) {
-      if (currentCartId && currentCartId !== newCartId) {
-        const { data: dataMergeCart, errors: errorsMergeCart } = await context.$magento.api.mergeCarts(
-          {
-            sourceCartId: currentCartId,
-            destinationCartId: newCartId,
-          },
-          params?.customQuery || {},
-        );
-
-        if (errorsMergeCart?.length) {
-          cartErrors = cartErrors ? [
-            ...cartErrors,
-            ...errorsMergeCart,
-          ] : errorsMergeCart;
-        }
-
-        context.cart.setCart(dataMergeCart.mergeCarts);
-
-        apiState.setCartId(dataMergeCart.mergeCarts.id);
-      } else {
-        context.cart.setCart(cart.data.customerCart);
-
-        apiState.setCartId(newCartId);
-      }
-    }
-
-    await context.$magento.api.wishlist({});
-
-    return {
-      userData: await factoryParams.load(context),
-      errors: cartErrors,
-    };
   },
   changePassword: async (context: Context, params) => {
     Logger.debug('[Magento] changing user password');
