@@ -208,6 +208,18 @@ export default gql`
               focus_child_type
               focus_can_add_to_rma_without_parent
               eligible_for_return
+              focus_product_image_url {
+                label
+                url
+              }
+              focus_product_thumbnail_url {
+                label
+                url
+              }
+              focus_product_small_image_url {
+                label
+                url
+              }
             }
             payment_methods {
               name
