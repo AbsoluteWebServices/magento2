@@ -197,6 +197,18 @@ export default gql`
               value
             }
             status
+            focus_product_image_url {
+              label
+              url
+            }
+            focus_product_thumbnail_url {
+              label
+              url
+            }
+            focus_product_small_image_url {
+              label
+              url
+            }
           }
           payment_methods {
             name
