@@ -2992,6 +2992,8 @@ type OrderTotal {
     total_shipping: Money!
     "The amount of tax applied to the order"
     total_tax: Money!
+    "The amount of gift card applied to the order"
+    total_giftcard: Money
 }
 
 "Contains information used to generate PayPal iframe for transaction. Applies to Payflow Link and Payments Advanced payment methods."

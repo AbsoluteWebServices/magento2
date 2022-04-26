@@ -4634,6 +4634,8 @@ export interface OrderTotal {
   total_shipping: Money;
   /** The amount of tax applied to the order */
   total_tax: Money;
+  "The amount of gift card applied to the order"
+  total_giftcard?: Maybe<Money>;
 }
 
 /** Required input for Payflow Express Checkout payments */
