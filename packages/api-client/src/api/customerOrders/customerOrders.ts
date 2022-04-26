@@ -69,6 +69,10 @@ export default gql`
               currency
               value
             }
+            total_giftcard {
+              currency
+              value
+            }
           }
           status
           comments {
