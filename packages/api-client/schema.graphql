@@ -218,6 +218,12 @@ interface OrderItemInterface {
     focus_child_type: String
     "Can this item be added to RMA without parent item or not"
     focus_can_add_to_rma_without_parent: Boolean!
+    "Product Image URL"
+    focus_product_image_url: String
+    "Product Thumbnail Url"
+    focus_product_thumbnail_url: String
+    "Product Small Image Url"
+    focus_product_small_image_url: String
 }
 
 "PhysicalProductInterface contains attributes specific to tangible products."

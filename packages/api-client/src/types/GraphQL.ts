@@ -4572,6 +4572,12 @@ export interface OrderItemInterface {
   focus_can_add_to_rma_without_parent: Scalars['Boolean'];
   /** Is RMA available for this product */
   eligible_for_return: Scalars['Boolean'];
+  /** Product Image URL */
+  focus_product_image_url: Maybe<Scalars['String']>;
+  /** Product Thumbnail Url */
+  focus_product_thumbnail_url: Maybe<Scalars['String']>;
+  /** Product Small Image Url */
+  focus_product_small_image_url: Maybe<Scalars['String']>;
 }
 
 /** Represents order item options like selected or entered */
