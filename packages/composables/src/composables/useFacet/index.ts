@@ -69,13 +69,19 @@ const factoryParams = {
   search: async (context: Context, params: ComposableFunctionArgs<FacetSearchResult<any>>) => {
     Logger.debug('[Magento] Load product facets', { params });
 
-    const itemsPerPage = (params.input.itemsPerPage) ? params.input.itemsPerPage : 20;
-    const inputFilters = (params.input.filters) ? params.input.filters : {};
-    const categoryId = (params.input.categoryId) ? {
+    const {
+      customQuery,
+      signal,
+      input
+    } = params;
+
+    const itemsPerPage = (input.itemsPerPage) ? input.itemsPerPage : 20;
+    const inputFilters = (input.filters) ? input.filters : {};
+    const categoryId = (input.categoryId) ? {
       category_uid: {
-        ...(Array.isArray(params.input.categoryId)
-          ? { in: params.input.categoryId }
-          : { eq: params.input.categoryId }),
+        ...(Array.isArray(input.categoryId)
+          ? { in: input.categoryId }
+          : { eq: input.categoryId }),
       },
     } : {};
 
@@ -87,10 +93,10 @@ const factoryParams = {
         }),
       },
       perPage: itemsPerPage,
-      offset: (params.input.page - 1) * itemsPerPage,
-      page: params.input.page,
-      search: (params.input.term) ? params.input.term : '',
-      sort: constructSortObject(params.input.sort || ''),
+      offset: (input.page - 1) * itemsPerPage,
+      page: input.page,
+      search: (input.term) ? input.term : '',
+      sort: constructSortObject(input.sort || ''),
     };
 
     const productSearchParams: GetProductSearchParams = {
@@ -102,7 +108,7 @@ const factoryParams = {
       withAggregations: true,
     };
 
-    const { data } = await context.$magento.getApi.products(productSearchParams);
+    const { data } = await context.$magento.getApi.products(productSearchParams, customQuery, signal);
 
     if (data?.cacheTags) {
       context.cache.addTagsFromString(data.cacheTags);

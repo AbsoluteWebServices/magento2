@@ -29,13 +29,14 @@ const factoryParams: UseRelatedProductsFactoryParams<Product[], ProductsSearchPa
 
     const {
       customQuery,
+      signal,
       ...searchParams
     } = params;
 
     const { data } = await context
       .$magento
       .getApi
-      .relatedProduct(searchParams as GetProductSearchParams);
+      .relatedProduct(searchParams as GetProductSearchParams, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 

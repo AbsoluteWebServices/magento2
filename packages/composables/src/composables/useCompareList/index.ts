@@ -41,7 +41,12 @@ const getProductId = (product: Product) => {
 
 const factoryParams: UseCompareListFactoryParams<CompareList, Product> = {
   load: async (context: Context, params) => {
-    const { data } = await context.$magento.api.compareList(params.uid, params.customQuery || {});
+    const {
+      customQuery,
+      signal,
+      uid
+    } = params;
+    const { data } = await context.$magento.api.compareList(uid, customQuery, signal);
 
     return data.compareList;
   },
@@ -50,23 +55,39 @@ const factoryParams: UseCompareListFactoryParams<CompareList, Product> = {
       throw new Error('Need to be authenticated to load customer compare list');
     }
 
-    const { data } = await context.$magento.api.customerCompareList(params.customQuery || {});
+    const {
+      customQuery,
+      signal
+    } = params;
+
+    const { data } = await context.$magento.api.customerCompareList(undefined, customQuery, signal);
 
     return data.customer.compare_list;
   },
   create: async (context: Context, params) => {
+    const {
+      customQuery,
+      signal,
+      products
+    } = params;
     const { data } = await context.$magento.api.createCompareList({
-      products: params.products.map((product) => getProductId(product)),
-    }, params.customQuery || {});
+      products: products.map((product) => getProductId(product)),
+    }, customQuery, signal);
 
     return data.createCompareList;
   },
   clear: async (context: Context, params) => {
-    if (!params.currentCompareList?.uid) {
+    const {
+      customQuery,
+      signal,
+      currentCompareList
+    } = params;
+
+    if (!currentCompareList?.uid) {
       return false;
     }
 
-    const { data } = await context.$magento.api.deleteCompareList(params.currentCompareList.uid, params.customQuery || {});
+    const { data } = await context.$magento.api.deleteCompareList(currentCompareList.uid, customQuery, signal);
 
     return data.deleteCompareList.result;
   },
@@ -75,23 +96,29 @@ const factoryParams: UseCompareListFactoryParams<CompareList, Product> = {
       throw new Error('Need to be authenticated to assign compare list to customer');
     }
 
-    if (!params.currentCompareList?.uid) {
+    const {
+      customQuery,
+      signal,
+      currentCompareList
+    } = params;
+
+    if (!currentCompareList?.uid) {
       return null;
     }
 
-    const { data } = await context.$magento.api.assignCompareListToCustomer(params.currentCompareList.uid, params.customQuery || {});
+    const { data } = await context.$magento.api.assignCompareListToCustomer(currentCompareList.uid, customQuery, signal);
 
     return data.assignCompareListToCustomer.compare_list;
   },
   addItems: async (context, params) => {
-    const { products, currentCompareList } = params;
+    const { products, currentCompareList, customQuery, signal } = params;
 
     if (products.length === 0) {
       return null;
     }
 
     if (!currentCompareList?.uid) {
-      return factoryParams.create(context, { products, customQuery: params.customQuery });
+      return factoryParams.create(context, { products, customQuery, signal });
     }
 
     const itemsToAdd = [];
@@ -110,16 +137,16 @@ const factoryParams: UseCompareListFactoryParams<CompareList, Product> = {
     const { data } = await context.$magento.api.addProductsToCompareList({
       uid: currentCompareList.uid,
       products: itemsToAdd.map((product) => getProductId(product)),
-    });
+    }, customQuery, signal);
 
     if (itemsToRemove.length > 0) {
-      return factoryParams.removeItems(context, { currentCompareList: data.addProductsToCompareList, products: itemsToRemove });
+      return factoryParams.removeItems(context, { currentCompareList: data.addProductsToCompareList, products: itemsToRemove, customQuery, signal });
     }
 
     return data.addProductsToCompareList;
   },
   removeItems: async (context, params) => {
-    const { products, currentCompareList } = params;
+    const { products, currentCompareList, customQuery, signal } = params;
 
     if (!currentCompareList?.uid || products.length === 0) {
       return null;
@@ -142,7 +169,7 @@ const factoryParams: UseCompareListFactoryParams<CompareList, Product> = {
     const { data } = await context.$magento.api.removeProductsFromCompareList({
       uid: currentCompareList.uid,
       products: itemsToRemove.map((element) => getProductId(element)),
-    });
+    }, customQuery, signal);
 
     return data.removeProductsFromCompareList;
   },

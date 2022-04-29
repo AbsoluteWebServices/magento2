@@ -38,16 +38,16 @@ export interface UseCartFactoryParams<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUN
     context: Context,
     params: ComposableFunctionArgs<{ currentCart: CART; couponCode: string; }>
   ) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
-  checkGiftCard: (context: Context, params: { giftCardCode: string }) => Promise<GIFT_CARD_ACCOUNT>;
-  applyGiftCard: (context: Context, params: { currentCart: CART; giftCardCode: string; customQuery?: CustomQuery }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  checkGiftCard: (context: Context, params: ComposableFunctionArgs<{ giftCardCode: string }>) => Promise<GIFT_CARD_ACCOUNT>;
+  applyGiftCard: (context: Context, params: ComposableFunctionArgs<{ currentCart: CART; giftCardCode: string; customQuery?: CustomQuery }>) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   removeGiftCard: (
     context: Context,
-    params: { currentCart: CART; giftCardCode: string; customQuery?: CustomQuery }
+    params: ComposableFunctionArgs<{ currentCart: CART; giftCardCode: string; customQuery?: CustomQuery }>
   ) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   isInCart: (context: Context, params: { currentCart: CART; product: PRODUCT }) => boolean;
-  focusSetGroupOnItem: (context: Context, params: { currentCart: CART; product: CART_ITEM; groupType: string; }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
-  focusUpdateCartGroup: (context: Context, params: { currentCart: CART; groupType: string; data: any }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
-  focusUnsetPickupDate: (context: Context, params: { currentCart: CART }) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  focusSetGroupOnItem: (context: Context, params: ComposableFunctionArgs<{ currentCart: CART; product: CART_ITEM; groupType: string; }>) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  focusUpdateCartGroup: (context: Context, params: ComposableFunctionArgs<{ currentCart: CART; groupType: string; data: any }>) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
+  focusUnsetPickupDate: (context: Context, params: ComposableFunctionArgs<{ currentCart: CART }>) => Promise<{ updatedCart: CART, errors?: readonly GraphQLError[] }>;
   getCartToken: (context: Context) => string;
   setCartToken: (context: Context, token: string) => void;
 }
@@ -125,16 +125,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     };
   };
 
-  const addItems = async ({ products, customQuery }) => {
-    Logger.debug('useCart.addItems', { products });
+  const addItems = async (params: ComposableFunctionArgs<{ products }>) => {
+    Logger.debug('useCart.addItems', params);
 
     try {
       loading.value = true;
       error.value.addItems = null;
       const { updatedCart, errors } = await _factoryParams.addItems({
         currentCart: cart.value,
-        products,
-        customQuery,
+        ...params,
       });
       if (errors) {
         error.value.addItems = errors;
@@ -152,18 +151,25 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
   /**
    * @deprecated
    */
-  const addItem = async ({
+  const addItem = async (params: ComposableFunctionArgs<{
     product,
     quantity,
     enteredOptions,
-    customQuery,
-  }) => {
-    Logger.debug('useCart.addItem', { product, quantity, enteredOptions, });
+  }>) => {
+    Logger.debug('useCart.addItem', params);
+
+    const {
+      product,
+      quantity,
+      enteredOptions,
+      customQuery,
+      signal
+    } = params;
 
     try {
       loading.value = true;
       error.value.addItem = null;
-      await addItems({ products: [{ product, quantity, enteredOptions }], customQuery });
+      await addItems({ products: [{ product, quantity, enteredOptions }], customQuery, signal });
 
       if (error.value.addItems) {
         throw error.value.addItems;
@@ -176,19 +182,15 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const removeItem = async ({
-    product,
-    customQuery,
-  }) => {
-    Logger.debug('useCart.removeItem', { product });
+  const removeItem = async (params: ComposableFunctionArgs<{ product }>) => {
+    Logger.debug('useCart.removeItem', params);
 
     try {
       loading.value = true;
       error.value.removeItem = null;
       const { updatedCart, errors } = await _factoryParams.removeItem({
         currentCart: cart.value,
-        product,
-        customQuery,
+        ...params,
       });
       if (errors) {
         error.value.removeItem = errors;
@@ -202,15 +204,18 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const updateItemQty = async ({
+  const updateItemQty = async (params: ComposableFunctionArgs<{
     product,
     quantity,
-    customQuery,
-  }) => {
-    Logger.debug('useCart.updateItemQty', {
+  }>) => {
+    Logger.debug('useCart.updateItemQty', params);
+
+    const {
       product,
       quantity,
-    });
+      customQuery,
+      signal
+    } = params;
 
     if (quantity && quantity > 0) {
       try {
@@ -221,6 +226,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
           product,
           quantity,
           customQuery,
+          signal,
         });
         if (errors) {
           error.value.updateItemQty = errors;
@@ -236,8 +242,14 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const load = async ({ forceReload, customQuery } = { forceReload: false, customQuery: undefined }) => {
+  const load = async (params: ComposableFunctionArgs<{ forceReload: false }> = { forceReload: false }) => {
     Logger.debug('useCart.load');
+
+    const {
+      forceReload,
+      customQuery,
+      signal
+    } = params;
 
     if (!forceReload && cart.value) {
       /**
@@ -252,7 +264,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     try {
       loading.value = true;
       error.value.load = null;
-      const { updatedCart, errors } = await _factoryParams.load({ customQuery });
+      const { updatedCart, errors } = await _factoryParams.load({ customQuery, signal });
       if (errors) {
         error.value.load = errors;
       }
@@ -266,13 +278,13 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const clear = async () => {
+  const clear = async (params: ComposableFunctionArgs<{}>) => {
     Logger.debug('useCart.clear');
 
     try {
       loading.value = true;
       error.value.clear = null;
-      const { updatedCart, errors } = await _factoryParams.clear({ currentCart: cart.value });
+      const { updatedCart, errors } = await _factoryParams.clear({ currentCart: cart.value, ...params });
       if (errors) {
         error.value.clear = errors;
       }
@@ -291,10 +303,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     product,
   });
 
-  const applyCoupon = async ({
-    couponCode,
-    customQuery,
-  }) => {
+  const applyCoupon = async (params: ComposableFunctionArgs<{ couponCode }>) => {
     Logger.debug('useCart.applyCoupon');
 
     try {
@@ -302,8 +311,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
       error.value.applyCoupon = null;
       const { updatedCart, errors } = await _factoryParams.applyCoupon({
         currentCart: cart.value,
-        couponCode,
-        customQuery,
+        ...params,
       });
       if (errors) {
         error.value.applyCoupon = errors;
@@ -317,10 +325,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const removeCoupon = async ({
-    couponCode,
-    customQuery,
-  }) => {
+  const removeCoupon = async (params: ComposableFunctionArgs<{ couponCode }>) => {
     Logger.debug('useCart.removeCoupon');
 
     try {
@@ -328,8 +333,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
       error.value.removeCoupon = null;
       const { updatedCart, errors } = await _factoryParams.removeCoupon({
         currentCart: cart.value,
-        couponCode,
-        customQuery,
+        ...params,
       });
       if (errors) {
         error.value.removeCoupon = errors;
@@ -344,14 +348,12 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const checkGiftCard = async ({ giftCardCode }) => {
+  const checkGiftCard = async (params: ComposableFunctionArgs<{ giftCardCode }>) => {
     Logger.debug('useCart.checkGiftCard');
 
     try {
       loading.value = true;
-      const result = await _factoryParams.checkGiftCard({
-        giftCardCode,
-      });
+      const result = await _factoryParams.checkGiftCard(params);
       error.value.checkGiftCard = null;
       return result;
     } catch (err) {
@@ -363,7 +365,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     return null;
   };
 
-  const applyGiftCard = async ({ giftCardCode, customQuery }) => {
+  const applyGiftCard = async (params: ComposableFunctionArgs<{ giftCardCode }>) => {
     Logger.debug('useCart.applyGiftCard');
 
     try {
@@ -371,8 +373,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
       error.value.applyGiftCard = null;
       const { updatedCart, errors } = await _factoryParams.applyGiftCard({
         currentCart: cart.value,
-        giftCardCode,
-        customQuery,
+        ...params,
       });
       if (errors) {
         error.value.applyGiftCard = errors;
@@ -386,7 +387,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const removeGiftCard = async ({ giftCardCode, customQuery }) => {
+  const removeGiftCard = async (params: ComposableFunctionArgs<{ giftCardCode }>) => {
     Logger.debug('useCart.removeGiftCard');
 
     try {
@@ -394,8 +395,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
       error.value.removeGiftCard = null;
       const { updatedCart, errors } = await _factoryParams.removeGiftCard({
         currentCart: cart.value,
-        giftCardCode,
-        customQuery,
+        ...params,
       });
       if (errors) {
         error.value.removeGiftCard = errors;
@@ -409,7 +409,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const focusSetGroupOnItem = async ({ product, groupType }) => {
+  const focusSetGroupOnItem = async (params: ComposableFunctionArgs<{ product, groupType }>) => {
     Logger.debug('useCart.focusSetGroupOnItem');
 
     try {
@@ -417,8 +417,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
       error.value.focusSetGroupOnItem = null;
       const { updatedCart, errors } = await _factoryParams.focusSetGroupOnItem({
         currentCart: cart.value,
-        product,
-        groupType,
+        ...params,
       });
       if (errors) {
         error.value.focusSetGroupOnItem = errors;
@@ -432,7 +431,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const focusUpdateCartGroup = async ({ groupType, data }) => {
+  const focusUpdateCartGroup = async (params: ComposableFunctionArgs<{ groupType, data }>) => {
     Logger.debug('useCart.focusUpdateCartGroup');
 
     try {
@@ -440,8 +439,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
       error.value.focusUpdateCartGroup = null;
       const { updatedCart, errors } = await _factoryParams.focusUpdateCartGroup({
         currentCart: cart.value,
-        groupType,
-        data,
+        ...params,
       });
       if (errors) {
         error.value.focusUpdateCartGroup = errors;
@@ -455,7 +453,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
     }
   };
 
-  const focusUnsetPickupDate = async () => {
+  const focusUnsetPickupDate = async (params: ComposableFunctionArgs<{}>) => {
     Logger.debug('useCart.focusUnsetPickupDate');
 
     try {
@@ -463,6 +461,7 @@ export const useCartFactory = <CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API 
       error.value.focusUnsetPickupDate = null;
       const { updatedCart, errors } = await _factoryParams.focusUnsetPickupDate({
         currentCart: cart.value,
+        ...params,
       });
       if (errors) {
         error.value.focusUnsetPickupDate = errors;

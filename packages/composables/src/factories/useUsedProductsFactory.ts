@@ -1,7 +1,7 @@
 import { computed, Ref } from '@vue/composition-api';
 import {
+  ComposableFunctionArgs,
   configureFactoryParams,
-  CustomQuery,
   FactoryParams,
   Logger,
   Context,
@@ -16,7 +16,7 @@ export interface UseUsedProductsFactoryParams<
   USED_PRODUCTS_SEARCH_PARAMS extends ProductsSearchParams,
   API extends PlatformApi = any,
 > extends FactoryParams<API> {
-  productsSearch: (context: Context, params: USED_PRODUCTS_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<PRODUCTS>;
+  productsSearch: (context: Context, params: ComposableFunctionArgs<USED_PRODUCTS_SEARCH_PARAMS>) => Promise<PRODUCTS>;
 }
 
 export function useUsedProductsFactory<PRODUCTS, USED_PRODUCTS_SEARCH_PARAMS, API extends PlatformApi = any>(
@@ -37,7 +37,7 @@ export function useUsedProductsFactory<PRODUCTS, USED_PRODUCTS_SEARCH_PARAMS, AP
       },
     );
 
-    const search = async (searchParams) => {
+    const search = async (searchParams = {}) => {
       Logger.debug(`useUsedProducts/${id}/search`, searchParams);
 
       try {

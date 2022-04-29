@@ -25,7 +25,7 @@ export function useCurrencyFactory<CURRENCY,
     // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
     const _factoryParams = configureFactoryParams(factoryParams);
 
-    const load = async (params?: ComposableFunctionArgs<{}>) => {
+    const load = async (params: ComposableFunctionArgs<{}> = {}) => {
       Logger.debug(`useCurrency/${ssrKey}/load`);
       loading.value = true;
       try {

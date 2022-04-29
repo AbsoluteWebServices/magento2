@@ -1,6 +1,6 @@
 import {
   Context,
-  CustomQuery, Logger,
+  Logger,
   ProductsSearchParams,
 } from '@absolute-web/vsf-core';
 import {
@@ -14,21 +14,19 @@ import {
 import { UseUsedProducts } from '../../types/composables';
 
 const factoryParams: UseUsedProductsFactoryParams<Product[], ProductsSearchParams> = {
-  productsSearch: async (context: Context,
-    params: GetProductSearchParams & {
-      customQuery?: CustomQuery;
-    }) => {
+  productsSearch: async (context: Context, params) => {
     Logger.debug('[Magento] Find used products based on ', { params });
 
     const {
       customQuery,
+      signal,
       ...searchParams
     } = params;
 
     const { data } = await context
       .$magento
       .getApi
-      .usedProduct(searchParams as GetProductSearchParams, (customQuery || {}));
+      .usedProduct(searchParams as GetProductSearchParams, (customQuery || {}), signal);
 
     Logger.debug('[Result]:', { data });
 

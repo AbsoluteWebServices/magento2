@@ -1,5 +1,6 @@
 import { computed, Ref } from '@vue/composition-api';
 import {
+  ComposableFunctionArgs,
   configureFactoryParams,
   Context,
   FactoryParams,
@@ -13,7 +14,7 @@ export interface UseProductAttributeFactoryParams<
   PRODUCT_ATTRIBUTE,
   API extends PlatformApi = any,
 > extends FactoryParams<API> {
-  load: (context: Context, code: string) => Promise<PRODUCT_ATTRIBUTE>;
+  load: (context: Context, params: ComposableFunctionArgs<{ code: string }>) => Promise<PRODUCT_ATTRIBUTE>;
 }
 
 export function useProductAttributeFactory<PRODUCT_ATTRIBUTE, API extends PlatformApi = any>(
@@ -34,12 +35,12 @@ export function useProductAttributeFactory<PRODUCT_ATTRIBUTE, API extends Platfo
       },
     );
 
-    const load = async (code: string) => {
-      Logger.debug(`useProductAttribute/${id}/load`, code);
+    const load = async (params: ComposableFunctionArgs<{ code: string }>) => {
+      Logger.debug(`useProductAttribute/${id}/load`, params);
 
       try {
         loading.value = true;
-        result.value = await _factoryParams.load(code);
+        result.value = await _factoryParams.load(params);
         error.value.load = null;
       } catch (err) {
         error.value.load = err;

@@ -40,7 +40,7 @@ export const useGuestUserFactory = <GUEST_USER,
     error.value = errorsFactory();
   };
 
-  const attachToCart = async (params: ComposableFunctionArgs<REGISTER_GUEST_USER_PARAMS>) => {
+  const attachToCart = async (params = {}) => {
     Logger.debug('useGuestUserFactory.attachToCart', { params });
     resetErrorValue();
 

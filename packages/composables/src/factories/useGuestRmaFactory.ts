@@ -1,5 +1,6 @@
 import { computed, Ref } from '@vue/composition-api';
 import {
+  ComposableFunctionArgs,
   configureFactoryParams,
   Context,
   FactoryParams,
@@ -13,7 +14,7 @@ export interface UseGuestRmaFactoryParams<GUEST_RMA_DATA,
   GUEST_RMA_PARAMS,
   API extends PlatformApi = any,
 > extends FactoryParams<API> {
-  load: (context: Context, params: GUEST_RMA_PARAMS) => Promise<GUEST_RMA_DATA>;
+  load: (context: Context, params: ComposableFunctionArgs<GUEST_RMA_PARAMS>) => Promise<GUEST_RMA_DATA>;
 }
 
 export const useGuestRmaFactory = <GUEST_RMA_DATA, GUEST_RMA_PARAMS, API extends PlatformApi = any>(
@@ -34,7 +35,7 @@ export const useGuestRmaFactory = <GUEST_RMA_DATA, GUEST_RMA_PARAMS, API extends
   // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
   const _factoryParams = configureFactoryParams(factoryParams);
 
-  const load = async (params: GUEST_RMA_PARAMS): Promise<void> => {
+  const load = async (params = {}): Promise<void> => {
     Logger.debug(`useGuestRma/${ssrKey}/load`, params);
 
     try {

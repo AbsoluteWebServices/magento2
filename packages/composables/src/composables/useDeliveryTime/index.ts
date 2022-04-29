@@ -4,7 +4,13 @@ import { UseDeliveryTimeFactoryParams, useDeliveryTimeFactory } from '../../fact
 
 const factoryParams: UseDeliveryTimeFactoryParams<FocusDeliveryTime, FocusDeliveryTimeForAddressInput> = {
   search: async (context: Context, params): Promise<FocusDeliveryTime[]> => {
-    const { data } = await context.$magento.api.focusDeliveryTimeForAddress(params);
+    const {
+      customQuery,
+      signal,
+      ...searchParams
+    } = params;
+
+    const { data } = await context.$magento.api.focusDeliveryTimeForAddress(searchParams, customQuery, signal);
 
     return data.focusDeliveryTimeForAddress;
   },

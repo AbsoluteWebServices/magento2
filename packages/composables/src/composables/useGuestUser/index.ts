@@ -12,10 +12,16 @@ const factoryParams: UseGuestUserFactoryParams<any, { email:string }> = {
   attachToCart: async (context, params) => {
     Logger.debug('[Magento]: Attach guest cart to user');
 
+    const {
+      customQuery,
+      signal,
+      email
+    } = params;
+
     const cartId = context.$magento.config.state.getCartId();
 
     const emailOnCartInput: SetGuestEmailOnCartInput = {
-      email: params.email,
+      email,
       cart_id: cartId,
     };
 
@@ -28,7 +34,7 @@ const factoryParams: UseGuestUserFactoryParams<any, { email:string }> = {
 
     await context.$magento.api.setGuestEmailOnCart({
       ...emailOnCartInput,
-    });
+    }, customQuery, signal);
   },
 };
 

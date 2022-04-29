@@ -1,6 +1,6 @@
 import { Ref, computed } from '@vue/composition-api';
 import {
-  CustomQuery, UseUserOrder, Context, FactoryParams, UseUserOrderErrors, PlatformApi, sharedRef, Logger, configureFactoryParams,
+  ComposableFunctionArgs, UseUserOrder, Context, FactoryParams, UseUserOrderErrors, PlatformApi, sharedRef, Logger, configureFactoryParams,
 } from '@absolute-web/vsf-core';
 
 export interface UseUserOrderFactoryParams<
@@ -8,7 +8,7 @@ export interface UseUserOrderFactoryParams<
   ORDER_SEARCH_PARAMS,
   API extends PlatformApi = any,
 > extends FactoryParams<API> {
-  searchOrders: (context: Context, params: ORDER_SEARCH_PARAMS & { customQuery?: CustomQuery }) => Promise<ORDERS>;
+  searchOrders: (context: Context, params: ComposableFunctionArgs<ORDER_SEARCH_PARAMS>) => Promise<ORDERS>;
 }
 
 export function useUserOrderFactory<
@@ -28,7 +28,7 @@ export function useUserOrderFactory<
       factoryParams,
     );
 
-    const search = async (searchParams): Promise<void> => {
+    const search = async (searchParams = {}): Promise<void> => {
       Logger.debug(`useUserOrder/${ssrKey}/search`, searchParams);
 
       try {

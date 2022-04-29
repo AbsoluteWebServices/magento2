@@ -1,5 +1,6 @@
 import { computed, Ref } from '@vue/composition-api';
 import {
+  ComposableFunctionArgs,
   configureFactoryParams,
   Context,
   FactoryParams,
@@ -10,8 +11,8 @@ import { UseCustomerReturns, UseCustomerReturnsErrors } from '../types/composabl
 
 export interface UseCustomerReturnsFactory<CUSTOMER_RETURNS_DATA, CUSTOMER_RETURN_DATA, CUSTOMER_RETURNS_PARAMS, CUSTOMER_RETURN_PARAMS>
   extends FactoryParams {
-  loadReturns: (context: Context, params: CUSTOMER_RETURNS_PARAMS) => Promise<CUSTOMER_RETURNS_DATA>;
-  loadReturn: (context: Context, params: CUSTOMER_RETURN_PARAMS) => Promise<CUSTOMER_RETURN_DATA>;
+  loadReturns: (context: Context, params: ComposableFunctionArgs<CUSTOMER_RETURNS_PARAMS>) => Promise<CUSTOMER_RETURNS_DATA>;
+  loadReturn: (context: Context, params: ComposableFunctionArgs<CUSTOMER_RETURN_PARAMS>) => Promise<CUSTOMER_RETURN_DATA>;
 }
 
 export const useCustomerReturnsFactory = <CUSTOMER_RETURNS_DATA, CUSTOMER_RETURN_DATA, CUSTOMER_RETURNS_PARAMS, CUSTOMER_RETURN_PARAMS>(
@@ -35,7 +36,7 @@ export const useCustomerReturnsFactory = <CUSTOMER_RETURNS_DATA, CUSTOMER_RETURN
   const _factoryParams = configureFactoryParams(factoryParams);
 
   // eslint-disable-next-line consistent-return
-  const loadReturns = async (params: CUSTOMER_RETURNS_PARAMS): Promise<void> => {
+  const loadReturns = async (params = {}): Promise<void> => {
     Logger.debug(`useCustomerReturns/${ssrKey}/loadReturns`, params);
 
     try {
@@ -50,7 +51,7 @@ export const useCustomerReturnsFactory = <CUSTOMER_RETURNS_DATA, CUSTOMER_RETURN
     }
   };
 
-  const loadReturn = async (params: CUSTOMER_RETURN_PARAMS): Promise<void> => {
+  const loadReturn = async (params = {}): Promise<void> => {
     Logger.debug(`useCustomerReturn/${ssrKey}/loadReturn`, params);
 
     try {

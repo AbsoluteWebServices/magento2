@@ -4,8 +4,14 @@ import { UseGuestRmaList } from '../../types/composables';
 import { UseGuestRmaListFactoryParams, useGuestRmaListFactory } from '../../factories/useGuestRmaListFactory';
 
 const factoryParams: UseGuestRmaListFactoryParams<Returns, FocusGuestRmaListInput> = {
-  load: async (context: Context, params: FocusGuestRmaListInput): Promise<Returns> => {
-    const { data } = await context.$magento.api.focusGuestRmaList(params);
+  load: async (context: Context, params): Promise<Returns> => {
+    const {
+      customQuery,
+      signal,
+      ...loadParams
+    } = params;
+
+    const { data } = await context.$magento.api.focusGuestRmaList(loadParams, customQuery, signal);
 
     return data?.focusGuestRmaList;
   },

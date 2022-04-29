@@ -387,29 +387,28 @@ export interface UseCart<CART, CART_ITEM, PRODUCT, GIFT_CARD_ACCOUNT, API extend
       }[];
     }>
   ) => Promise<void>;
-  checkGiftCard(params: {
+  checkGiftCard(params: ComposableFunctionArgs<{
     giftCardCode: string;
-  }): Promise<GIFT_CARD_ACCOUNT>;
+  }>): Promise<GIFT_CARD_ACCOUNT>;
   applyGiftCard(params: ComposableFunctionArgs<{
     giftCardCode: string;
   }>): Promise<void>;
   removeGiftCard(params: ComposableFunctionArgs<{
     giftCardCode: string;
   }>): Promise<void>;
-  focusSetGroupOnItem(params: {
+  focusSetGroupOnItem(params: ComposableFunctionArgs<{
     product: CART_ITEM;
     groupType: string;
-  }): Promise<void>;
-  focusUpdateCartGroup(params: {
+  }>): Promise<void>;
+  focusUpdateCartGroup(params: ComposableFunctionArgs<{
     groupType: string; data: any
-  }): Promise<void>;
-  focusUnsetPickupDate: (params: {
-    currentCart: CART
-  }) => Promise<void>;
+  }>): Promise<void>;
+  focusUnsetPickupDate: (params: ComposableFunctionArgs<{}>) => Promise<void>;
   error: ComputedProperty<UseCartErrors>;
   token: ComputedProperty<string>;
   updateToken: () => void;
   setToken: (token: string) => void;
+  clear: (params?: ComposableFunctionArgs<{}>) => Promise<void>;
 }
 
 export interface UsePickupLocationErrors {
@@ -417,7 +416,7 @@ export interface UsePickupLocationErrors {
 }
 
 export interface UsePickupLocation<PICKUP_LOCATION, PICKUP_LOCATION_SEARCH_PARAMS> {
-  search: (params: PICKUP_LOCATION_SEARCH_PARAMS) => Promise<PICKUP_LOCATION[]>;
+  search: (params: ComposableFunctionArgs<PICKUP_LOCATION_SEARCH_PARAMS>) => Promise<PICKUP_LOCATION[]>;
   result: ComputedProperty<PICKUP_LOCATION[]>;
   error: ComputedProperty<UsePickupLocationErrors>;
   loading: ComputedProperty<boolean>;
@@ -443,7 +442,7 @@ export interface UseEstimateShippingMethods<SHIPPING_METHOD, API extends Platfor
   lowerEstimatedShippingMethod: ComputedProperty<SHIPPING_METHOD>;
   setEstimatedShippingMethods(estimatedShippingMethods: SHIPPING_METHOD[]): void;
   setLowerEstimatedShippingMethod(lowerEstimatedShippingMethod: SHIPPING_METHOD): void;
-  load: (params) => Promise<SHIPPING_METHOD[]>;
+  load: (params: ComposableFunctionArgs<any>) => Promise<SHIPPING_METHOD[]>;
   result: ComputedProperty<SHIPPING_METHOD[]>;
   error: ComputedProperty<UseEstimateShippingMethodsErrors>;
   loading: ComputedProperty<boolean>;
@@ -475,18 +474,17 @@ export interface UseCompareList<COMPARE_LIST, PRODUCT> {
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<UseCompareListErrors>;
   reset: () => void;
-  load: (params: { uid: string; customQuery?: any }) => Promise<void>;
-  loadCustomerCompareList: (params?: { customQuery?: any }) => Promise<void>;
-  create: (params: { products: PRODUCT[]; customQuery?: any }) => Promise<void>;
-  clear: (params?: { customQuery?: any }) => Promise<boolean>;
-  assignToCustomer: (params?: { customQuery?: any }) => Promise<void>;
+  load: (params: ComposableFunctionArgs<{ uid: string }>) => Promise<void>;
+  loadCustomerCompareList: (params?: ComposableFunctionArgs<{}>) => Promise<void>;
+  create: (params: ComposableFunctionArgs<{ products: PRODUCT[] }>) => Promise<void>;
+  clear: (params?: ComposableFunctionArgs<{}>) => Promise<boolean>;
+  assignToCustomer: (params?: ComposableFunctionArgs<{}>) => Promise<void>;
   addItems: (
-    params: {
+    params: ComposableFunctionArgs<{
       products: PRODUCT[];
-      customQuery?: CustomQuery;
-    }
+    }>
   ) => Promise<void>;
-  removeItems: (params: { products: PRODUCT[]; customQuery?: CustomQuery }) => Promise<void>;
+  removeItems: (params: ComposableFunctionArgs<{ products: PRODUCT[] }>) => Promise<void>;
   isInCompareList: (params: { product: PRODUCT }) => boolean;
 }
 
@@ -495,7 +493,7 @@ export interface UseProductAttributeErrors {
 }
 
 export interface UseProductAttribute<PRODUCT_ATTRIBUTE> {
-  load: (code: string) => Promise<void>;
+  load: (params: ComposableFunctionArgs<{ code: string }>) => Promise<void>;
   result: ComputedProperty<PRODUCT_ATTRIBUTE>;
   error: ComputedProperty<UseProductAttributeErrors>;
   loading: ComputedProperty<boolean>;
@@ -543,7 +541,7 @@ export interface UseGuestRequestReturnErrors {
 }
 
 export interface UseGuestRequestReturn<REQUEST_RETURN_DATA, REQUEST_RETURN_PARAMS> {
-  requestReturn: (params: REQUEST_RETURN_PARAMS) => Promise<void>;
+  requestReturn: (params: ComposableFunctionArgs<REQUEST_RETURN_PARAMS>) => Promise<void>;
   result: ComputedProperty<REQUEST_RETURN_DATA>;
   error: ComputedProperty<UseGuestRequestReturnErrors>;
   loading: ComputedProperty<boolean>;
@@ -557,7 +555,7 @@ export interface UseGuestRma<GUEST_RMA_DATA,
   GUEST_RMA_PARAMS,
   API extends PlatformApi = any,
 > extends Composable<API> {
-  load: (params: GUEST_RMA_PARAMS) => Promise<void>;
+  load: (params: ComposableFunctionArgs<GUEST_RMA_PARAMS>) => Promise<void>;
   result: ComputedProperty<GUEST_RMA_DATA>;
   error: ComputedProperty<UseGuestRmaErrors>;
   loading: ComputedProperty<boolean>;
@@ -571,7 +569,7 @@ export interface UseGuestRmaList<GUEST_RMA_LIST_DATA,
   GUEST_RMA_LIST_PARAMS,
   API extends PlatformApi = any,
 > extends Composable<API> {
-  load: (params: GUEST_RMA_LIST_PARAMS) => Promise<void>;
+  load: (params: ComposableFunctionArgs<GUEST_RMA_LIST_PARAMS>) => Promise<void>;
   result: ComputedProperty<GUEST_RMA_LIST_DATA>;
   error: ComputedProperty<UseGuestRmaListErrors>;
   loading: ComputedProperty<boolean>;

@@ -125,6 +125,7 @@ ProductsSearchParams> = {
       preview,
       isDetailList,
       customQuery,
+      signal,
       ...searchParams
     } = {
       ...params,
@@ -138,7 +139,7 @@ ProductsSearchParams> = {
           .productDetail({
             ...searchParams,
             preview,
-          }, customQuery);
+          }, customQuery, signal);
 
         if (productDetailsResults?.data?.cacheTags) {
           context.cache.addTagsFromString(productDetailsResults.data.cacheTags);
@@ -162,7 +163,7 @@ ProductsSearchParams> = {
         const productListResults = await context
           .$magento
           .getApi
-          .products(searchParams as GetProductSearchParams, customQuery);
+          .products(searchParams as GetProductSearchParams, customQuery, signal);
 
         if (productListResults?.data?.cacheTags) {
           context.cache.addTagsFromString(productListResults.data.cacheTags);

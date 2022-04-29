@@ -45,6 +45,10 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
 
     const customerToken = apiState.getCustomerToken();
     const virtual = !params.realCart;
+    const {
+      customQuery,
+      signal
+    } = params;
 
     const createVirtualCart = () => (null as Cart);
 
@@ -53,7 +57,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
 
       apiState.setCartId();
 
-      const { data } = await context.$magento.api.createEmptyCart();
+      const { data } = await context.$magento.api.createEmptyCart(undefined, undefined, signal);
       Logger.debug('[Result]:', { data });
 
       apiState.setCartId(data.createEmptyCart);
@@ -64,7 +68,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     const getCartData = async (id: string) => {
       Logger.debug('[Magento Storefront]: useCart.load.getCartData ID->', id);
 
-      const { data, errors } = await context.$magento.api.cart(id);
+      const { data, errors } = await context.$magento.api.cart(id, customQuery, signal);
       Logger.debug('[Result]:', { data });
 
       if (!data.cart) {
@@ -95,7 +99,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     // Try to load cart for existing customer, clean customer token if not possible
     if (customerToken) {
       try {
-        const { data, errors } = await context.$magento.api.customerCart();
+        const { data, errors } = await context.$magento.api.customerCart(undefined, customQuery, signal);
         Logger.debug('[Result]:', { data, errors });
 
         apiState.setCartId(data.customerCart.id);
@@ -131,6 +135,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     quantity,
     enteredOptions,
     currentCart,
+    customQuery,
+    signal,
   }) => {
     Logger.debug('[Magento]: Add item to cart', {
       product,
@@ -143,6 +149,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     if (!currentCartId) {
       await factoryParams.load(context, {
         realCart: true,
+        signal,
       });
 
       currentCartId = apiState.getCartId();
@@ -151,7 +158,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     if (!product) {
       return { updatedCart: currentCart };
     }
-    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+    await factoryParams.focusUnsetPickupDate(context, { currentCart, signal });
 
     // @ts-ignore
     // eslint-disable-next-line no-underscore-dangle
@@ -168,7 +175,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
           ],
         };
 
-        const simpleProduct = await context.$magento.api.addProductsToCart(simpleCartInput);
+        const simpleProduct = await context.$magento.api.addProductsToCart(simpleCartInput, customQuery, signal);
 
         Logger.debug('[Result]:', { data: simpleProduct.data, errors: simpleProduct.errors });
 
@@ -193,7 +200,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
           cart_items: cartItems,
         };
 
-        const configurableProduct = await context.$magento.api.addConfigurableProductsToCart(configurableCartInput);
+        const configurableProduct = await context.$magento.api.addConfigurableProductsToCart(configurableCartInput, customQuery, signal);
 
         Logger.debug('[Result]:', { data: configurableProduct.data, errors: configurableProduct.errors });
 
@@ -225,7 +232,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
           ],
         };
 
-        const bundleProduct = await context.$magento.api.addProductsToCart(bundleCartInput);
+        const bundleProduct = await context.$magento.api.addProductsToCart(bundleCartInput, customQuery, signal);
 
         Logger.debug('[Result]:', { data: bundleProduct.data, errors: bundleProduct.errors });
 
@@ -250,7 +257,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
           cart_items: downloadableCartItems,
         };
 
-        const downloadableProduct = await context.$magento.api.addDownloadableProductsToCart(downloadableCartInput);
+        const downloadableProduct = await context.$magento.api.addDownloadableProductsToCart(downloadableCartInput, customQuery, signal);
 
         Logger.debug('[Result DownloadableProduct]:', { data: downloadableProduct.data, errors: downloadableProduct.errors });
 
@@ -271,7 +278,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
             },
           ],
         };
-        const virtualProduct = await context.$magento.api.addVirtualProductsToCart(virtualCartInput);
+        const virtualProduct = await context.$magento.api.addVirtualProductsToCart(virtualCartInput, customQuery, signal);
 
         Logger.debug('[Result VirtualProduct]:', { data: virtualProduct.data, errors: virtualProduct.errors });
 
@@ -289,6 +296,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   addItems: async (context: Context, {
     products,
     currentCart,
+    customQuery,
+    signal
   }) => {
     Logger.debug('[Magento]: Add items to cart', { products, currentCart });
 
@@ -298,6 +307,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     if (!currentCartId) {
       await factoryParams.load(context, {
         realCart: true,
+        signal
       });
 
       currentCartId = apiState.getCartId();
@@ -307,7 +317,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       return { updatedCart: currentCart };
     }
 
-    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+    await factoryParams.focusUnsetPickupDate(context, { currentCart, signal });
 
     const cartInput: AddProductsToCartInput = {
       cartId: currentCartId,
@@ -360,7 +370,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     };
 
     const tryAddToCart = async (input: AddProductsToCartInput) => {
-      const { data, errors } = await context.$magento.api.addProductsToCart(input);
+      const { data, errors } = await context.$magento.api.addProductsToCart(input, customQuery, signal);
 
       Logger.debug('[Result]:', { data, errors });
 
@@ -391,6 +401,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   removeItem: async (context: Context, {
     currentCart,
     product,
+    customQuery,
+    signal
   }) => {
     Logger.debug('[Magento]: Remove item from cart', {
       product,
@@ -403,14 +415,14 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       return { updatedCart: currentCart };
     }
 
-    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+    await factoryParams.focusUnsetPickupDate(context, { currentCart, signal });
 
     const removeItemParams: RemoveItemFromCartInput = {
       cart_id: currentCart.id,
       cart_item_uid: item.uid,
     };
 
-    const { data, errors } = await context.$magento.api.removeItemFromCart(removeItemParams);
+    const { data, errors } = await context.$magento.api.removeItemFromCart(removeItemParams, customQuery, signal);
 
     Logger.debug('[Result]:', { data, errors });
 
@@ -425,6 +437,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     currentCart,
     product,
     quantity,
+    customQuery,
+    signal
   }) => {
     Logger.debug('[Magento]: Update product quantity on cart', {
       product,
@@ -432,7 +446,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       currentCart,
     });
 
-    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+    await factoryParams.focusUnsetPickupDate(context, { currentCart, signal });
 
     const updateCartParams: UpdateCartItemsInput = {
       cart_id: currentCart.id,
@@ -445,7 +459,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     };
 
     try {
-      const { data, errors } = await context.$magento.api.updateCartItems(updateCartParams);
+      const { data, errors } = await context.$magento.api.updateCartItems(updateCartParams, customQuery, signal);
 
       Logger.debug('[Result]:', { data, errors });
 
@@ -457,6 +471,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       // If we can't change quantity, the card could be expired on Magento side, try to reload
       return await factoryParams.load(context, {
         realCart: true,
+        signal
       });
     }
   },
@@ -469,18 +484,20 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   applyCoupon: async (context: Context, {
     currentCart,
     couponCode,
+    customQuery,
+    signal
   }) => {
     Logger.debug('[Magento]: Apply coupon on cart', {
       couponCode,
       currentCart,
     });
 
-    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+    await factoryParams.focusUnsetPickupDate(context, { currentCart, signal });
 
     const { data, errors } = await context.$magento.api.applyCouponToCart({
       cart_id: currentCart.id,
       coupon_code: couponCode,
-    });
+    }, customQuery, signal);
 
     Logger.debug('[Result]:', { data, errors });
 
@@ -491,14 +508,14 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeCoupon: async (context: Context, { currentCart }) => {
+  removeCoupon: async (context: Context, { currentCart, customQuery, signal }) => {
     Logger.debug('[Magento]: Remove coupon from cart', { currentCart });
 
-    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+    await factoryParams.focusUnsetPickupDate(context, { currentCart, signal });
 
     const { data, errors } = await context.$magento.api.removeCouponFromCart({
       cart_id: currentCart.id,
-    });
+    }, customQuery, signal);
 
     Logger.debug('[Result]:', { data, errors });
 
@@ -510,10 +527,12 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   },
   checkGiftCard: async (context: Context, {
     giftCardCode,
+    customQuery,
+    signal
   }) => {
     Logger.debug('[Magento]: Check gift cart account', { giftCardCode });
 
-    const { data, errors } = await context.$magento.api.giftCardAccount(giftCardCode);
+    const { data, errors } = await context.$magento.api.giftCardAccount(giftCardCode, customQuery, signal);
 
     Logger.debug('[Result]:', { data, errors });
 
@@ -522,15 +541,17 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
   applyGiftCard: async (context: Context, {
     currentCart,
     giftCardCode,
+    customQuery,
+    signal
   }) => {
     Logger.debug('[Magento]: Apply gift card on cart', { giftCardCode });
 
-    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+    await factoryParams.focusUnsetPickupDate(context, { currentCart, signal });
 
     const { data, errors } = await context.$magento.api.applyGiftCardToCart({
       cart_id: currentCart.id,
       gift_card_code: giftCardCode,
-    });
+    }, customQuery, signal);
 
     Logger.debug('[Result]:', { data, errors });
 
@@ -539,15 +560,15 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       errors,
     };
   },
-  removeGiftCard: async (context: Context, { currentCart, giftCardCode }) => {
+  removeGiftCard: async (context: Context, { currentCart, giftCardCode, customQuery, signal }) => {
     Logger.debug('[Magento]: Remove gift card from cart', { giftCardCode });
 
-    await factoryParams.focusUnsetPickupDate(context, { currentCart });
+    await factoryParams.focusUnsetPickupDate(context, { currentCart, signal });
 
     const { data, errors } = await context.$magento.api.removeGiftCardFromCart({
       cart_id: currentCart.id,
       gift_card_code: giftCardCode,
-    });
+    }, customQuery, signal);
 
     Logger.debug('[Result]:', { data, errors });
 
@@ -565,14 +586,14 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     },
   ) => !!currentCart?.items.find((cartItem) => cartItem?.product ? cartItem.product.uid === product.uid || cartItem.product.sku === product.sku : false),
 
-  focusSetGroupOnItem: async (context: Context, { currentCart, product, groupType }) => {
+  focusSetGroupOnItem: async (context: Context, { currentCart, product, groupType, customQuery, signal }) => {
     Logger.debug('[Magento FOCUS]: Set group on cart item', { currentCart, product, groupType });
 
     const { data, errors } = await context.$magento.api.focusSetGroupOnItem({
       cart_id: currentCart.id,
       item_uid: product.uid,
       group_type: groupType,
-    });
+    }, customQuery, signal);
 
     Logger.debug('[Result]:', { data, errors });
 
@@ -582,14 +603,14 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     };
   },
 
-  focusUpdateCartGroup: async (context: Context, { currentCart, groupType, data: additional_data }) => {
+  focusUpdateCartGroup: async (context: Context, { currentCart, groupType, data: additional_data, customQuery, signal }) => {
     Logger.debug('[Magento FOCUS]: Set update cart group', { currentCart, groupType, data: additional_data });
 
     const { data, errors } = await context.$magento.api.focusUpdateCartGroup({
       cart_id: currentCart.id,
       group_type: groupType,
       additional_data,
-    });
+    }, customQuery, signal);
 
     Logger.debug('[Result]:', { data, errors });
 
@@ -599,7 +620,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     };
   },
 
-  focusUnsetPickupDate: async (context: Context, { currentCart }) => {
+  focusUnsetPickupDate: async (context: Context, { currentCart, customQuery, signal }) => {
     Logger.debug('[Magento FOCUS]: Set unset pickup date on cart', { currentCart });
 
     if (!cartGetters.isPickupDateSelected(currentCart)) {
@@ -614,7 +635,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       additional_data: {
         pickup_date: null,
       },
-    });
+    }, customQuery, signal);
 
     Logger.debug('[Result]:', { data, errors });
 

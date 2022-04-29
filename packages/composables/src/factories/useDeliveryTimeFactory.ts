@@ -29,7 +29,7 @@ export function useDeliveryTimeFactory<DELIVERY_TIME, DELIVERY_TIME_SEARCH_PARAM
     const _factoryParams = configureFactoryParams(factoryParams);
 
     // eslint-disable-next-line consistent-return
-    const search = async (params: ComposableFunctionArgs<DELIVERY_TIME_SEARCH_PARAMS>): Promise<void> => {
+    const search = async (params = {}): Promise<void> => {
       Logger.debug(`useDeliveryTime/${ssrKey}/search`);
 
       try {

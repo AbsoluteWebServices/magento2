@@ -1,25 +1,24 @@
 import { Ref, computed } from '@vue/composition-api';
 import {
-  CustomQuery, Context, FactoryParams, sharedRef, Logger, configureFactoryParams,
+  CustomQuery, Context, FactoryParams, sharedRef, Logger, configureFactoryParams, ComposableFunctionArgs,
 } from '@absolute-web/vsf-core';
 import { UseCompareList, UseCompareListErrors } from '../types/composables';
 
 export interface UseCompareListFactoryParams<COMPARE_LIST, PRODUCT> extends FactoryParams {
-  load: (context: Context, params: { uid: string; customQuery?: any }) => Promise<COMPARE_LIST>;
-  loadCustomerCompareList: (context: Context, params: { customQuery?: any }) => Promise<COMPARE_LIST>;
-  create: (context: Context, params: { products: PRODUCT[]; customQuery?: any }) => Promise<COMPARE_LIST>;
-  clear: (context: Context, params: { currentCompareList: COMPARE_LIST; customQuery?: any }) => Promise<boolean>;
-  assignToCustomer: (context: Context, params: { currentCompareList: COMPARE_LIST; customQuery?: any }) => Promise<COMPARE_LIST>;
+  load: (context: Context, params: ComposableFunctionArgs<{ uid: string }>) => Promise<COMPARE_LIST>;
+  loadCustomerCompareList: (context: Context, params: ComposableFunctionArgs<{}>) => Promise<COMPARE_LIST>;
+  create: (context: Context, params: ComposableFunctionArgs<{ products: PRODUCT[] }>) => Promise<COMPARE_LIST>;
+  clear: (context: Context, params: ComposableFunctionArgs<{ currentCompareList: COMPARE_LIST }>) => Promise<boolean>;
+  assignToCustomer: (context: Context, params: ComposableFunctionArgs<{ currentCompareList: COMPARE_LIST }>) => Promise<COMPARE_LIST>;
   addItems: (
     context: Context,
-    params: {
+    params: ComposableFunctionArgs<{
       currentCompareList: COMPARE_LIST;
       products: PRODUCT[];
-      customQuery?: CustomQuery;
-    }
+    }>
   ) => Promise<COMPARE_LIST>;
   removeItems:
-  (context: Context, params: { currentCompareList: COMPARE_LIST; products: PRODUCT[]; customQuery?: CustomQuery }) => Promise<COMPARE_LIST>;
+  (context: Context, params: ComposableFunctionArgs<{ currentCompareList: COMPARE_LIST; products: PRODUCT[] }>) => Promise<COMPARE_LIST>;
   isInCompareList: (context: Context, params: { currentCompareList: COMPARE_LIST; product: PRODUCT }) => boolean;
 }
 
@@ -58,12 +57,12 @@ export const useCompareListFactory = <COMPARE_LIST, PRODUCT>(
     };
   };
 
-  const load = async ({ uid, customQuery }) => {
-    Logger.debug(`useCompareList/${ssrKey}/load`, { uid });
+  const load = async (params: ComposableFunctionArgs<{ uid }>) => {
+    Logger.debug(`useCompareList/${ssrKey}/load`, params);
 
     try {
       loading.value = true;
-      compareList.value = await _factoryParams.load({ uid, customQuery });
+      compareList.value = await _factoryParams.load(params);
       error.value.load = null;
     } catch (err) {
       error.value.load = err;
@@ -73,12 +72,12 @@ export const useCompareListFactory = <COMPARE_LIST, PRODUCT>(
     }
   };
 
-  const loadCustomerCompareList = async ({ customQuery } = { customQuery: null }) => {
+  const loadCustomerCompareList = async (params: ComposableFunctionArgs<{}> = {}) => {
     Logger.debug(`useCompareList/${ssrKey}/loadCustomerCompareList`);
 
     try {
       loading.value = true;
-      compareList.value = await _factoryParams.loadCustomerCompareList({ customQuery });
+      compareList.value = await _factoryParams.loadCustomerCompareList(params);
       error.value.loadCustomerCompareList = null;
     } catch (err) {
       error.value.loadCustomerCompareList = err;
@@ -88,12 +87,12 @@ export const useCompareListFactory = <COMPARE_LIST, PRODUCT>(
     }
   };
 
-  const create = async ({ products, customQuery }) => {
-    Logger.debug(`useCompareList/${ssrKey}/create`, { products });
+  const create = async (params: ComposableFunctionArgs<{ products }>) => {
+    Logger.debug(`useCompareList/${ssrKey}/create`, params);
 
     try {
       loading.value = true;
-      compareList.value = await _factoryParams.create({ products, customQuery });
+      compareList.value = await _factoryParams.create(params);
       error.value.create = null;
     } catch (err) {
       error.value.create = err;
@@ -103,12 +102,12 @@ export const useCompareListFactory = <COMPARE_LIST, PRODUCT>(
     }
   };
 
-  const clear = async ({ customQuery } = { customQuery: null }) => {
+  const clear = async (params: ComposableFunctionArgs<{}> = {}) => {
     Logger.debug(`useCompareList/${ssrKey}/clear`);
 
     try {
       loading.value = true;
-      const result = await _factoryParams.clear({ currentCompareList: compareList.value, customQuery });
+      const result = await _factoryParams.clear({ currentCompareList: compareList.value, ...params });
       error.value.clear = null;
       if (result) {
         compareList.value = null;
@@ -123,12 +122,12 @@ export const useCompareListFactory = <COMPARE_LIST, PRODUCT>(
     return false;
   };
 
-  const assignToCustomer = async ({ customQuery } = { customQuery: null }) => {
+  const assignToCustomer = async (params: ComposableFunctionArgs<{}> = {}) => {
     Logger.debug(`useCompareList/${ssrKey}/assignToCustomer`);
 
     try {
       loading.value = true;
-      const updatedCompareList = await _factoryParams.assignToCustomer({ currentCompareList: compareList.value, customQuery });
+      const updatedCompareList = await _factoryParams.assignToCustomer({ currentCompareList: compareList.value, ...params });
       error.value.assignToCustomer = null;
       compareList.value = updatedCompareList;
     } catch (err) {
@@ -139,15 +138,14 @@ export const useCompareListFactory = <COMPARE_LIST, PRODUCT>(
     }
   };
 
-  const addItems = async ({ products, customQuery }) => {
-    Logger.debug(`useCompareList/${ssrKey}/addItems`, { products });
+  const addItems = async (params: ComposableFunctionArgs<{ products }>) => {
+    Logger.debug(`useCompareList/${ssrKey}/addItems`, params);
 
     try {
       loading.value = true;
       const updatedCompareList = await _factoryParams.addItems({
         currentCompareList: compareList.value,
-        products,
-        customQuery,
+        ...params,
       });
       error.value.addItems = null;
       compareList.value = updatedCompareList;
@@ -159,15 +157,14 @@ export const useCompareListFactory = <COMPARE_LIST, PRODUCT>(
     }
   };
 
-  const removeItems = async ({ products, customQuery }) => {
-    Logger.debug(`useCompareList/${ssrKey}/removeItems`, { products });
+  const removeItems = async (params: ComposableFunctionArgs<{ products }>) => {
+    Logger.debug(`useCompareList/${ssrKey}/removeItems`, params);
 
     try {
       loading.value = true;
       const updatedCompareList = await _factoryParams.removeItems({
         currentCompareList: compareList.value,
-        products,
-        customQuery,
+        ...params,
       });
       error.value.removeItems = null;
       compareList.value = updatedCompareList;

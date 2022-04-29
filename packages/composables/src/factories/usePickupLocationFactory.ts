@@ -1,5 +1,6 @@
 import { computed } from '@vue/composition-api';
 import {
+  ComposableFunctionArgs,
   configureFactoryParams,
   Context,
   FactoryParams,
@@ -9,7 +10,7 @@ import {
 import { UsePickupLocation, UsePickupLocationErrors } from '../types/composables';
 
 export interface UsePickupLocationFactory<PICKUP_LOCATION, PICKUP_LOCATION_SEARCH_PARAMS> extends FactoryParams {
-  search: (context: Context, params: PICKUP_LOCATION_SEARCH_PARAMS) => Promise<PICKUP_LOCATION[]>;
+  search: (context: Context, params: ComposableFunctionArgs<PICKUP_LOCATION_SEARCH_PARAMS>) => Promise<PICKUP_LOCATION[]>;
 }
 
 export function usePickupLocationFactory<PICKUP_LOCATION, PICKUP_LOCATION_SEARCH_PARAMS>(
@@ -27,7 +28,7 @@ export function usePickupLocationFactory<PICKUP_LOCATION, PICKUP_LOCATION_SEARCH
     const _factoryParams = configureFactoryParams(factoryParams);
 
     // eslint-disable-next-line consistent-return
-    const search = async (params: PICKUP_LOCATION_SEARCH_PARAMS): Promise<PICKUP_LOCATION[]> => {
+    const search = async (params: ComposableFunctionArgs<PICKUP_LOCATION_SEARCH_PARAMS>): Promise<PICKUP_LOCATION[]> => {
       Logger.debug(`usePickupLocation/${ssrKey}/search`);
 
       try {

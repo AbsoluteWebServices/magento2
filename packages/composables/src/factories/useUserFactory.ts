@@ -102,13 +102,19 @@ export const useUserFactory = <
     }
   };
 
-  const updateUser = async ({ user: providedUser, customQuery }) => {
-    Logger.debug('useUserFactory.updateUser', providedUser);
+  const updateUser = async (params) => {
+    Logger.debug('useUserFactory.updateUser', params);
     resetErrorValue();
+
+    const {
+      user: providedUser,
+      customQuery,
+      signal
+    } = params;
 
     try {
       loading.value = true;
-      user.value = await _factoryParams.updateUser({ currentUser: user.value, updatedUserData: providedUser, customQuery });
+      user.value = await _factoryParams.updateUser({ currentUser: user.value, updatedUserData: providedUser, customQuery, signal });
       error.value.updateUser = null;
       updateContext();
     } catch (err) {
@@ -119,14 +125,20 @@ export const useUserFactory = <
     }
   };
 
-  const register = async ({ user: providedUser, customQuery }) => {
-    Logger.debug('useUserFactory.register', providedUser);
+  const register = async (params) => {
+    Logger.debug('useUserFactory.register', params);
     resetErrorValue();
+
+    const {
+      user: providedUser,
+      customQuery,
+      signal
+    } = params;
 
     try {
       loading.value = true;
       error.value.register = null;
-      await _factoryParams.register({ ...providedUser, customQuery });
+      await _factoryParams.register({ ...providedUser, customQuery, signal });
       updateToken();
       updateContext();
     } catch (err) {
@@ -137,14 +149,20 @@ export const useUserFactory = <
     }
   };
 
-  const login = async ({ user: providedUser, customQuery }) => {
-    Logger.debug('useUserFactory.login', providedUser);
+  const login = async (params) => {
+    Logger.debug('useUserFactory.login', params);
     resetErrorValue();
+
+    const {
+      user: providedUser,
+      customQuery,
+      signal
+    } = params;
 
     try {
       loading.value = true;
       error.value.login = null;
-      await _factoryParams.logIn({ ...providedUser, customQuery });
+      await _factoryParams.logIn({ ...providedUser, customQuery, signal });
       updateToken();
       updateContext();
     } catch (err) {
@@ -155,12 +173,12 @@ export const useUserFactory = <
     }
   };
 
-  const logout = async () => {
+  const logout = async (params = {}) => {
     Logger.debug('useUserFactory.logout');
     resetErrorValue();
 
     try {
-      await _factoryParams.logOut({ currentUser: user.value });
+      await _factoryParams.logOut({ currentUser: user.value, ...params });
       error.value.logout = null;
       user.value = null;
       updateToken();
@@ -175,13 +193,21 @@ export const useUserFactory = <
     Logger.debug('useUserFactory.changePassword', { currentPassword: mask(params.current), newPassword: mask(params.new) });
     resetErrorValue();
 
+    const {
+      current: currentPassword,
+      new: newPassword,
+      customQuery,
+      signal
+    } = params;
+
     try {
       loading.value = true;
       user.value = await _factoryParams.changePassword({
         currentUser: user.value,
-        currentPassword: params.current,
-        newPassword: params.new,
-        customQuery: params.customQuery,
+        currentPassword,
+        newPassword,
+        customQuery,
+        signal
       });
       error.value.changePassword = null;
       updateContext();
@@ -193,14 +219,14 @@ export const useUserFactory = <
     }
   };
 
-  const mergeCart = async ({ customQuery } = { customQuery: undefined }) => {
+  const mergeCart = async (params = {}) => {
     Logger.debug('useUserFactory.loadCart');
     resetErrorValue();
 
     try {
       loading.value = true;
       error.value.cart = null;
-      const cartErrors = await _factoryParams.mergeCustomerCart({ customQuery });
+      const cartErrors = await _factoryParams.mergeCustomerCart(params);
 
       if (cartErrors?.length) {
         error.value.cart = cartErrors;
@@ -215,13 +241,13 @@ export const useUserFactory = <
     }
   };
 
-  const load = async ({ customQuery } = { customQuery: undefined }) => {
+  const load = async (params = {}) => {
     Logger.debug('useUserFactory.load');
     resetErrorValue();
 
     try {
       loading.value = true;
-      user.value = await _factoryParams.load({ customQuery });
+      user.value = await _factoryParams.load(params);
       error.value.load = null;
       updateToken();
       updateContext();

@@ -33,14 +33,28 @@ RemoveAddressInput> = {
   load: async (context: Context, params?: CustomQueryParams) => {
     Logger.debug('[Magento] load user addresses');
 
-    const { data } = await context.$magento.api.getCustomerAddresses();
+    const {
+      customQuery,
+      signal
+    } = params;
+
+    const { data } = await context.$magento.api.getCustomerAddresses(undefined, customQuery, signal);
 
     return data.customer.addresses;
   },
-  save: async (context: Context, saveParams) => {
-    Logger.debug('[Magento] save user address:', saveParams.address);
+  save: async (context: Context, params) => {
+    Logger.debug('[Magento] save user address:', params.address);
+
+    const {
+      customQuery,
+      signal,
+      ...saveParams
+    } = params;
+
     const { data } = await context.$magento.api.createCustomerAddress(
       transformUserCreateAddressInput(saveParams),
+      customQuery,
+      signal
     );
 
     Logger.debug('[Result]:', { data });
@@ -50,8 +64,16 @@ RemoveAddressInput> = {
   remove: async (context: Context, params) => {
     Logger.debug('[Magento] remove user addresses');
 
+    const {
+      customQuery,
+      signal,
+      ...deleteParams
+    } = params;
+
     const { data } = await context.$magento.api.deleteCustomerAddress(
-      params.address.id,
+      deleteParams.address.id,
+      customQuery,
+      signal
     );
 
     Logger.debug('[Result]:', { data });
@@ -61,8 +83,16 @@ RemoveAddressInput> = {
   update: async (context: Context, params) => {
     Logger.debug('[Magento] update user addresses', params);
 
+    const {
+      customQuery,
+      signal,
+      ...updateParams
+    } = params;
+
     const { data } = await context.$magento.api.updateCustomerAddress(
-      transformUserUpdateAddressInput(params),
+      transformUserUpdateAddressInput(updateParams),
+      customQuery,
+      signal
     );
 
     Logger.debug('[Result]:', { data });

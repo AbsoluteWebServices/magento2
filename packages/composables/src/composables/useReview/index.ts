@@ -22,10 +22,11 @@ ProductReviewRatingMetadata> = {
     Logger.debug('[Magento] search review params input:', JSON.stringify(params, null, 2));
     const {
       customQuery,
+      signal,
       ...input
     } = params;
 
-    const { data } = await context.$magento.getApi.productReview(input as GetProductSearchParams);
+    const { data } = await context.$magento.getApi.productReview(input as GetProductSearchParams, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 
@@ -35,10 +36,11 @@ ProductReviewRatingMetadata> = {
     Logger.debug('[Magento] add review params input:', JSON.stringify(params, null, 2));
     const {
       customQuery,
+      signal,
       ...input
     } = params;
 
-    const { data } = await context.$magento.api.createProductReview(input);
+    const { data } = await context.$magento.api.createProductReview(input, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 
@@ -47,7 +49,12 @@ ProductReviewRatingMetadata> = {
   loadReviewMetadata: async (context: Context, params) => {
     Logger.debug('[Magento] load review metadata');
 
-    const { data } = await context.$magento.getApi.productReviewRatingsMetadata();
+    const {
+      customQuery,
+      signal
+    } = params;
+
+    const { data } = await context.$magento.getApi.productReviewRatingsMetadata(undefined, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 
@@ -60,10 +67,11 @@ ProductReviewRatingMetadata> = {
     Logger.debug('[Magento] load customer review based on:', { params });
     const {
       customQuery,
+      signal,
       ...input
     } = params;
 
-    const { data } = await context.$magento.getApi.customerProductReview(input);
+    const { data } = await context.$magento.getApi.customerProductReview(input, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 

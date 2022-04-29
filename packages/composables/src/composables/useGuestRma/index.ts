@@ -4,8 +4,14 @@ import { UseGuestRma } from '../../types/composables';
 import { UseGuestRmaFactoryParams, useGuestRmaFactory } from '../../factories/useGuestRmaFactory';
 
 const factoryParams: UseGuestRmaFactoryParams<Return, FocusGuestRmaInput> = {
-  load: async (context: Context, params: FocusGuestRmaInput): Promise<Return> => {
-    const { data } = await context.$magento.api.focusGuestRma(params);
+  load: async (context: Context, params): Promise<Return> => {
+    const {
+      customQuery,
+      signal,
+      ...loadParams
+    } = params;
+
+    const { data } = await context.$magento.api.focusGuestRma(loadParams, customQuery, signal);
 
     return data?.focusGuestRma?.return;
   },

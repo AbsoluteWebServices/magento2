@@ -7,7 +7,13 @@ import { UseEstimateShippingMethodsFactory, useEstimateShippingMethodsFactory } 
 
 const factoryParams: UseEstimateShippingMethodsFactory<ShippingMethod> = {
   load: async (context: Context, params): Promise<ShippingMethod[]> => {
-    const { data } = await context.$magento.api.focusEstimateShippingMethods(params);
+    const {
+      customQuery,
+      signal,
+      ...searchParams
+    } = params;
+
+    const { data } = await context.$magento.api.focusEstimateShippingMethods(searchParams, customQuery, signal);
     const methods = data.focusEstimateShippingMethods || [];
 
     return methods.filter((method) => method.available);

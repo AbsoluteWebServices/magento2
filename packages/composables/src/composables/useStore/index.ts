@@ -6,7 +6,12 @@ import StoreConfigGetters from '../../getters/storeConfigGetters';
 
 const factoryParams: UseStoreFactoryParams<AvailableStores, StoreConfig> = {
   load: async (context: Context, params): Promise<AvailableStores> => {
-    const { data } = await context.$magento.api.availableStores();
+    const {
+      customQuery,
+      signal
+    } = params;
+
+    const { data } = await context.$magento.api.availableStores(undefined, customQuery, signal);
 
     return data.availableStores || [];
   },

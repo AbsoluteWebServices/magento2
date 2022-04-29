@@ -18,7 +18,13 @@ const factoryParams: UseCategoryFactoryParams<Category, StagingPreviewQueryVaria
   categorySearch: async (context: Context, params) => {
     Logger.debug('[Magento]: List available categories', { params });
 
-    const { data } = await context.$magento.getApi.category(params);
+    const {
+      customQuery,
+      signal,
+      ...searchParams
+    } = params;
+
+    const { data } = await context.$magento.getApi.category(searchParams, customQuery, signal);
 
     if (data?.cacheTags) {
       context.cache.addTagsFromString(data.cacheTags);

@@ -32,15 +32,13 @@ export function useGetPaymentMethodsFactory<METHOD, API extends PlatformApi = an
     };
 
     // eslint-disable-next-line consistent-return
-    const load = async (params: ComposableFunctionArgs<{}>) => {
+    const load = async (params: ComposableFunctionArgs<{}> = {}) => {
       Logger.debug(`useGetPaymentMethods/load`, { params });
 
       try {
         loading.value = true;
 
-        result.value = await _factoryParams.load({
-          customQuery: params?.customQuery,
-        });
+        result.value = await _factoryParams.load(params);
 
         error.value.load = null;
       } catch (err) {

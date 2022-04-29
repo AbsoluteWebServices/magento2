@@ -27,7 +27,7 @@ export function useInventoryFactory<INVENTORY_ITEM>(
     const _factoryParams = configureFactoryParams(factoryParams);
 
     // eslint-disable-next-line consistent-return
-    const search = async (params: any): Promise<INVENTORY_ITEM[]> => {
+    const search = async (params = {}): Promise<INVENTORY_ITEM[]> => {
       Logger.debug(`useInventory/${ssrKey}/search`);
 
       try {

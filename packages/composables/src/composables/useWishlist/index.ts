@@ -20,8 +20,14 @@ const factoryParams: UseWishlistFactoryParams<any, any, any> = {
     Logger.debug('[Magento Storefront]: useWishlist.load params->', params);
     const apiState = context.$magento.config.state;
 
+    const {
+      customQuery,
+      signal,
+      searchParams
+    } = params;
+
     if (apiState.getCustomerToken()) {
-      const { data } = await context.$magento.api.wishlist(params?.searchParams);
+      const { data } = await context.$magento.api.wishlist(searchParams, customQuery, signal);
 
       Logger.debug('[Result]:', { data });
 
@@ -34,16 +40,20 @@ const factoryParams: UseWishlistFactoryParams<any, any, any> = {
     const {
       currentWishlist,
       product,
+      customQuery,
+      signal
     } = params;
     Logger.debug('[Magento Storefront]: useWishlist.addItem params->', params);
-    if (!currentWishlist) await factoryParams.load(context, {});
+    if (!currentWishlist) await factoryParams.load(context, { customQuery, signal });
 
-    const itemOnWishlist = findItemOnWishlist(currentWishlist, params.product);
+    const itemOnWishlist = findItemOnWishlist(currentWishlist, product);
 
     if (itemOnWishlist) {
       return factoryParams.removeItem(context, {
         product,
         currentWishlist,
+        customQuery,
+        signal
       });
     }
 
@@ -64,7 +74,7 @@ const factoryParams: UseWishlistFactoryParams<any, any, any> = {
             sku: product.sku,
             quantity: 1,
           }],
-        });
+        }, customQuery, signal);
 
         Logger.debug('[Result]:', { data });
 
@@ -77,7 +87,7 @@ const factoryParams: UseWishlistFactoryParams<any, any, any> = {
             quantity: 1,
             parent_sku: product.sku,
           }],
-        });
+        }, customQuery, signal);
 
         Logger.debug('[Result]:', { data: configurableProductData });
 
@@ -90,7 +100,7 @@ const factoryParams: UseWishlistFactoryParams<any, any, any> = {
             quantity: 1,
             entered_options: product.bundle_options ? [...product.bundle_options] : [],
           }],
-        });
+        }, customQuery, signal);
 
         Logger.debug('[Result]:', { data: bundleProductData });
 
@@ -106,14 +116,16 @@ const factoryParams: UseWishlistFactoryParams<any, any, any> = {
     const {
       product,
       currentWishlist,
+      customQuery,
+      signal
     } = params;
     Logger.debug('[Magento Storefront]: useWishlist.removeItem params->', params);
-    const itemOnWishlist = findItemOnWishlist(currentWishlist, params.product);
+    const itemOnWishlist = findItemOnWishlist(currentWishlist, product);
 
     const { data } = await context.$magento.api.removeProductsFromWishlist({
       id: '0',
       items: [itemOnWishlist.id],
-    });
+    }, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 

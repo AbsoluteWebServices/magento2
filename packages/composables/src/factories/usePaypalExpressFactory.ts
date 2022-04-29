@@ -1,5 +1,6 @@
 import { computed } from '@vue/composition-api';
 import {
+  ComposableFunctionArgs,
   configureFactoryParams,
   Context,
   FactoryParams,
@@ -10,7 +11,7 @@ import {
 import { UsePaypalExpress, UsePaypalExpressErrors } from '../types/composables';
 
 export interface UsePaypalExpressFactory<OUTPUT, PARAMS, API extends PlatformApi = any> extends FactoryParams<API> {
-  createToken: (context: Context, params: PARAMS) => Promise<OUTPUT>;
+  createToken: (context: Context, params: ComposableFunctionArgs<PARAMS>) => Promise<OUTPUT>;
 }
 
 export function usePaypalExpressFactory<OUTPUT, PARAMS, API extends PlatformApi = any>(
@@ -28,7 +29,7 @@ export function usePaypalExpressFactory<OUTPUT, PARAMS, API extends PlatformApi 
     const _factoryParams = configureFactoryParams(factoryParams);
 
     // eslint-disable-next-line consistent-return
-    const createToken = async (params: PARAMS): Promise<OUTPUT> => {
+    const createToken = async (params: ComposableFunctionArgs<PARAMS>): Promise<OUTPUT> => {
       Logger.debug(`usePaypalExpress/${ssrKey}/createToken`);
 
       try {

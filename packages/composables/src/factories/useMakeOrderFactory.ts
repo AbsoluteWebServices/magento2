@@ -39,12 +39,12 @@ export const useMakeOrderFactory = <ORDER, PAYMENT_METHOD, API extends PlatformA
       }
     };
 
-    const setPaymentAndMake = async ({ paymentMethod, customQuery }) => {
-      Logger.debug('useMakeOrder.setPaymentAndMake', { paymentMethod, customQuery });
+    const setPaymentAndMake = async (params) => {
+      Logger.debug('useMakeOrder.setPaymentAndMake', params);
 
       try {
         loading.value = true;
-        const createdOrder = await _factoryParams.setPaymentAndMake({ paymentMethod, customQuery });
+        const createdOrder = await _factoryParams.setPaymentAndMake(params);
         error.value.setPaymentAndMake = null;
         order.value = createdOrder;
       } catch (err) {

@@ -22,11 +22,16 @@ const factoryParams: UseShippingParams<ShippingCartAddress, ShippingAddressInput
     };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  load: async (context: Context, { customQuery }) => {
-    Logger.debug('[Magento] loadShipping', { customQuery });
+  load: async (context: Context, params) => {
+    Logger.debug('[Magento] loadShipping', params);
+
+    const {
+      customQuery,
+      signal
+    } = params;
 
     if (!context.cart.cart?.value?.shipping_addresses) {
-      await context.cart.load({ customQuery });
+      await context.cart.load({ customQuery, signal });
     }
 
     if (!context.cart.cart?.value) {
@@ -37,22 +42,28 @@ const factoryParams: UseShippingParams<ShippingCartAddress, ShippingAddressInput
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  save: async (context: Context, { params }) => {
-    Logger.debug('[Magento] save user shipping address', { params });
+  save: async (context: Context, params) => {
+    Logger.debug('[Magento] save user shipping address', params);
+
+    const {
+      customQuery,
+      signal,
+      params: address
+    } = params;
 
     const id = context.$magento.config.state.getCartId();
 
     const shippingAddressInput: SetShippingAddressesOnCartInput = {
       cart_id: id,
       shipping_addresses: [
-        params
+        address
       ],
     };
 
     const { data } = await context
       .$magento
       .api
-      .setShippingAddressesOnCart(shippingAddressInput);
+      .setShippingAddressesOnCart(shippingAddressInput, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 

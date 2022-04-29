@@ -16,16 +16,28 @@ const factoryParams: UseMakeOrderFactoryParams<Order, PaymentMethodInput> = {
   make: async (context: Context, params): Promise<Order> => {
     Logger.debug('[Magento] Make Order', { params });
     const { compliance: { value: compliance }, cart: { value: { id } } } = context.cart;
-    const { data } = await context.$magento.api.placeOrder({ cart_id: id, ...compliance });
+
+    const {
+      customQuery,
+      signal
+    } = params;
+
+    const { data } = await context.$magento.api.placeOrder({ cart_id: id, ...compliance }, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 
     return data.placeOrder.order;
   },
 
-  setPaymentAndMake: async (context: Context, { paymentMethod }): Promise<Order> => {
-    Logger.debug('[Magento] Make Order', { paymentMethod });
+  setPaymentAndMake: async (context: Context, params): Promise<Order> => {
+    Logger.debug('[Magento] Make Order', params);
     const { compliance: { value: compliance }, cart: { value: { id } } } = context.cart;
+
+    const {
+      customQuery,
+      signal,
+      paymentMethod
+    } = params;
 
     const { data } = await context.$magento.api.setPaymentMethodAndPlaceOrder({
       setPaymentMethod: {
@@ -38,7 +50,7 @@ const factoryParams: UseMakeOrderFactoryParams<Order, PaymentMethodInput> = {
         cart_id: id,
         ...compliance
       }
-    });
+    }, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 

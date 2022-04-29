@@ -1,5 +1,6 @@
 import { computed, Ref } from '@vue/composition-api';
 import {
+  ComposableFunctionArgs,
   configureFactoryParams,
   Context,
   FactoryParams,
@@ -10,7 +11,7 @@ import {
 import { UseEstimateShippingMethods, UseEstimateShippingMethodsErrors } from '../types/composables';
 
 export interface UseEstimateShippingMethodsFactory<SHIPPING_METHOD, API extends PlatformApi = any> extends FactoryParams<API> {
-  load: (context: Context, params) => Promise<SHIPPING_METHOD[]>;
+  load: (context: Context, params: ComposableFunctionArgs<any>) => Promise<SHIPPING_METHOD[]>;
 }
 
 export function useEstimateShippingMethodsFactory<SHIPPING_METHOD, API extends PlatformApi = any>(
@@ -38,7 +39,7 @@ export function useEstimateShippingMethodsFactory<SHIPPING_METHOD, API extends P
     };
 
     // eslint-disable-next-line consistent-return
-    const load = async (params): Promise<SHIPPING_METHOD[]> => {
+    const load = async (params = {}): Promise<SHIPPING_METHOD[]> => {
       Logger.debug(`useEstimateShippingMethods/${ssrKey}/load`);
 
       try {

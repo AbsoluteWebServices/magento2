@@ -23,7 +23,7 @@ export function useConfigFactory<CONFIG, API extends PlatformApi = any>(factoryP
     // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
     const _factoryParams = configureFactoryParams(factoryParams);
 
-    const loadConfig = async (params?: ComposableFunctionArgs<{}>) => {
+    const loadConfig = async (params: ComposableFunctionArgs<{}> = {}) => {
       Logger.debug(`useConfig/${ssrKey}/loadConfig`);
       loading.value = true;
       try {

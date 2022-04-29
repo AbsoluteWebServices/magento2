@@ -55,7 +55,7 @@ API> {
   // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
   const _factoryParams = configureFactoryParams(factoryParams);
 
-  const load = async (loadParams?: ComposableFunctionArgs<LOAD_ADDRESS_PARAMS>) => {
+  const load = async (loadParams = {}) => {
     Logger.debug('useAddresses.load');
 
     try {
@@ -71,7 +71,7 @@ API> {
     }
   };
 
-  const save = async (saveParams: ComposableFunctionArgs<SAVE_ADDRESS_PARAMS>) => {
+  const save = async (saveParams = {}) => {
     Logger.debug('useAddresses.save');
 
     try {
@@ -87,7 +87,7 @@ API> {
     }
   };
 
-  const update = async (updateParams: ComposableFunctionArgs<UPDATE_ADDRESS_PARAMS>) => {
+  const update = async (updateParams = {}) => {
     Logger.debug('useAddresses.update');
 
     try {
@@ -107,7 +107,7 @@ API> {
     }
   };
 
-  const remove = async (removeParams: ComposableFunctionArgs<REMOVE_ADDRESS_PARAMS>) => {
+  const remove = async (removeParams = {}) => {
     Logger.debug('useAddresses.remove');
 
     try {
