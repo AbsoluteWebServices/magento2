@@ -1,5 +1,6 @@
 import { computed } from '@vue/composition-api';
 import {
+  ComposableFunctionArgs,
   configureFactoryParams,
   Context,
   FactoryParams,
@@ -9,7 +10,7 @@ import {
 import { UseIDmeVerify, UseIDmeVerifyErrors } from '../types/composables';
 
 export interface UseIDmeVerifyFactory<CUSTOMER_DATA> extends FactoryParams {
-  load: (context: Context, params: any) => Promise<CUSTOMER_DATA>;
+  load: (context: Context, params: ComposableFunctionArgs<any>) => Promise<CUSTOMER_DATA>;
 }
 
 export function useIDmeVerifyFactory<CUSTOMER_DATA>(
@@ -27,7 +28,7 @@ export function useIDmeVerifyFactory<CUSTOMER_DATA>(
     const _factoryParams = configureFactoryParams(factoryParams);
 
     // eslint-disable-next-line consistent-return
-    const load = async (params: any): Promise<CUSTOMER_DATA> => {
+    const load = async (params = {}): Promise<CUSTOMER_DATA> => {
       Logger.debug(`useIDmeVerify/${ssrKey}/load`);
 
       try {

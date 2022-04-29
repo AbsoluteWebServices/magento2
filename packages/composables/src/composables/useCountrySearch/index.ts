@@ -6,10 +6,10 @@ import { UseCountryFactoryParams, useCountrySearchFactory } from '../../factorie
 import { UseCountrySearch } from '../../types/composables';
 
 const factoryParams: UseCountryFactoryParams<Countries, Country> = {
-  load: async (context: Context, _params): Promise<Countries[]> => {
+  load: async (context: Context, { customQuery, signal }): Promise<Countries[]> => {
     Logger.debug('[Magento]: Load available countries on store');
 
-    const { data } = await context.$magento.getApi.countries();
+    const { data } = await context.$magento.getApi.countries(undefined, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 
@@ -18,7 +18,13 @@ const factoryParams: UseCountryFactoryParams<Countries, Country> = {
   search: async (context: Context, params): Promise<Country> => {
     Logger.debug('[Magento]: Search country information based on', { params });
 
-    const { data } = await context.$magento.getApi.country(params.id);
+    const {
+      customQuery,
+      signal,
+      id
+    } = params;
+
+    const { data } = await context.$magento.getApi.country(id, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 

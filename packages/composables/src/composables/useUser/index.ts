@@ -30,11 +30,16 @@ CustomerCreateInput & { email: string; password: string }
     Logger.debug('[Magento] Load user information');
     const apiState = context.$magento.config.state;
 
+    const {
+      customQuery,
+      signal
+    } = params;
+
     if (!apiState.getCustomerToken()) {
       return null;
     }
     try {
-      const { data } = await context.$magento.api.customer();
+      const { data } = await context.$magento.api.customer(undefined, customQuery, signal);
 
       apiState.setContext(data.cacheId || null);
 
@@ -47,7 +52,7 @@ CustomerCreateInput & { email: string; password: string }
       }
       // eslint-disable-next-line no-void
       // @ts-ignore
-      await factoryParams.logOut(context);
+      await factoryParams.logOut(context, { signal });
     }
 
     return null;
@@ -56,7 +61,12 @@ CustomerCreateInput & { email: string; password: string }
     const apiState = context.$magento.config.state;
     const oldContext = apiState.getContext();
 
-    await context.$magento.api.revokeCustomerToken(params?.customQuery || {});
+    const {
+      customQuery,
+      signal
+    } = params;
+
+    await context.$magento.api.revokeCustomerToken(undefined, customQuery, signal);
 
     const newContext = apiState.getContext();
     if (newContext === oldContext) {
@@ -70,8 +80,15 @@ CustomerCreateInput & { email: string; password: string }
   updateUser: async (context: Context, params) => {
     Logger.debug('[Magento] Update user information', { params });
 
-    const { email: oldEmail } = params.currentUser;
-    const { email, password, ...updateData } = params.updatedUserData;
+    const {
+      customQuery,
+      signal,
+      currentUser,
+      updatedUserData
+    } = params;
+
+    const { email: oldEmail } = currentUser;
+    const { email, password, ...updateData } = updatedUserData;
 
     const userData = generateUserData(updateData);
 
@@ -79,20 +96,28 @@ CustomerCreateInput & { email: string; password: string }
       await context.$magento.api.updateCustomerEmail({
         email,
         password,
-      });
+      }, undefined, signal);
     }
 
-    const { data } = await context.$magento.api.updateCustomer(userData);
+    const { data } = await context.$magento.api.updateCustomer(userData, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 
     return data.updateCustomerV2.customer as unknown as Customer;
   },
   register: async (context: Context, params) => {
-    const { email, password, ...baseData } = generateUserData(params);
+    const {
+      customQuery,
+      signal,
+      ...userData
+    } = params;
+
+    const { email, password, ...baseData } = generateUserData(userData);
 
     const { data, errors } = await context.$magento.api.createCustomer(
       { email, password, ...baseData },
+      undefined,
+      signal
     );
 
     Logger.debug('[Result]:', { data });
@@ -106,7 +131,7 @@ CustomerCreateInput & { email: string; password: string }
       throw new Error('Customer registration error');
     }
 
-    return factoryParams.logIn(context, { username: email, password });
+    return factoryParams.logIn(context, { username: email, password, customQuery, signal });
   },
   mergeCustomerCart: async (context: Context, params) => {
     // merge existing cart with customer cart
@@ -116,8 +141,13 @@ CustomerCreateInput & { email: string; password: string }
       return null;
     }
 
+    const {
+      customQuery,
+      signal
+    } = params;
+
     const currentCartId = apiState.getCartId();
-    const cart = await context.$magento.api.customerCart();
+    const cart = await context.$magento.api.customerCart(undefined, customQuery, signal);
     const newCartId = cart.data.customerCart.id;
     let errors;
 
@@ -132,7 +162,8 @@ CustomerCreateInput & { email: string; password: string }
             sourceCartId: currentCartId,
             destinationCartId: newCartId,
           },
-          params?.customQuery || {},
+          undefined,
+          signal
         );
 
         if (errorsMergeCart?.length) {
@@ -159,11 +190,20 @@ CustomerCreateInput & { email: string; password: string }
     Logger.debug('[Magento] Authenticate user');
     const apiState = context.$magento.config.state;
 
+    const {
+      customQuery,
+      signal,
+      username: email,
+      password,
+    } = params;
+
     const { data, errors } = await context.$magento.api.generateCustomerToken(
       {
-        email: params.username,
-        password: params.password,
+        email,
+        password,
       },
+      customQuery,
+      signal
     );
 
     Logger.debug('[Result]:', { data });
@@ -180,7 +220,14 @@ CustomerCreateInput & { email: string; password: string }
   },
   changePassword: async (context: Context, params) => {
     Logger.debug('[Magento] changing user password');
-    const { data, errors } = await context.$magento.api.changeCustomerPassword(params);
+
+    const {
+      customQuery,
+      signal,
+      ...updateParams
+    } = params;
+
+    const { data, errors } = await context.$magento.api.changeCustomerPassword(updateParams, customQuery, signal);
 
     if (errors) {
       Logger.error(errors);

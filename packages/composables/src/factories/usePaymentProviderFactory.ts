@@ -32,15 +32,14 @@ export const usePaymentProviderFactory = <STATE, PAYMENT_METHOD, API extends Pla
     Logger.debug('usePaymentProvider.setState', newState);
   };
 
-  const save = async (params: ComposableFunctionArgs<{ paymentMethod: PAYMENT_METHOD }>) => {
+  const save = async (params = {}) => {
     Logger.debug('usePaymentProvider.save');
 
     try {
       loading.value = true;
       state.value = await _factoryParams.save({
-        paymentMethod: params.paymentMethod || {},
-        customQuery: params?.customQuery || {},
         state,
+        ...params,
       });
       error.value.save = null;
     } catch (err) {
@@ -57,8 +56,8 @@ export const usePaymentProviderFactory = <STATE, PAYMENT_METHOD, API extends Pla
     try {
       loading.value = true;
       state.value = await _factoryParams.load({
-        customQuery: params?.customQuery || {},
         state,
+        ...params,
       });
       error.value.load = null;
     } catch (err) {

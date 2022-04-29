@@ -7,7 +7,13 @@ import { UseIDmeVerifyFactory, useIDmeVerifyFactory } from '../../factories/useI
 
 const factoryParams: UseIDmeVerifyFactory<FocusIDmeCustomerData> = {
   load: async (context: Context, params): Promise<FocusIDmeCustomerData> => {
-    const { data } = await context.$magento.api.focusIDmeVerify(params);
+    const {
+      customQuery,
+      signal,
+      ...loadParams
+    } = params;
+
+    const { data } = await context.$magento.api.focusIDmeVerify(loadParams, customQuery, signal);
     return data.focusIDmeVerify;
   },
 };

@@ -32,15 +32,13 @@ export function useGetShippingMethodsFactory<METHOD, API extends PlatformApi = a
     };
 
     // eslint-disable-next-line consistent-return
-    const load = async (params: ComposableFunctionArgs<{}>) => {
+    const load = async (params: ComposableFunctionArgs<{}> = {}) => {
       Logger.debug(`useGetShippingMethods/load`, { params });
 
       try {
         loading.value = true;
 
-        result.value = await _factoryParams.load({
-          customQuery: params?.customQuery,
-        });
+        result.value = await _factoryParams.load(params);
 
         error.value.load = null;
       } catch (err) {

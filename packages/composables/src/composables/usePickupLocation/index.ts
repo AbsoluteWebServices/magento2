@@ -7,7 +7,13 @@ import { UsePickupLocation } from '../../types/composables';
 
 const factoryParams: UsePickupLocationFactory<PickupLocation, QueryPickupLocationsArgs> = {
   search: async (context: Context, params): Promise<PickupLocation[]> => {
-    const { data } = await context.$magento.getApi.pickupLocations(params);
+    const {
+      customQuery,
+      signal,
+      ...searchParams
+    } = params;
+
+    const { data } = await context.$magento.getApi.pickupLocations(searchParams, customQuery, signal);
 
     return data.pickupLocations.items;
   },

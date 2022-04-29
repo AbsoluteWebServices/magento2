@@ -6,15 +6,21 @@ import { UsePaypalExpressFactory, usePaypalExpressFactory } from '../../factorie
 import { UsePaypalExpress } from '../../types/composables';
 
 const factoryParams: UsePaypalExpressFactory<PaypalExpressTokenOutput, PaypalExpressTokenInput, any> = {
-  createToken: async (context: Context, params: PaypalExpressTokenInput): Promise<PaypalExpressTokenOutput> => {
+  createToken: async (context: Context, params): Promise<PaypalExpressTokenOutput> => {
+    const {
+      customQuery,
+      signal,
+      ...createParams
+    } = params;
+
     const apiState = context.$magento.config.state;
     const cartId = apiState.getCartId();
     const input = {
       cart_id: cartId,
       code: 'paypal_express',
-      ...params,
+      ...createParams,
     }
-    const { data } = await context.$magento.api.createPaypalExpressToken(input);
+    const { data } = await context.$magento.api.createPaypalExpressToken(input, customQuery, signal);
     return data.createPaypalExpressToken;
   },
 };

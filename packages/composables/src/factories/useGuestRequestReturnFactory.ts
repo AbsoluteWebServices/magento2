@@ -1,5 +1,6 @@
 import { computed, Ref } from '@vue/composition-api';
 import {
+  ComposableFunctionArgs,
   configureFactoryParams,
   Context,
   FactoryParams,
@@ -10,7 +11,7 @@ import { UseGuestRequestReturn, UseGuestRequestReturnErrors } from '../types/com
 
 export interface UseGuestRequestReturnFactory<REQUEST_RETURN_DATA, REQUEST_RETURN_PARAMS>
   extends FactoryParams {
-  requestReturn: (context: Context, params: REQUEST_RETURN_PARAMS) => Promise<REQUEST_RETURN_DATA>;
+  requestReturn: (context: Context, params: ComposableFunctionArgs<REQUEST_RETURN_PARAMS>) => Promise<REQUEST_RETURN_DATA>;
 }
 
 export const useGuestRequestReturnFactory = <REQUEST_RETURN_DATA, REQUEST_RETURN_PARAMS>(
@@ -31,7 +32,7 @@ export const useGuestRequestReturnFactory = <REQUEST_RETURN_DATA, REQUEST_RETURN
   // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
   const _factoryParams = configureFactoryParams(factoryParams);
 
-  const requestReturn = async (params: REQUEST_RETURN_PARAMS): Promise<void> => {
+  const requestReturn = async (params = {}): Promise<void> => {
     Logger.debug(`useGuestRequestReturn/${ssrKey}/requestReturn`, params);
 
     try {

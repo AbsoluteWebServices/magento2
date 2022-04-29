@@ -16,11 +16,11 @@ const factoryParams: UsePaymentProviderParams<SelectedPaymentMethod, PaymentMeth
       cart: useCart(),
     };
   },
-  load: async (context: Context, { customQuery }) => {
+  load: async (context: Context, { customQuery, signal }) => {
     Logger.debug('[Magento] loadPaymentProvider', { customQuery });
 
     if (!context.cart.cart?.value?.selected_payment_method) {
-      await context.cart.load({ customQuery });
+      await context.cart.load({ customQuery, signal });
     }
 
     if (!context.cart.cart?.value) {
@@ -36,19 +36,25 @@ const factoryParams: UsePaymentProviderParams<SelectedPaymentMethod, PaymentMeth
   save: async (context: Context, params) => {
     Logger.debug('[Magento] savePaymentProvider', { params });
 
+    const {
+      customQuery,
+      signal,
+      paymentMethod
+    } = params;
+
     const cartId = context.$magento.config.state.getCartId();
 
     const paymentMethodParams: SetPaymentMethodOnCartInputs = {
       cart_id: cartId,
       payment_method: {
-        ...params.paymentMethod,
+        ...paymentMethod,
       },
     };
 
     const { data } = await context
       .$magento
       .api
-      .setPaymentMethodOnCart(paymentMethodParams);
+      .setPaymentMethodOnCart(paymentMethodParams, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 

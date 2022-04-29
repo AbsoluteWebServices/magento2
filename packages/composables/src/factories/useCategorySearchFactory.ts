@@ -29,7 +29,7 @@ export function useCategorySearchFactory<CATEGORY, CATEGORY_SEARCH_PARAMS, API e
     const _factoryParams = configureFactoryParams(factoryParams);
 
     // eslint-disable-next-line consistent-return
-    const search = async (params: ComposableFunctionArgs<CATEGORY_SEARCH_PARAMS>): Promise<CATEGORY[]> => {
+    const search = async (params = {}): Promise<CATEGORY[]> => {
       Logger.debug(`useCategorySearch/${ssrKey}/search`);
 
       try {

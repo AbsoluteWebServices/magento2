@@ -14,10 +14,18 @@ const factoryParams: UseNewsletterFactoryParams<any, string> = {
   updateSubscription: async (context: Context, params) => {
     Logger.debug('[Magento]: Update user newsletter subscription', { params });
 
+    const {
+      customQuery,
+      signal,
+      email
+    } = params;
+
     const { data } = await context.$magento.api.subscribeEmailToNewsletter(
       {
-        email: params.email,
+        email,
       },
+      customQuery,
+      signal,
     );
 
     Logger.debug('[Result]:', { data });

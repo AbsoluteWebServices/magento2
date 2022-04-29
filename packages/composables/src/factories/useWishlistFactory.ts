@@ -68,15 +68,14 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT, API extends
       Logger.debug(`useWishlistFactory/${ssrKey}/setWishlist`, newWishlist);
     };
 
-    const addItem = async ({ product, customQuery }) => {
-      Logger.debug(`useWishlist/${ssrKey}/addItem`, product);
+    const addItem = async (params = {}) => {
+      Logger.debug(`useWishlist/${ssrKey}/addItem`, params);
 
       try {
         loading.value = true;
         const updatedWishlist = await _factoryParams.addItem({
           currentWishlist: wishlist.value,
-          product,
-          customQuery,
+          ...params
         });
         error.value.addItem = null;
         wishlist.value = updatedWishlist;
@@ -88,15 +87,14 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT, API extends
       }
     };
 
-    const removeItem = async ({ product, customQuery }) => {
-      Logger.debug(`useWishlist/${ssrKey}/removeItem`, product);
+    const removeItem = async (params = {}) => {
+      Logger.debug(`useWishlist/${ssrKey}/removeItem`, params);
 
       try {
         loading.value = true;
         const updatedWishlist = await _factoryParams.removeItem({
           currentWishlist: wishlist.value,
-          product,
-          customQuery,
+          ...params
         });
         error.value.removeItem = null;
         wishlist.value = updatedWishlist;
@@ -108,13 +106,7 @@ export const useWishlistFactory = <WISHLIST, WISHLIST_ITEM, PRODUCT, API extends
       }
     };
 
-    const load = async (params: {
-      searchParams?: Partial<{
-        currentPage: number;
-        pageSize: number;
-      }>,
-      customQuery?: CustomQuery,
-    }) => {
+    const load = async (params = {}) => {
       Logger.debug(`useWishlist/${ssrKey}/load`);
       try {
         loading.value = true;

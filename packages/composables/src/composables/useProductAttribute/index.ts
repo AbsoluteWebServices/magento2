@@ -12,13 +12,19 @@ import {
 import { UseProductAttribute } from '../../types/composables';
 
 const factoryParams: UseProductAttributeFactoryParams<FocusProductAttribute> = {
-  load: async (context: Context, code: string) => {
-    Logger.debug('[Magento] product attribute with code ', { code });
+  load: async (context: Context, params) => {
+    Logger.debug('[Magento] product attribute with code ', params);
+
+    const {
+      customQuery,
+      signal,
+      code
+    } = params;
 
     const { data } = await context
       .$magento
       .getApi
-      .focusProductAttribute(code);
+      .focusProductAttribute(code, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 

@@ -10,8 +10,8 @@ const factoryParams: UseConfigFactoryParams<StoreConfig> = {
       user: useUser(),
     };
   },
-  loadConfig: async (context: Context, params) => {
-    const { data } = await context.$magento.getApi.storeConfig();
+  loadConfig: async (context: Context, { customQuery, signal }) => {
+    const { data } = await context.$magento.getApi.storeConfig(undefined, customQuery, signal);
 
     context.$magento.config.state.setContext(data.cacheId || null);
     context.user.updateContext();

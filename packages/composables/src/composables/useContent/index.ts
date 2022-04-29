@@ -12,7 +12,13 @@ const factoryParams: UseContentFactoryParams<Page, CmsBlock> = {
   loadContent: async (context: Context, params) => {
     Logger.debug('[Magento]: Load CMS Page content', { params });
 
-    const { data } = await context.$magento.getApi.cmsPage(params.identifier);
+    const {
+      customQuery,
+      signal,
+      identifier
+    } = params;
+
+    const { data } = await context.$magento.getApi.cmsPage(identifier, customQuery, signal);
 
     if (data?.cacheTags) {
       context.cache.addTagsFromString(data.cacheTags);
@@ -25,7 +31,13 @@ const factoryParams: UseContentFactoryParams<Page, CmsBlock> = {
   loadBlocks: async (context: Context, params) => {
     Logger.debug('[Magento]: Load CMS Blocks content', { params });
 
-    const { data } = await context.$magento.getApi.cmsBlocks(params.identifiers);
+    const {
+      customQuery,
+      signal,
+      identifiers
+    } = params;
+
+    const { data } = await context.$magento.getApi.cmsBlocks(identifiers, customQuery, signal);
 
     if (data?.cacheTags) {
       context.cache.addTagsFromString(data.cacheTags);

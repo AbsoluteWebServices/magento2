@@ -20,11 +20,11 @@ const factoryParams: UseBillingParams<BillingCartAddress, BillingAddressInput> =
     };
   },
 
-  load: async (context: Context, { customQuery }) => {
+  load: async (context: Context, params) => {
     Logger.debug('[Magento] loadBilling');
 
     if (!context.cart.cart?.value?.billing_address) {
-      await context.cart.load({ customQuery });
+      await context.cart.load(params);
     }
 
     if (!context.cart.cart?.value) {
@@ -35,17 +35,26 @@ const factoryParams: UseBillingParams<BillingCartAddress, BillingAddressInput> =
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  save: async (context: Context, { params }) => {
+  save: async (context: Context, params) => {
     Logger.debug('[Magento] setBillingAddress');
+
+    const {
+      customQuery,
+      signal,
+      params: billingAddress
+    } = params;
+
     const id = context.$magento.config.state.getCartId();
 
     const setBillingAddressOnCartInput: SetBillingAddressOnCartInput = {
       cart_id: id,
-      billing_address: params,
+      billing_address: billingAddress,
     };
 
     const { data } = await context.$magento.api.setBillingAddressOnCart(
       setBillingAddressOnCartInput,
+      customQuery,
+      signal
     );
 
     Logger.debug('[Result]:', { data });
@@ -64,6 +73,7 @@ const factoryParams: UseBillingParams<BillingCartAddress, BillingAddressInput> =
           carrier_code: shippingMethod.carrier_code,
           method_code: shippingMethod.method_code,
         },
+        signal
       });
     }
     /**

@@ -32,7 +32,7 @@ export function useCountrySearchFactory<COUNTRIES,
     const _factoryParams = configureFactoryParams(factoryParams);
 
     // eslint-disable-next-line consistent-return
-    const load = async (params?: ComposableFunctionArgs<{}>): Promise<COUNTRIES[]> => {
+    const load = async (params: ComposableFunctionArgs<{}> = {}): Promise<COUNTRIES[]> => {
       Logger.debug(`useCountrySearch/${ssrKey}/load`);
 
       try {

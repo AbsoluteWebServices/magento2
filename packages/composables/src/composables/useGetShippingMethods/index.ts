@@ -10,9 +10,14 @@ const factoryParams: UseGetShippingMethodsFactory<ShippingMethod> = {
     Logger.debug('[Magento]: Load shipping methods', { params });
     const customerToken = apiState.getCustomerToken();
 
+    const {
+      customQuery,
+      signal
+    } = params;
+
     if (customerToken) {
       try {
-        const { data: customerData } = await context.$magento.api.getAvailableCustomerShippingMethods();
+        const { data: customerData } = await context.$magento.api.getAvailableCustomerShippingMethods(undefined, customQuery, signal);
         Logger.debug('[Result]:', { data: customerData });
 
         return customerData.customerCart.shipping_addresses.length > 0 ? customerData.customerCart.shipping_addresses[0].available_shipping_methods : [];
@@ -27,7 +32,7 @@ const factoryParams: UseGetShippingMethodsFactory<ShippingMethod> = {
     const cartId = apiState.getCartId();
 
     try {
-      const { data } = await context.$magento.api.getAvailableShippingMethods({ cartId });
+      const { data } = await context.$magento.api.getAvailableShippingMethods({ cartId }, customQuery, signal);
 
       Logger.debug('[Result]:', { data });
 

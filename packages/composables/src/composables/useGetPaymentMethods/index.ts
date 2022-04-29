@@ -10,9 +10,14 @@ const factoryParams: UseGetPaymentMethodsFactory<AvailablePaymentMethod> = {
     Logger.debug('[Magento]: Load payment methods', { params });
     const customerToken = apiState.getCustomerToken();
 
+    const {
+      customQuery,
+      signal
+    } = params;
+
     if (customerToken) {
       try {
-        const { data: customerData } = await context.$magento.api.getAvailableCustomerPaymentMethods();
+        const { data: customerData } = await context.$magento.api.getAvailableCustomerPaymentMethods(undefined, customQuery, signal);
         Logger.debug('[Result]:', { data: customerData });
 
         return customerData.customerCart.available_payment_methods;
@@ -27,7 +32,7 @@ const factoryParams: UseGetPaymentMethodsFactory<AvailablePaymentMethod> = {
     const cartId = apiState.getCartId();
 
     try {
-      const { data } = await context.$magento.api.getAvailablePaymentMethods({ cartId });
+      const { data } = await context.$magento.api.getAvailablePaymentMethods({ cartId }, customQuery, signal);
 
       Logger.debug('[Result]:', { data });
 

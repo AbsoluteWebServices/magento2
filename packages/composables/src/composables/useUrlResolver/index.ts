@@ -12,9 +12,16 @@ const factoryParams: UseUrlResolverFactoryParams<Route> = {
   },
   search: async (context: Context, params) => {
     Logger.debug('[Magento] Find information based on URL', { params });
-    const clearUrl = params.url.replace(/\/[cp|]\//gi, '');
 
-    const { data } = await context.$magento.getApi.urlResolver(clearUrl);
+    const {
+      customQuery,
+      signal,
+      url
+    } = params;
+
+    const clearUrl = url.replace(/\/[cp|]\//gi, '');
+
+    const { data } = await context.$magento.getApi.urlResolver(clearUrl, customQuery, signal);
 
     if (data?.cacheTags) {
       context.cache.addTagsFromString(data.cacheTags);
