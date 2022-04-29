@@ -83,4 +83,8 @@ non_saleable
 coming_soon
 badges
 model_discontinued
+us_expedited
+us_oneday
+us_twoday
+us_standard
 `;
