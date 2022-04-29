@@ -33,6 +33,10 @@ export default async (
     pageSize: 10,
     currentPage: 1,
     ...searchParams,
+    filter: {
+      ...searchParams.filter,
+      ___focus_page_type___: 'pdp',
+    }
   };
 
   const variables: Variables = {
