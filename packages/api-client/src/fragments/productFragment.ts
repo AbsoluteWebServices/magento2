@@ -2,10 +2,6 @@ import baseProductFragment from './baseProductFragment';
 
 export default `
 ${baseProductFragment}
-us_expedited
-us_oneday
-us_twoday
-us_standard
 media_gallery {
   url
   position
