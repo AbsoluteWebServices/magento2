@@ -3,13 +3,12 @@ import productDetailsFragment from '../../fragments/productDetailsFragment';
 
 export default gql`
   query productDetails(
-    $search: String = "",
     $filter: ProductAttributeFilterInput,
     $pageSize: Int = 10,
     $currentPage: Int = 1,
     $sort: ProductAttributeSortInput
   ) {
-    products(search: $search, filter: $filter, sort: $sort, pageSize: $pageSize, currentPage: $currentPage) {
+    products(filter: $filter, sort: $sort, pageSize: $pageSize, currentPage: $currentPage) {
       items {
         ${productDetailsFragment}
       }
