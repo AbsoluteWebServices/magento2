@@ -87,4 +87,5 @@ us_expedited
 us_oneday
 us_twoday
 us_standard
+replenishable
 `;
