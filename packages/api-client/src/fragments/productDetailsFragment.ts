@@ -6,6 +6,7 @@ ${baseProductFragment}
 pdp_data
 product_files_json
 replaced_by
+is_returnable
 kit_components {
   main
   qty
