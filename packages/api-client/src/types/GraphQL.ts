@@ -8052,7 +8052,7 @@ export type PaypalExpressTokenMutation = {
 
 export type FocusRmaAccessParamsInput = {
   email?: Maybe<Scalars['String']>;
-  zip_code?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
 };
 
 export type SelectedCustomAttributeInput = {
