@@ -6401,7 +6401,7 @@ type FocusRmaAccessParamsInput {
     "Billing address email"
     email: String
     "Billing address zip code"
-    zip_code: String
+    zipCode: String
 }
 
 type RequestReturnItemInput {
