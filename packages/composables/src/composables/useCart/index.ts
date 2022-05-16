@@ -109,7 +109,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
           errors,
         };
       } catch (err) {
-        if (err.message.includes('Failed to fetch')) {
+        if (err.message?.includes('Failed to fetch')) {
           throw err;
         }
         apiState.setCustomerToken();
@@ -121,7 +121,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       const cartId = apiState.getCartId();
       return await getCart(virtual, cartId);
     } catch (err) {
-      if (err.message.includes('Failed to fetch')) {
+      if (err.message?.includes('Failed to fetch')) {
         throw err;
       }
       apiState.setCartId();
@@ -387,7 +387,7 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
     try {
       return await tryAddToCart(cartInput);
     } catch (err) {
-      if (err.message.includes('Failed to fetch')) {
+      if (err.message?.includes('Failed to fetch')) {
         throw err;
       }
       apiState.setCartId();

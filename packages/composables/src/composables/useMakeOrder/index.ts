@@ -56,6 +56,32 @@ const factoryParams: UseMakeOrderFactoryParams<Order, PaymentMethodInput> = {
 
     return data.placeOrder.order;
   },
+  completeAmazonPay: async (context: Context, params): Promise<Order> => {
+    Logger.debug('[Magento] Make Amazon Pay Order', { params });
+    const { compliance: { value: compliance }, cart: { value: { id } } } = context.cart;
+
+    const {
+      customQuery,
+      signal,
+      amazonSessionId,
+    } = params;
+
+    const { data } = await context.$magento.api.completeCheckoutSession({
+      cartId: id,
+      amazonSessionId,
+      ...compliance
+    }, customQuery, signal);
+
+    Logger.debug('[Result]:', { data });
+
+    if (!data.completeCheckoutSession.success) {
+      throw new Error(data.completeCheckoutSession.message);
+    }
+
+    return {
+      order_number: data.completeCheckoutSession.increment_id
+    };
+  },
 };
 
 const useMakeOrder = useMakeOrderFactory<Order, PaymentMethodInput>(factoryParams);

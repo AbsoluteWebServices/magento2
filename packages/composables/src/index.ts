@@ -7,6 +7,7 @@ export * from './getters';
 export * from './getVueContext';
 
 export { default as useAddresses } from './composables/useAddresses';
+export { default as useAmazonPay } from './composables/useAmazonPay';
 export { default as useBilling } from './composables/useBilling';
 export { default as useCart } from './composables/useCart';
 export { default as useCategory } from './composables/useCategory';

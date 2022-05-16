@@ -37,6 +37,8 @@ export interface UseUserFactoryParams<
   getCustomerToken: (context: Context) => string;
   setCustomerToken: (context: Context, token: string) => void;
   mergeCustomerCart: (context: Context, params: ComposableFunctionArgs<{}>) => Promise<{ errors?: readonly GraphQLError[] }>;
+  logInWithAmazon: (context: Context, params: ComposableFunctionArgs<{ currentUser: USER; buyerToken: string }>) => Promise<Partial<USER>>;
+  linkAmazon: (context: Context, params: ComposableFunctionArgs<{ currentUser: USER; buyerToken: string; password: string; }>) => Promise<Partial<USER>>;
 }
 
 export const useUserFactory = <
@@ -55,6 +57,8 @@ export const useUserFactory = <
     changePassword: null,
     load: null,
     cart: null,
+    logInWithAmazon: null,
+    linkAmazon: null,
   });
 
   const user = sharedRef<USER>(null, 'useUser-user');
@@ -259,6 +263,42 @@ export const useUserFactory = <
     }
   };
 
+  const logInWithAmazon = async (params = {}) => {
+    Logger.debug('useUserFactory.logInWithAmazon');
+    resetErrorValue();
+
+    try {
+      loading.value = true;
+      user.value = await _factoryParams.logInWithAmazon({ currentUser: user.value, ...params });
+      error.value.logInWithAmazon = null;
+      updateToken();
+      updateContext();
+    } catch (err) {
+      error.value.logInWithAmazon = err;
+      Logger.error('useUser/logInWithAmazon', err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const linkAmazon = async (params = {}) => {
+    Logger.debug('useUserFactory.linkAmazon');
+    resetErrorValue();
+
+    try {
+      loading.value = true;
+      user.value = await _factoryParams.linkAmazon({ currentUser: user.value, ...params });
+      error.value.linkAmazon = null;
+      updateToken();
+      updateContext();
+    } catch (err) {
+      error.value.linkAmazon = err;
+      Logger.error('useUser/linkAmazon', err);
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     api: _factoryParams.api,
     setUser,
@@ -278,5 +318,7 @@ export const useUserFactory = <
     updateToken,
     setToken,
     mergeCart,
+    logInWithAmazon,
+    linkAmazon,
   };
 };

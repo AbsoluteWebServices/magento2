@@ -133,6 +133,18 @@ import {
   DownloadableProduct,
   VirtualProduct, CustomerOrdersFilterInput,
   CachedQuery,
+  CheckoutSessionConfigQuery,
+  CheckoutSessionConfigQueryVariables,
+  CheckoutSessionDetailsQuery,
+  CheckoutSessionDetailsQueryVariables,
+  CheckoutSessionSignInQuery,
+  CheckoutSessionSignInQueryVariables,
+  CompleteCheckoutSessionMutation,
+  CompleteCheckoutSessionMutationVariables,
+  SetCustomerLinkMutation,
+  SetCustomerLinkMutationVariables,
+  UpdateCheckoutSessionMutation,
+  UpdateCheckoutSessionMutationVariables,
   /** FOCUS */
   FocusSetGroupOnItemInput,
   FocusSetGroupOnItemMutation,
@@ -397,6 +409,13 @@ export interface MagentoApiMethods {
   usedProduct(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<UsedProductsQuery>>;
 
   wishlist(searchParams: WishlistQueryVariables): Promise<ApolloQueryResult<WishlistQuery>>;
+
+  checkoutSessionConfig(input: CheckoutSessionConfigQueryVariables): Promise<ApolloQueryResult<CheckoutSessionConfigQuery>>;
+  checkoutSessionDetails(input: CheckoutSessionDetailsQueryVariables): Promise<ApolloQueryResult<CheckoutSessionDetailsQuery>>;
+  checkoutSessionSignIn(input: CheckoutSessionSignInQueryVariables): Promise<ApolloQueryResult<CheckoutSessionSignInQuery>>;
+  completeCheckoutSession(input: CompleteCheckoutSessionMutationVariables): Promise<FetchResult<CompleteCheckoutSessionMutation>>;
+  setCustomerLink(input: SetCustomerLinkMutationVariables): Promise<FetchResult<SetCustomerLinkMutation>>;
+  updateCheckoutSession(input: UpdateCheckoutSessionMutationVariables): Promise<FetchResult<UpdateCheckoutSessionMutation>>;
 
   focusSetGroupOnItem(input: FocusSetGroupOnItemInput): Promise<FetchResult<FocusSetGroupOnItemMutation>>;
 

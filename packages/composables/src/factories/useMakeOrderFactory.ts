@@ -5,6 +5,7 @@ import { UseMakeOrder, UseMakeOrderErrors } from '../types/composables';
 export interface UseMakeOrderFactoryParams<ORDER, PAYMENT_METHOD, API extends PlatformApi = any> extends FactoryParams<API> {
   make: (context: Context, params: ComposableFunctionArgs<{}>) => Promise<ORDER>;
   setPaymentAndMake: (context: Context, params: ComposableFunctionArgs<{ paymentMethod: PAYMENT_METHOD }>) => Promise<ORDER>;
+  completeAmazonPay: (context: Context, params: ComposableFunctionArgs<{ amazonSessionId: string }>) => Promise<ORDER>;
 }
 
 export const useMakeOrderFactory = <ORDER, PAYMENT_METHOD, API extends PlatformApi = any>(
@@ -16,6 +17,7 @@ export const useMakeOrderFactory = <ORDER, PAYMENT_METHOD, API extends PlatformA
     const error: Ref<UseMakeOrderErrors> = sharedRef({
       make: null,
       setPaymentAndMake: null,
+      completeAmazonPay: null,
     }, 'useMakeOrder-error');
 
     const _factoryParams = configureFactoryParams(
@@ -39,7 +41,7 @@ export const useMakeOrderFactory = <ORDER, PAYMENT_METHOD, API extends PlatformA
       }
     };
 
-    const setPaymentAndMake = async (params) => {
+    const setPaymentAndMake = async (params = {}) => {
       Logger.debug('useMakeOrder.setPaymentAndMake', params);
 
       try {
@@ -55,11 +57,27 @@ export const useMakeOrderFactory = <ORDER, PAYMENT_METHOD, API extends PlatformA
       }
     };
 
+    const completeAmazonPay = async (params = {}) => {
+      Logger.debug('useMakeOrder.completeAmazonPay', params);
+
+      try {
+        loading.value = true;
+        order.value = await _factoryParams.completeAmazonPay(params);
+        error.value.completeAmazonPay = null;
+      } catch (err) {
+        error.value.completeAmazonPay = err;
+        Logger.error('useMakeOrder.completeAmazonPay', err);
+      } finally {
+        loading.value = false;
+      }
+    };
+
     return {
       api: _factoryParams.api,
       order,
       make,
       setPaymentAndMake,
+      completeAmazonPay,
       loading: computed(() => loading.value),
       error: computed(() => error.value)
     };

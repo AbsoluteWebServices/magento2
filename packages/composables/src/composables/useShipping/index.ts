@@ -70,9 +70,9 @@ const factoryParams: UseShippingParams<ShippingCartAddress, ShippingAddressInput
     const shippingMethods = data
       .setShippingAddressesOnCart
       .cart
-      .shipping_addresses[0]
-      .available_shipping_methods
-      .filter((method) => method.available);
+      ?.shipping_addresses?.[0]
+      ?.available_shipping_methods
+      ?.filter((method) => method.available);
 
     context.useGetShippingMethods.setMethods(shippingMethods);
 
@@ -100,7 +100,7 @@ const factoryParams: UseShippingParams<ShippingCartAddress, ShippingAddressInput
     return data
       .setShippingAddressesOnCart
       .cart
-      .shipping_addresses[0];
+      ?.shipping_addresses?.[0];
   },
 };
 
