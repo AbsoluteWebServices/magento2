@@ -2,10 +2,16 @@
 import {
   Context, Logger,
 } from '@absolute-web/vsf-core';
-import { Customer, CustomerCreateInput, CustomerUpdateInput } from '@absolute-web/magento-api';
+import { Customer, CustomerCreateInput, CustomerUpdateInput, CheckoutSessionSignInOutput, SetCustomerLinkOutput } from '@absolute-web/magento-api';
 import useCart from '../useCart';
 import { generateUserData } from '../../helpers/userDataGenerator';
 import { UseUserFactoryParams, useUserFactory } from '../../factories/useUserFactory';
+
+const mapAmazonCustomerToMagento = (customer: CheckoutSessionSignInOutput | SetCustomerLinkOutput): Partial<Customer> => ({
+  email: customer.customer_email,
+  firstname: customer.customer_firstname,
+  lastname: customer.customer_last,
+});
 
 const factoryParams: UseUserFactoryParams<
 Customer,
@@ -238,6 +244,76 @@ CustomerCreateInput & { email: string; password: string }
     Logger.debug('[Result] ', { data });
 
     return data?.changeCustomerPassword as unknown as Customer;
+  },
+  logInWithAmazon: async (context: Context, params) => {
+    Logger.debug('[Magento] Authenticate user using amazon pay');
+    const apiState = context.$magento.config.state;
+
+    const {
+      customQuery,
+      signal,
+      currentUser,
+      buyerToken,
+    } = params;
+
+    const { data } = await context.$magento.api.checkoutSessionSignIn(
+      {
+        buyerToken,
+      },
+      customQuery,
+      signal
+    );
+
+    Logger.debug('[Result]:', { data });
+
+    if (!data.checkoutSessionSignIn?.success) {
+      throw new Error(data.checkoutSessionSignIn.message);
+    }
+
+    if (data.checkoutSessionSignIn?.customer_bearer_token) {
+      apiState.setCustomerToken(data.checkoutSessionSignIn.customer_bearer_token);
+    }
+
+    return currentUser || data.checkoutSessionSignIn
+      ? {
+        ...currentUser,
+        ...mapAmazonCustomerToMagento(data.checkoutSessionSignIn),
+      }
+      : null;
+  },
+  linkAmazon: async (context: Context, params) => {
+    Logger.debug('[Magento] Link amazon account');
+    const apiState = context.$magento.config.state;
+
+    const {
+      customQuery,
+      signal,
+      currentUser,
+      ...input
+    } = params;
+
+    const { data } = await context.$magento.api.setCustomerLink(
+      input,
+      customQuery,
+      signal
+    );
+
+    Logger.debug('[Result]:', { data });
+
+    if (!data.setCustomerLink?.success) {
+      throw new Error(data.setCustomerLink.message);
+    }
+
+    if (data.setCustomerLink?.customer_bearer_token) {
+      apiState.setCustomerToken(data.setCustomerLink.customer_bearer_token);
+    }
+
+    return currentUser || data.setCustomerLink
+      ? {
+        ...currentUser,
+        ...mapAmazonCustomerToMagento(data.setCustomerLink),
+      }
+      : null;
   },
 };
 

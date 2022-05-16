@@ -8177,3 +8177,105 @@ export type FocusDeliveryTime = {
 export type FocusDeliveryTimeQuery = {
   focusDeliveryTimeForAddress: FocusDeliveryTime[];
 };
+
+export type CheckoutSessionConfigOutput = {
+  button_color?: Maybe<string>;
+  checkout_payload?: Maybe<string>;
+  checkout_signature?: Maybe<string>;
+  currency?: Maybe<string>;
+  sandbox?: Maybe<boolean>;
+  language?: Maybe<string>;
+  login_payload?: Maybe<string>;
+  login_signature?: Maybe<string>;
+  merchant_id?: Maybe<string>;
+  pay_only?: Maybe<boolean>;
+  paynow_payload?: Maybe<string>;
+  paynow_signature?: Maybe<string>;
+  public_key_id?: Maybe<string>;
+};
+
+export type CheckoutSessionConfigQuery = {
+  checkoutSessionConfig: CheckoutSessionConfigOutput;
+};
+
+export interface CheckoutSessionConfigQueryVariables {
+  cartId?: string;
+};
+
+export type CheckoutSessionDetailsOutput = {
+  response: string;
+};
+
+export type CheckoutSessionDetailsQuery = {
+  checkoutSessionDetails: CheckoutSessionDetailsOutput;
+};
+
+export interface CheckoutSessionDetailsQueryVariables {
+  amazonSessionId: string;
+  queryTypes?: string[];
+};
+
+export type CheckoutSessionSignInOutput = {
+  customer_id?: Maybe<string>;
+  customer_email?: Maybe<string>;
+  customer_firstname?: Maybe<string>;
+  customer_last?: Maybe<string>;
+  customer_bearer_token?: Maybe<string>;
+  message?: Maybe<string>;
+  success?: Maybe<boolean>;
+};
+
+export type CheckoutSessionSignInQuery = {
+  checkoutSessionSignIn: CheckoutSessionSignInOutput;
+};
+
+export interface CheckoutSessionSignInQueryVariables {
+  buyerToken: string;
+};
+
+export type CompleteCheckoutSessionOutput = {
+  increment_id?: Maybe<string>;
+  message?: Maybe<string>;
+  success?: Maybe<boolean>;
+};
+
+export type CompleteCheckoutSessionMutation = {
+  completeCheckoutSession: CompleteCheckoutSessionOutput;
+};
+
+export interface CompleteCheckoutSessionMutationVariables {
+  cartId: string;
+  amazonSessionId: string;
+};
+
+export type SetCustomerLinkOutput = {
+  customer_id?: Maybe<string>;
+  customer_email?: Maybe<string>;
+  customer_firstname?: Maybe<string>;
+  customer_last?: Maybe<string>;
+  customer_bearer_token?: Maybe<string>;
+  message?: Maybe<string>;
+  success?: Maybe<boolean>;
+};
+
+export type SetCustomerLinkMutation = {
+  setCustomerLink: SetCustomerLinkOutput;
+};
+
+export interface SetCustomerLinkMutationVariables {
+  buyerToken: string;
+  password: string;
+};
+
+export type UpdateCheckoutSessionOutput = {
+  redirectUrl?: Maybe<string>;
+};
+
+export type UpdateCheckoutSessionMutation = {
+  updateCheckoutSession: UpdateCheckoutSessionOutput;
+};
+
+export interface UpdateCheckoutSessionMutationVariables {
+  cartId: string;
+  amazonSessionId: string;
+};

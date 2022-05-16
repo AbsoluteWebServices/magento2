@@ -12,7 +12,7 @@ import {
   UseMakeOrder as UseMakeOrderBase,
   UseMakeOrderErrors as UseMakeOrderErrorsBase,
 } from '@absolute-web/vsf-core';
-import { ComputedRef } from '@vue/composition-api';
+import { ComputedRef, Ref } from '@vue/composition-api';
 import { FetchPolicy } from './index';
 
 export type CustomQueryParams = { customQuery?: CustomQuery; [k: string]: any };
@@ -514,6 +514,8 @@ export interface UseCustomerReturns<CUSTOMER_RETURNS_DATA, CUSTOMER_RETURN_DATA,
 
 export interface UseUserErrors extends UseUserErrorsBase {
   cart: Error;
+  logInWithAmazon: Error;
+  linkAmazon: Error;
 }
 
 export interface UseUser<USER, UPDATE_USER_PARAMS, API extends PlatformApi = any> extends UseUserBase<USER, UPDATE_USER_PARAMS, API> {
@@ -523,6 +525,8 @@ export interface UseUser<USER, UPDATE_USER_PARAMS, API extends PlatformApi = any
   updateToken: () => void;
   setToken: (token: string) => void;
   mergeCart: (params?: ComposableFunctionArgs<{}>) => Promise<void>;
+  logInWithAmazon: (params: ComposableFunctionArgs<{ buyerToken: string }>) => Promise<void>;
+  linkAmazon: (params: ComposableFunctionArgs<{ buyerToken: string; password: string; }>) => Promise<void>;
 }
 
 export interface UsePaypalExpressErrors {
@@ -577,10 +581,12 @@ export interface UseGuestRmaList<GUEST_RMA_LIST_DATA,
 
 export interface UseMakeOrderErrors extends UseMakeOrderErrorsBase {
   setPaymentAndMake: Error;
+  completeAmazonPay: Error;
 }
 
 export interface UseMakeOrder<ORDER, PAYMENT_METHOD, API extends PlatformApi = any> extends UseMakeOrderBase<ORDER, API> {
   setPaymentAndMake: (params: ComposableFunctionArgs<{ paymentMethod: PAYMENT_METHOD }>) => Promise<void>;
+  completeAmazonPay: (params: ComposableFunctionArgs<{ amazonSessionId: string }>) => Promise<void>;
   error: ComputedProperty<UseMakeOrderErrors>;
 }
 
@@ -592,5 +598,24 @@ export interface UseDeliveryTime<DELIVERY_TIME, DELIVERY_TIME_SEARCH_PARAMS, API
   search: (params: ComposableFunctionArgs<DELIVERY_TIME_SEARCH_PARAMS>) => Promise<void>;
   result: ComputedProperty<DELIVERY_TIME[]>;
   error: ComputedProperty<UseDeliveryTimeErrors>;
+  loading: ComputedProperty<boolean>;
+}
+
+export interface UseAmazonPayErrors {
+  loadConfig: Error;
+  loadSession: Error;
+  updateSession: Error;
+}
+
+export interface UseAmazonPay<CONFIG, SESSION, API extends PlatformApi = any> extends Composable<API> {
+  reset: () => void;
+  loadConfig: (params?: ComposableFunctionArgs<{}>) => Promise<void>;
+  loadSession: (params?: ComposableFunctionArgs<{ amazonSessionId: string, queryTypes?: string[] }>) => Promise<void>;
+  updateSession: (params?: ComposableFunctionArgs<{ amazonSessionId: string }>) => Promise<void>;
+  sessionId: Ref<string>;
+  config: ComputedProperty<CONFIG>;
+  session: ComputedProperty<SESSION>;
+  redirectUrl: ComputedProperty<string>;
+  error: ComputedProperty<UseAmazonPayErrors>;
   loading: ComputedProperty<boolean>;
 }
