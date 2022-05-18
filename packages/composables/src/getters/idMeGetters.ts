@@ -16,7 +16,7 @@ export const getCustomerGroupData = (
   handle: string,
 ): string => (customerData?.group_data && customerData?.group_data.length
   ? customerData.group_data.find((group) => group.handle === handle)
-    .value || ''
+    ?.value || ''
   : '');
 
 export const getExpirationDate = (
@@ -26,7 +26,7 @@ export const getExpirationDate = (
   let graduationDate = customerData?.group_data && customerData?.group_data.length
     ? customerData.group_data.find(
       (group) => group.handle === 'student_anticipated_graduation_date',
-    ).value || null
+    )?.value || null
     : null;
 
   if (/\d{2}\/\d{4}/.test(graduationDate)) {
@@ -49,8 +49,12 @@ export const getExpirationDays = (
   graduationDate: string,
 ): number => {
   const oneDay = 24 * 60 * 60 * 1000;
+  const verifiedDateNumber = Number(new Date(verifiedDate));
+  const graduationDateNumber = Number(new Date(graduationDate));
 
-  return Math.round(Math.abs((Number(new Date(verifiedDate)) - Number(new Date(graduationDate))) / oneDay));
+  return !Number.isNaN(verifiedDateNumber) && !Number.isNaN(graduationDateNumber)
+    ? Math.round(Math.abs((verifiedDateNumber - graduationDateNumber) / oneDay))
+    : null;
 };
 
 export const getVerifiedDate = (locales = 'en-US'): string => new Date().toLocaleDateString(locales);
