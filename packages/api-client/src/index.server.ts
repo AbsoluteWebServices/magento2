@@ -50,9 +50,12 @@ const tokenExtension: ApiClientExtension = {
       const currencyCookieName: string = configuration.cookies?.currencyCookieName || defaultSettings.cookies.currencyCookieName;
       const contextCookieName: string = configuration.cookies?.contextCookieName || defaultSettings.cookies.contextCookieName;
 
+
       return {
         ...configuration,
         state: {
+          getHeaders: () => req.headers,
+          getHeadersWhitelist: () => configuration.forwardHeaders || '',
           getCartId: () => req.cookies[cartCookieName],
           setCartId: (id) => {
             if (!id) {

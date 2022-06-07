@@ -17,6 +17,8 @@ export const defaultSettings: ClientConfig = {
   state: {
     getCartId: () => '',
     setCartId: () => {},
+    getHeaders: () => ({}),
+    getHeadersWhitelist: () => '',
     getCustomerToken: () => '',
     setCustomerToken: () => {},
     getStore: () => '',
