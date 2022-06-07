@@ -38,6 +38,8 @@ export type Store = {
 export type ConfigState = {
   getCartId(): string;
   setCartId(id?: string | null): void;
+  getHeaders(): Record<string, string>;
+  getHeadersWhitelist(): string;
   getCustomerToken(): string;
   setCustomerToken(token?: string | null): void;
   getStore(): string;

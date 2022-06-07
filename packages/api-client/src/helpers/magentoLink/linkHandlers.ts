@@ -31,6 +31,8 @@ export const linkFactory = ({ state }: {
   const token: string = state.getCustomerToken();
   const currency: string = state.getCurrency();
   const context: string = ['productsList', 'productDetails'].includes(apolloReq.operationName) ? state.getContext() : '';
+  const reqHeaders = state.getHeaders() || {};
+  const headersWhitelist = state.getHeadersWhitelist().split(',').map(value => value?.toLowerCase().trim());
 
   if (currency) {
     Logger.debug('Apollo currencyLinkFactory, finished, currency: ', currency);
@@ -48,9 +50,19 @@ export const linkFactory = ({ state }: {
     Logger.debug('Apollo contextLinkFactory, finished, context: ', context);
   }
 
+  let additionalHeaders = {};
+  if (headersWhitelist.length) {
+    additionalHeaders = Object.keys(reqHeaders).reduce((acc, key) => ({
+      ...acc,
+      ...(headersWhitelist.includes(key) ? { [key]: reqHeaders[key] } : {}),
+      ...(key === 'x-forwarded-host' ? { host: reqHeaders[key] } : {}),
+    }), additionalHeaders);
+  }
+
   return {
     headers: {
       ...headers,
+      ...additionalHeaders,
       ...(currency ? { 'Content-Currency': currency } : {}),
       ...(token ? { authorization: `Bearer ${token}` } : {}),
       ...(Store ? { Store } : {}),
