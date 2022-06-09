@@ -26,6 +26,7 @@ prices {
 }
 items {
   uid
+  focus_store_id
   product {
     ${productFragment}
     itar_compliance
