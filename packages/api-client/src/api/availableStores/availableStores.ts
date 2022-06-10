@@ -68,6 +68,7 @@ export default gql`
       title_separator
       title_suffix
       use_store_in_url
+      vsf_base_url
       website_code
       website_id
       website_name
