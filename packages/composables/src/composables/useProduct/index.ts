@@ -16,7 +16,7 @@ import { useCache } from '@absolute-web/vsf-cache';
 const pdpDataBlacklist = new Set(['media_gallery', 'description', 'short_description', 'image', 'small_image', 'thumbnail', 'kit_components']);
 
 const extractPdpData = (productDetails: Product) => {
-  let productData = {};
+  let productData = {} as any;
 
   if (productDetails.pdp_data) {
     try {
@@ -47,54 +47,28 @@ const deleteEmptyFields = (productDetails: Product) => {
   return result as Product;
 };
 
-const extractCustomAttributes = (productDetails: Product, aggregations: Aggregation[]) => {
-  const result = {};
-
-  aggregations.forEach((aggregation) => {
-    if (
-      !Object.prototype.hasOwnProperty.call(productDetails, aggregation.attribute_code)
-      || productDetails[aggregation.attribute_code] === null
-      || !Object.prototype.hasOwnProperty.call(aggregation, 'options')
-      || aggregation.options.length === 0) {
-      return;
-    }
-
-    const key = aggregation.attribute_code;
-
-    const attributeOption = aggregation.options.find(
-      (option) => Number.parseInt(option.value, 10) === productDetails[key]
-        || option.label === productDetails[key],
-    );
-
-    if (
-      attributeOption
-      && Object.prototype.hasOwnProperty.call(attributeOption, 'label')
-    ) {
-      result[key] = {
-        code: key,
-        label: aggregation.label || '',
-        value: attributeOption.value,
-        valueLabel: attributeOption.label,
-      };
-    }
-  });
-
-  return result;
-};
-
 const getProductDetails = (details: Product[], aggregations: Aggregation[]): Products => {
   const productDetails = [];
 
   details.forEach((product: Product) => {
-    product = {
-      ...product,
-      ...extractPdpData(product),
-      pdp_data: undefined,
-    };
+    const pdpData = extractPdpData(product);
 
     product = {
       ...product,
-      ...extractCustomAttributes(product, aggregations),
+      ...pdpData,
+      ...Object.keys(product)
+        .filter((item) => product[item] && pdpData[item] && product[item] != pdpData[item])
+        .reduce(
+          (previous, current) => ({
+            ...previous,
+            [current]: {
+              value: product[current],
+              valueLabel: pdpData[current],
+            }
+          }),
+          {}
+        ),
+      pdp_data: undefined,
     };
 
     product = deleteEmptyFields(product);
