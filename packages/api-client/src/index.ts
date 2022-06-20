@@ -285,6 +285,7 @@ export {
   FocusRmaAccessParamsInput,
   FocusReturnChildItem,
   FocusRmaShippingLabel,
+  FocusSocialLogin,
   FocusTrackedOrdersQuery,
   FocusTrackedOrdersQueryVariables,
   GenerateCustomerTokenAsAdminInput,

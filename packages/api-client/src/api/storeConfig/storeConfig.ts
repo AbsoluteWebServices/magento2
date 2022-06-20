@@ -57,6 +57,11 @@ export default gql`
         weight_unit,
         welcome,
         focus_rma_phone_number,
+        focus_social_login {
+          type,
+          label,
+          url,
+        },
     }
     cacheId @client
   }
