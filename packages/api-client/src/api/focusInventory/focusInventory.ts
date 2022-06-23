@@ -10,6 +10,7 @@ query focusInventory($filter: FocusInventoryFilterInput) {
       is_backorder
       is_preorder
       custom_stock_status
+      replenishable
       sources {
         sku
         source_code
