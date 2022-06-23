@@ -6195,6 +6195,7 @@ type focusProductInventoryItem {
   is_backorder: Boolean
   is_preorder: Boolean
   custom_stock_status: String
+  replenishable: Boolean
   sources: [focusInventorySource]
 }
 
