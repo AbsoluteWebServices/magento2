@@ -490,10 +490,13 @@ export interface UseCompareList<COMPARE_LIST, PRODUCT> {
 
 export interface UseProductAttributeErrors {
   load: Error;
+  loadList: Error
 }
 
 export interface UseProductAttribute<PRODUCT_ATTRIBUTE> {
   load: (params: ComposableFunctionArgs<{ code: string }>) => Promise<void>;
+  loadList: (params: ComposableFunctionArgs<{ codes: string[] }>) => Promise<void>;
+  list: ComputedProperty<PRODUCT_ATTRIBUTE[]>;
   result: ComputedProperty<PRODUCT_ATTRIBUTE>;
   error: ComputedProperty<UseProductAttributeErrors>;
   loading: ComputedProperty<boolean>;

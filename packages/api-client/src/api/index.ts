@@ -88,6 +88,7 @@ export { default as focusInventory } from './focusInventory';
 export { default as focusEstimateShippingMethods } from './focusEstimateShippingMethods';
 export { default as focusIDmeVerify } from './focusIDmeVerify';
 export { default as focusProductAttribute } from './focusProductAttribute';
+export { default as focusProductAttributes } from './focusProductAttributes';
 export { default as customerReturns } from './customerReturns';
 export { default as customerReturn } from './customerReturn';
 export { default as focusGuestRequestReturn } from './focusGuestRequestReturn';

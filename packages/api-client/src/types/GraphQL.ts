@@ -7897,6 +7897,10 @@ export interface FocusProductAttributeQueryVariables {
   attribute_code: string;
 };
 
+export interface FocusProductAttributesQueryVariables {
+  attribute_codes: string[];
+};
+
 export interface FocusProductAttribute {
   attribute_code?: Maybe<Scalars['String']>;
   attribute_id?: Maybe<Scalars['ID']>;
@@ -7906,6 +7910,10 @@ export interface FocusProductAttribute {
 
 export type FocusProductAttributeQuery = {
   focusProductAttribute: Maybe<FocusProductAttribute>;
+};
+
+export type FocusProductAttributesQuery = {
+  focusProductAttributes: Maybe<Array<Maybe<FocusProductAttribute>>>;
 };
 
 export enum ReturnStatus {

@@ -30,6 +30,24 @@ const factoryParams: UseProductAttributeFactoryParams<FocusProductAttribute> = {
 
     return data.focusProductAttribute;
   },
+  loadList: async (context: Context, params) => {
+    Logger.debug('[Magento] product attributes with codes ', params);
+
+    const {
+      customQuery,
+      signal,
+      codes
+    } = params;
+
+    const { data } = await context
+      .$magento
+      .getApi
+      .focusProductAttributes(codes, customQuery, signal);
+
+    Logger.debug('[Result]:', { data });
+
+    return data.focusProductAttributes;
+  },
 };
 
 const useProductAttribute:
