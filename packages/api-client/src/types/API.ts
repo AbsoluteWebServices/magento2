@@ -159,6 +159,7 @@ import {
   FocusIDmeVerifyInput,
   FocusIDmeVerifyMutation,
   FocusProductAttributeQuery,
+  FocusProductAttributesQuery,
   CustomerReturnQueryVariables,
   CustomerReturnsQueryVariables,
   CustomerReturnQuery,
@@ -427,6 +428,7 @@ export interface MagentoApiMethods {
 
   focusIDmeVerify(input: FocusIDmeVerifyInput): Promise<FetchResult<FocusIDmeVerifyMutation>>;
   focusProductAttribute(attribute_code: string): Promise<FetchResult<FocusProductAttributeQuery>>;
+  focusProductAttributes(attribute_codes: string[]): Promise<FetchResult<FocusProductAttributesQuery>>;
   customerReturns(returnParams: CustomerReturnsQueryVariables): Promise<ApolloQueryResult<CustomerReturnsQuery>>;
   customerReturn(returnParams: CustomerReturnQueryVariables): Promise<ApolloQueryResult<CustomerReturnQuery>>;
   focusGuestRequestReturn(input: FocusGuestRequestReturnInput): Promise<FetchResult<FocusGuestRequestReturnMutation>>;
