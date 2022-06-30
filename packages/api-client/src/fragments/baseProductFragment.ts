@@ -88,4 +88,5 @@ us_oneday
 us_twoday
 us_standard
 replenishable
+condition
 `;
