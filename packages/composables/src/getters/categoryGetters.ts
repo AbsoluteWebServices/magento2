@@ -28,7 +28,7 @@ export const getCategoryBreadcrumbs = (category: any): AgnosticBreadcrumb[] => {
   }
 
   if (Array.isArray(category?.breadcrumbs)) {
-    breadcrumbs = category.breadcrumbs.map((breadcrumb) => ({
+    breadcrumbs = category.breadcrumbs.sort((a, b) => a.category_level - b.category_level).map((breadcrumb) => ({
       text: breadcrumb.category_name,
       link: `/${breadcrumb.category_url_path}${category.url_suffix || ''}`,
     } as AgnosticBreadcrumb));
