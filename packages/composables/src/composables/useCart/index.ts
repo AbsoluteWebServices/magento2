@@ -124,8 +124,6 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       if (err.message?.includes('Failed to fetch')) {
         throw err;
       }
-      apiState.setCartId();
-      return await getCart(virtual);
     }
   },
 
