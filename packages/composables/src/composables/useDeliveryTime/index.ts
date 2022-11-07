@@ -10,7 +10,7 @@ const factoryParams: UseDeliveryTimeFactoryParams<FocusDeliveryTime, FocusDelive
       ...searchParams
     } = params;
 
-    const { data } = await context.$magento.api.focusDeliveryTimeForAddress(searchParams, customQuery, signal);
+    const { data } = await context.$magento.getApi.focusDeliveryTimeForAddress(searchParams, customQuery, signal);
 
     return data.focusDeliveryTimeForAddress;
   },

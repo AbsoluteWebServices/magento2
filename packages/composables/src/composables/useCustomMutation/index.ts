@@ -14,15 +14,6 @@ export default useCustomMutationFactory({
     // eslint-disable-next-line consistent-return
   }) => {
     Logger.debug('[Magento] Custom API Mutation', { variables });
-
-    const result = await context.$magento.api.customMutation({
-      mutation,
-      mutationVariables: variables,
-      fetchPolicy,
-    });
-
-    Logger.debug('[Custom Mutation -> Result]:', result);
-
-    return result;
+    Logger.error('useCustomMutation REMOVED');
   },
 });

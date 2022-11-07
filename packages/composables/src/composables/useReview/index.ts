@@ -71,7 +71,7 @@ ProductReviewRatingMetadata> = {
       ...input
     } = params;
 
-    const { data } = await context.$magento.getApi.customerProductReview(input, customQuery, signal);
+    const { data } = await context.$magento.api.customerProductReview(input, customQuery, signal);
 
     Logger.debug('[Result]:', { data });
 

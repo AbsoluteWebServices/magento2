@@ -262,29 +262,11 @@ export interface MagentoApiMethods {
 
   assignCompareListToCustomer(uid: string): Promise<FetchResult<AssignCompareListToCustomerMutation>>;
 
-  availableStores(_?: unknown): Promise<ApolloQueryResult<CachedQuery<AvailableStoresQuery>>>;
-
   cart(cartId: string): Promise<ApolloQueryResult<CartQuery>>;
-
-  category(categoryInput?: StagingPreviewQueryVariables<CategorySearchQueryVariables>): Promise<ApolloQueryResult<CachedQuery<CategoryQuery>>>;
-
-  categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CachedQuery<CategoryListQuery>>>;
-
-  categorySearch(categoryFilter?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CachedQuery<CategorySearchQuery>>>;
 
   changeCustomerPassword(params: { currentPassword: string; newPassword: string }): Promise<FetchResult<ChangeCustomerPasswordMutation>>;
 
-  cmsBlocks(identifiers: string[]): Promise<ApolloQueryResult<CachedQuery<CmsBlockQuery>>>;
-
-  cmsPage(
-    identifier: string
-  ): Promise<ApolloQueryResult<CachedQuery<CmsPageQuery>>>;
-
   compareList(uid: string): Promise<ApolloQueryResult<CompareListQuery>>;
-
-  countries(_?: unknown): Promise<ApolloQueryResult<CachedQuery<CountriesListQuery>>>;
-
-  country(id: string): Promise<ApolloQueryResult<CachedQuery<CountryInformationQuery>>>;
 
   createCompareList(input: CreateCompareListInput): Promise<FetchResult<CreateCompareListMutation>>;
 
@@ -298,8 +280,6 @@ export interface MagentoApiMethods {
 
   createProductReview(input: CreateProductReviewInput): Promise<FetchResult<CreateProductReviewMutation>>;
 
-  currency(_?: unknown): Promise<FetchResult<CurrencyQuery>>
-
   customer(_?: unknown): Promise<ApolloQueryResult<CustomerQueryFocus>>;
 
   customerCart(_?: unknown): Promise<ApolloQueryResult<CustomerCartQuery>>;
@@ -307,18 +287,6 @@ export interface MagentoApiMethods {
   customerCompareList(_?: unknown): Promise<ApolloQueryResult<CustomerCompareListQuery>>;
 
   customerOrders(searchParams: GetOrdersSearchParams): Promise<ApolloQueryResult<CustomerOrdersQueryFocus>>;
-
-  customQuery<QUERY = any, QUERY_VARIABLES = any>(params: {
-    query: QUERY,
-    queryVariables?: QUERY_VARIABLES,
-    fetchPolicy?: FetchPolicy,
-  }): Promise<ApolloQueryResult<CachedQuery<QUERY>>>;
-
-  customMutation<MUTATION = any, MUTATION_VARIABLES = any>(params: {
-    mutation: MUTATION,
-    mutationVariables: MUTATION_VARIABLES,
-    fetchPolicy?: Extract<FetchPolicy, 'network-only' | 'no-cache'>,
-  }): Promise<FetchResult<MUTATION>>;
 
   customerProductReview(input: CustomerProductReviewParams): Promise<ApolloQueryResult<CustomerProductReviewQuery>>;
 
@@ -347,16 +315,6 @@ export interface MagentoApiMethods {
   pickupLocations(searchParams: QueryPickupLocationsArgs): Promise<FetchResult<PickupLocationsQuery>>;
 
   placeOrder(input: PlaceOrderInput): Promise<FetchResult<PlaceOrderMutation>>;
-
-  productDetail(searchParams: StagingPreviewQueryVariables<GetProductSearchParams>): Promise<ApolloQueryResult<CachedQuery<ProductDetailsQuery>>>;
-
-  productReview(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<ProductReviewQuery>>;
-
-  productReviewRatingsMetadata(_?: unknown): Promise<ApolloQueryResult<ProductReviewRatingsMetadataQuery>>;
-
-  products(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<CachedQuery<ProductsListQuery>>>;
-
-  relatedProduct(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<CachedQuery<RelatedProductQuery>>>;
 
   removeCouponFromCart(input: RemoveCouponFromCartInput): Promise<FetchResult<RemoveCouponFromCartMutation>>;
 
@@ -391,8 +349,6 @@ export interface MagentoApiMethods {
 
   setShippingMethodsOnCart(input: SetShippingMethodsOnCartInput): Promise<FetchResult<SetShippingMethodsOnCartMutationFocus>>;
 
-  storeConfig(_?: unknown): Promise<ApolloQueryResult<StoreConfigQueryFocus>>;
-
   subscribeEmailToNewsletter(input: SubscribeEmailToNewsletterMutationVariables): Promise<FetchResult<SubscribeEmailToNewsletterMutation>>;
 
   updateCartItems(input: UpdateCartItemsInput): Promise<FetchResult<UpdateCartItemsMutation>>;
@@ -403,37 +359,85 @@ export interface MagentoApiMethods {
 
   updateCustomerEmail(input: UpdateCustomerEmailMutationVariables): Promise<FetchResult<UpdateCustomerAddressMutation>>;
 
-  upsellProduct(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<CachedQuery<UpsellProductsQuery>>>;
-
-  urlResolver(url: string): Promise<ApolloQueryResult<CachedQuery<UrlResolverQuery>>>;
-
-  usedProduct(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<UsedProductsQuery>>;
-
   wishlist(searchParams: WishlistQueryVariables): Promise<ApolloQueryResult<WishlistQuery>>;
 
   checkoutSessionConfig(input: CheckoutSessionConfigQueryVariables): Promise<ApolloQueryResult<CheckoutSessionConfigQuery>>;
+
   checkoutSessionDetails(input: CheckoutSessionDetailsQueryVariables): Promise<ApolloQueryResult<CheckoutSessionDetailsQuery>>;
+
   checkoutSessionSignIn(input: CheckoutSessionSignInQueryVariables): Promise<ApolloQueryResult<CheckoutSessionSignInQuery>>;
+
   completeCheckoutSession(input: CompleteCheckoutSessionMutationVariables): Promise<FetchResult<CompleteCheckoutSessionMutation>>;
+
   setCustomerLink(input: SetCustomerLinkMutationVariables): Promise<FetchResult<SetCustomerLinkMutation>>;
+
   updateCheckoutSession(input: UpdateCheckoutSessionMutationVariables): Promise<FetchResult<UpdateCheckoutSessionMutation>>;
 
   focusSetGroupOnItem(input: FocusSetGroupOnItemInput): Promise<FetchResult<FocusSetGroupOnItemMutation>>;
 
   focusUpdateCartGroup(input: FocusUpdateCartGroupInput): Promise<FetchResult<FocusUpdateCartGroupMutation>>;
 
-  focusInventory(filter: FocusInventoryQueryVariables): Promise<ApolloQueryResult<CachedQuery<FocusInventoryQuery>>>;
-
   focusEstimateShippingMethods(input: FocusEstimateShippingMethodsInput): Promise<FetchResult<FocusEstimateShippingMethodsMutation>>;
 
   focusIDmeVerify(input: FocusIDmeVerifyInput): Promise<FetchResult<FocusIDmeVerifyMutation>>;
-  focusProductAttribute(attribute_code: string): Promise<FetchResult<FocusProductAttributeQuery>>;
-  focusProductAttributes(attribute_codes: string[]): Promise<FetchResult<FocusProductAttributesQuery>>;
+
   customerReturns(returnParams: CustomerReturnsQueryVariables): Promise<ApolloQueryResult<CustomerReturnsQuery>>;
+
   customerReturn(returnParams: CustomerReturnQueryVariables): Promise<ApolloQueryResult<CustomerReturnQuery>>;
+
   focusGuestRequestReturn(input: FocusGuestRequestReturnInput): Promise<FetchResult<FocusGuestRequestReturnMutation>>;
+
   focusGuestRma(input: FocusGuestRmaInput): Promise<ApolloQueryResult<FocusGuestRmaQuery>>;
+
   focusGuestRmaList(input: FocusGuestRmaListInput): Promise<ApolloQueryResult<FocusGuestRmaListQuery>>;
+}
+
+export interface MagentoGetApiMethods {
+  availableStores(_?: unknown): Promise<ApolloQueryResult<CachedQuery<AvailableStoresQuery>>>;
+
+  category(categoryInput?: StagingPreviewQueryVariables<CategorySearchQueryVariables>): Promise<ApolloQueryResult<CachedQuery<CategoryQuery>>>;
+
+  categoryList(categoryFilter?: CategoryListQueryVariables): Promise<ApolloQueryResult<CachedQuery<CategoryListQuery>>>;
+
+  categorySearch(categoryFilter?: CategorySearchQueryVariables): Promise<ApolloQueryResult<CachedQuery<CategorySearchQuery>>>;
+
+  cmsBlocks(identifiers: string[]): Promise<ApolloQueryResult<CachedQuery<CmsBlockQuery>>>;
+
+  cmsPage(
+    identifier: string
+  ): Promise<ApolloQueryResult<CachedQuery<CmsPageQuery>>>;
+
+  countries(_?: unknown): Promise<ApolloQueryResult<CachedQuery<CountriesListQuery>>>;
+
+  country(id: string): Promise<ApolloQueryResult<CachedQuery<CountryInformationQuery>>>;
+
+  currency(_?: unknown): Promise<FetchResult<CurrencyQuery>>
+
+  pickupLocations(searchParams: QueryPickupLocationsArgs): Promise<FetchResult<PickupLocationsQuery>>;
+
+  productDetail(searchParams: StagingPreviewQueryVariables<GetProductSearchParams>): Promise<ApolloQueryResult<CachedQuery<ProductDetailsQuery>>>;
+
+  productReview(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<ProductReviewQuery>>;
+
+  productReviewRatingsMetadata(_?: unknown): Promise<ApolloQueryResult<ProductReviewRatingsMetadataQuery>>;
+
+  products(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<CachedQuery<ProductsListQuery>>>;
+
+  relatedProduct(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<CachedQuery<RelatedProductQuery>>>;
+
+  storeConfig(_?: unknown): Promise<ApolloQueryResult<StoreConfigQueryFocus>>;
+
+  upsellProduct(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<CachedQuery<UpsellProductsQuery>>>;
+
+  urlResolver(url: string): Promise<ApolloQueryResult<CachedQuery<UrlResolverQuery>>>;
+
+  usedProduct(searchParams: GetProductSearchParams): Promise<ApolloQueryResult<UsedProductsQuery>>;
+
+  focusInventory(filter: FocusInventoryQueryVariables): Promise<ApolloQueryResult<CachedQuery<FocusInventoryQuery>>>;
+
+  focusProductAttribute(attribute_code: string): Promise<FetchResult<FocusProductAttributeQuery>>;
+
+  focusProductAttributes(attribute_codes: string[]): Promise<FetchResult<FocusProductAttributesQuery>>;
 
   focusDeliveryTimeForAddress(input: FocusDeliveryTimeForAddressInput): Promise<ApolloQueryResult<FocusDeliveryTimeQuery>>;
 }

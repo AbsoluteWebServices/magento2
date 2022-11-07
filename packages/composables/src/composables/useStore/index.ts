@@ -11,7 +11,7 @@ const factoryParams: UseStoreFactoryParams<AvailableStores, StoreConfig> = {
       signal
     } = params;
 
-    const { data } = await context.$magento.api.availableStores(undefined, customQuery, signal);
+    const { data } = await context.$magento.getApi.availableStores(undefined, customQuery, signal);
 
     return data.availableStores || [];
   },

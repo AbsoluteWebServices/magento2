@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 import { ApiClientExtension, apiClientFactory } from '@absolute-web/vsf-core';
 import * as api from './api';
+import * as getApi from './getApi';
 import { ClientInstance, Config } from './types/setup';
 import { createMagentoConnection } from './helpers/magentoLink';
 import { defaultSettings } from './helpers/apiClient/defaultSettings';
@@ -124,6 +125,7 @@ const tokenExtension: ApiClientExtension = {
 const { createApiClient } = apiClientFactory({
   onCreate,
   api,
+  getApi,
   extensions: [tokenExtension],
 });
 
