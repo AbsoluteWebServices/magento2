@@ -71,8 +71,8 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       const { data, errors } = await context.$magento.api.cart(id, customQuery, signal);
       Logger.debug('[Result]:', { data });
 
-      if (!data.cart) {
-        throw new Error('Error while loading the cart');
+      if (!data.cart && errors?.length) {
+        throw errors[0];
       }
 
       return {
@@ -121,6 +121,12 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
       const cartId = apiState.getCartId();
       return await getCart(virtual, cartId);
     } catch (err) {
+      console.log(err);
+      const cartId = apiState.getCartId();
+      if (cartId && err.message?.includes('Could not find a cart with ID')) {
+        apiState.setCartId();
+        return await getCart(virtual);
+      }
       if (err.message?.includes('Failed to fetch')) {
         throw err;
       }
