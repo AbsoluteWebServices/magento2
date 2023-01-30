@@ -96,7 +96,7 @@ const factoryParams = {
       offset: (input.page - 1) * itemsPerPage,
       page: input.page,
       search: (input.term) ? input.term : '',
-      sort: constructSortObject(input.sort || 'relevance_ASC'),
+      sort: constructSortObject(input.sort || 'popularity_ASC'),
     };
 
     const productSearchParams: GetProductSearchParams = {

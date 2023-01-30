@@ -5085,8 +5085,8 @@ export interface ProductAttributeSortInput {
   position?: InputMaybe<SortEnum>;
   /** Attribute label: Price */
   price?: InputMaybe<SortEnum>;
-  /** Sort by the search relevance score (default). */
-  relevance?: InputMaybe<SortEnum>;
+  /** Sort by the search popularity score (default). */
+  popularity?: InputMaybe<SortEnum>;
 }
 
 /** A discount applied to a product price. */
@@ -7653,6 +7653,7 @@ export interface ProductInterfaceFocus {
   non_saleable?: Maybe<Scalars['Boolean']>;
   coming_soon?: Maybe<Scalars['String']>;
   product_files_json?: Maybe<Scalars['String']>;
+  popularity?: Maybe<Scalars['Int']>;
   [key: string]: any;
 };
 
