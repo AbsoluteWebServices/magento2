@@ -78,6 +78,7 @@ short_description {
   html
 }
 options_container
+popularity
 special_to_date
 non_saleable
 coming_soon
