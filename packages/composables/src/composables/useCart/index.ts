@@ -381,7 +381,11 @@ const factoryParams: UseCartFactoryParams<Cart, CartItem, Product, GiftCardAccou
 
       Logger.debug('[Result]:', { data, errors });
 
-      if (!data.addProductsToCart?.cart && !errors?.length) {
+      if ((!data.addProductsToCart?.cart && !errors?.length) ||
+        (errors?.length && errors.find((error) =>
+          error.message.includes('Could not find a cart with ID') || error.message.includes('The current user cannot perform operations on cart'))
+        )
+      ) {
         throw new Error('Error while adding products to the cart');
       }
 
