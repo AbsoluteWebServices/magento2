@@ -26,6 +26,7 @@ export default gql`
         category_url_path
       }
       breadcrumbs {
+        category_id
         category_uid
         category_name
         category_level
