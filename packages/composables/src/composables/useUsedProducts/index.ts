@@ -30,7 +30,7 @@ const factoryParams: UseUsedProductsFactoryParams<Product[], ProductsSearchParam
 
     Logger.debug('[Result]:', { data });
 
-    return data.products?.items[0]?.used_products as unknown as Product[];
+    return data?.products?.items[0]?.used_products as unknown as Product[] || [];
   },
 };
 
